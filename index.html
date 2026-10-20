@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>시네글로우 홈페이지 시안 v7.9 (More Accent Blocks)</title>
+<title>시네글로우 홈페이지 시안 v8.0 (Process Icons · Gear Mobile · Faster Chat)</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
@@ -532,17 +532,22 @@ body.drawer-open{overflow:hidden}
 
 /* 제작 과정 */
 .proc{position:relative;max-width:1120px;margin:0 auto}
-.proc .line{position:absolute;left:0;right:0;top:11px;height:1px;background:var(--line)}
+.proc .line{position:absolute;left:0;right:0;top:31px;height:1px;background:var(--line)}
 .proc .line i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
 .proc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:48px 24px}
-.proc li{position:relative;padding-top:34px}
-.proc li::before{content:"";position:absolute;left:0;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg2);border:1px solid var(--mute);transition:background .3s,border-color .3s,box-shadow .3s}
-.proc li.on::before{background:var(--accent);border-color:var(--glow);box-shadow:0 0 0 5px rgba(233,162,59,.18)}
+.proc li{position:relative;padding-top:0}
+.proc li .ic{position:relative;z-index:1;display:grid;place-items:center;width:62px;height:62px;border-radius:18px;background:var(--bg2);border:1px solid var(--line);color:var(--mute);margin-bottom:22px;transition:background .4s,border-color .4s,color .4s,box-shadow .4s,transform .4s var(--ease)}
+.proc li .ic svg{width:28px;height:28px}
+.proc li .ic b{position:absolute;right:-8px;top:-8px;font-family:var(--mono);font-size:10px;font-weight:600;width:22px;height:22px;border-radius:50%;background:var(--bg3);border:1px solid var(--line);display:grid;place-items:center;color:var(--mute);transition:background .4s,color .4s}
+.proc li.on .ic{background:var(--accent);border-color:var(--glow);color:#1A1206;box-shadow:0 12px 30px rgba(233,162,59,.28);transform:translateY(-4px)}
+.proc li.on .ic b{background:#141316;color:var(--glow);border-color:#141316}
+.proc li.on .ic svg circle[fill]{fill:var(--accent)}
 .proc li .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent)}
 .proc li h3{font-size:20px;margin-top:8px;letter-spacing:-.01em}
 .proc li p{margin-top:8px;color:var(--mute);font-size:14.5px;line-height:1.5;max-width:24ch}
 .proc.mini ol{grid-template-columns:repeat(5,1fr);gap:16px}
 .proc.mini li h3{font-size:15px}.proc.mini li p{display:none}
+.proc.mini li .ic{width:48px;height:48px;border-radius:14px;margin-bottom:14px}.proc.mini li .ic svg{width:22px;height:22px}.proc.mini li .ic b{display:none}
 
 /* 그레이딩 */
 .grade{position:relative;max-width:1100px;margin:0 auto;aspect-ratio:var(--lb);border-radius:20px;overflow:hidden;background:#000;user-select:none}
@@ -579,7 +584,19 @@ body.drawer-open{overflow:hidden}
 .neo .card .tag{position:absolute;right:22px;top:20px;z-index:2;font-family:var(--mono);font-size:12px;letter-spacing:.12em;background:#111;color:#fff;padding:6px 10px;border-radius:999px;transition:opacity .3s}
 .neo-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-size:12px;color:var(--mute);letter-spacing:.1em;font-family:var(--mono)}
 .neo .stage::before{content:"";position:absolute;inset:-10%;background:radial-gradient(circle at 50% 60%,var(--glowc,rgba(233,162,59,.18)),transparent 60%);filter:blur(30px);transition:background .6s}
-@media (max-width:980px){.neo{height:auto}.neo .stick{position:static;height:auto;grid-template-columns:1fr;padding:72px 22px;gap:28px}.neo .txt{min-height:0}.neo .t{position:static;opacity:1;transform:none;margin-bottom:28px;pointer-events:auto}.neo .dots,.neo-hint{display:none}.neo .stage{height:auto;perspective:none;display:grid;gap:16px}.neo .card{position:static;transform:none!important;opacity:1!important;max-height:none}}
+.neo-m{display:none}
+@media (max-width:980px){
+  .neo{height:auto;padding:0 22px 64px}
+  .neo .stick{display:none}
+  .neo-m{display:flex;flex-direction:column;gap:34px;max-width:720px;margin:0 auto}
+  .nm{display:flex;flex-direction:column;gap:18px}
+  .nm .card{position:relative;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08)}
+  .nm .card .lbl{font-size:clamp(26px,8vw,40px);left:18px;bottom:14px}
+  .nm .card .tag{right:16px;top:14px}
+  .nm-tx small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mute);text-transform:uppercase;margin-bottom:8px}
+  .nm-tx b{display:block;font-size:21px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+  .nm-tx p{font-size:16px;line-height:1.5;color:var(--fg);text-wrap:pretty}
+}
 
 /* FAQ — Flex 간격 깨짐 완벽 해결 */
 .faq{max-width:var(--wt);margin:0 auto}
@@ -854,6 +871,17 @@ footer .cols b{color:var(--fg);font-weight:600}
   .cmp .col{padding:22px 18px}
   .chat{min-height:0}.chat .log{height:380px}
   .proc li p{max-width:none}
+  .proc ol{gap:0}
+  .proc li{display:grid;grid-template-columns:62px 1fr;grid-template-rows:auto auto auto;column-gap:18px;padding-bottom:30px}
+  .proc li .ic{grid-row:1/4;margin-bottom:0}
+  .proc li .k{grid-column:2}
+  .proc li h3{grid-column:2;margin-top:4px}
+  .proc li p{grid-column:2}
+  .proc li::after{content:"";position:absolute;left:30px;top:62px;bottom:0;width:1px;background:var(--line)}
+  .proc li:last-child::after{display:none}
+  .proc.mini ol{grid-template-columns:1fr}
+  .proc.mini li{grid-template-columns:48px 1fr;padding-bottom:18px}
+  .proc.mini li::after{left:23px;top:48px}
   .hero .links,.phero .links{gap:18px;font-size:18px}
   .rp-bar{padding:10px 16px;gap:8px;font-size:12.5px}
   .rplayer{scroll-margin-top:58px}
@@ -958,7 +986,7 @@ footer .cols b{color:var(--fg);font-weight:600}
 <body>
 
 <div id="sbar"></div>
-<div class="proto-bar">시안 v7.9 — 후기(Voices)·올인원 단계·분야별 범위 선택 섹션에 액센트 배경 추가 (v36 기준)</div>
+<div class="proto-bar">시안 v8.0 — 제작 과정 아이콘 타임라인 + 장비 섹션 모바일 전용 레이아웃 + 단톡방 재생 속도 2배 (v37 기준)</div>
 
 <header class="nav">
   <div class="wrap">
@@ -1201,7 +1229,7 @@ footer .cols b{color:var(--fg);font-weight:600}
   <section class="band alt"><div class="wrap"><div class="sh reveal"><h2 class="words">각 분야의 스페셜리스트.<br>하나의 팀.</h2><p>기획부터 촬영, 편집까지 유기적으로 호흡하는 시네글로우의 크루입니다. <span class="todo">이름·역할·사진</span></p></div><div class="tiles c3" id="team" style="grid-template-columns:repeat(4,1fr)"></div></div></section>
   <section class="band"><div class="wrap"><div class="sh reveal"><span class="slug">Color grading</span><h2 class="words">빛과 색으로 완성하는 분위기.</h2><p>풍부한 데이터를 담은 Log 원본에서 시네마틱 룩을 입힌 그레이딩까지.<br class="br-pc"> 슬라이더를 움직여 색의 깊이를 직접 비교해 보세요.</p></div><div class="grade reveal" id="grade2"></div></div></section>
   <section class="band alt tight" style="padding-bottom:64px"><div class="wrap"><div class="sh reveal" style="margin-bottom:0"><span class="slug">Cinema Gear</span><h2 class="words">압도적 화질을 만드는<br>장비 라인업.</h2><p>숫자로 적힌 스펙 너머, 실제 화면에서 만들어내는 결정적 차이를 확인하세요.<br class="br-pc"> 스크롤하면 장비가 하나씩 전환됩니다. <span class="todo">팝아트 일러스트로 교체</span></p></div></div></section>
-  <section class="neo" id="neo"><div class="stick"><div class="txt" id="neoTxt"></div><div class="stage" id="neoStage"></div><div class="neo-hint">SCROLL</div></div></section>
+  <section class="neo" id="neo"><div class="stick"><div class="txt" id="neoTxt"></div><div class="stage" id="neoStage"></div><div class="neo-hint">SCROLL</div></div><div class="neo-m" id="neoM"></div></section>
   <section class="band tight"><div class="wrap"><div class="stats reveal">
     <div class="stat"><div class="n"><span data-count="5200">0</span><small>건+</small></div><div class="l">누적 프로젝트 <span class="todo">집계 기준</span></div></div>
     <div class="stat"><div class="n"><span data-count="98">0</span><small>%</small></div><div class="l">클라이언트 만족도</div></div>
@@ -1493,6 +1521,14 @@ const SITUATIONS=[
 ];
 
 /* 제작 과정 */
+const PICON={
+ plan:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="13" height="17" rx="2"/><path d="M7.5 8h6M7.5 11.5h6M7.5 15h3"/><path d="M15.5 14.5l4.2-4.2 1.8 1.8-4.2 4.2H15.5v-1.8z"/></svg>',
+ prep:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5h17v9.5a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M4.2 9.5l1.3-4.5 15.3 2.1-.8 2.4"/><path d="M8.2 5.6l1.6 3.6M12.5 6.2l1.6 3.6M16.8 6.8l1.6 3.4"/></svg>',
+ shoot:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="12" height="9" rx="2"/><path d="M15 11l5.5-2.5v8L15 14z"/><circle cx="7.5" cy="5" r="1.8"/><circle cx="12" cy="5" r="1.8"/></svg>',
+ post:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="var(--bg)"/><circle cx="15" cy="12" r="2" fill="var(--bg)"/><circle cx="7.5" cy="17" r="2" fill="var(--bg)"/></svg>',
+ done:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.2l2.7 2.7L16.3 9.5"/></svg>'
+};
+const PICONS=[PICON.plan,PICON.prep,PICON.shoot,PICON.post,PICON.done];
 const PROCESS=[
  ['기획','문의가 접수되면 전담 PD가 배정됩니다. 목표·레퍼런스·예산을 바탕으로 제작 범위와 일정을 설계하고 견적을 확정해 계약합니다.'],
  ['촬영 준비','기획안·대본·스토리보드를 구체화하고 장비 세팅, 배우 섭외, 로케이션 헌팅까지 촬영의 모든 설계를 마칩니다.'],
@@ -1716,12 +1752,12 @@ document.getElementById('castCases').innerHTML=
  function typingEl(me){const d=document.createElement('div');d.className='msg typing shown'+(me?' me':'');d.innerHTML=`<span class="av ${me?'':'cg'}">${me?'고객':'PD'}</span><div class="b"><i></i><i></i><i></i></div>`;return d}
  function scrollEnd(){log.scrollTo({top:log.scrollHeight,behavior:'smooth'})}
  async function playChat(){const id=++run;replay.classList.remove('show');items.forEach(x=>x.classList.remove('shown'));log.querySelectorAll('.typing').forEach(x=>x.remove());log.scrollTop=0;
-  const wait=ms=>new Promise(r=>setTimeout(r,ms));await wait(400);
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));await wait(250);
   for(const el of items){if(id!==run)return;
-   if(el.classList.contains('day')){el.classList.add('shown');scrollEnd();await wait(700);continue}
+   if(el.classList.contains('day')){el.classList.add('shown');scrollEnd();await wait(380);continue}
    const me=el.classList.contains('me');const t=typingEl(me);log.insertBefore(t,el);scrollEnd();
-   await wait(Math.min(2200,700+el.textContent.length*14));if(id!==run)return;
-   t.remove();el.classList.add('shown');scrollEnd();await wait(900)}
+   await wait(Math.min(1100,380+el.textContent.length*7));if(id!==run)return;
+   t.remove();el.classList.add('shown');scrollEnd();await wait(450)}
   replay.classList.add('show')}
  replay.addEventListener('click',playChat);
  if(!('IntersectionObserver' in window)){items.forEach(x=>x.classList.add('shown'));return}
@@ -1771,7 +1807,7 @@ document.getElementById('castBehind').innerHTML=[14920144,1932661,30341402,30453
  function restart(){clearInterval(timer);timer=setInterval(()=>{const r=host.getBoundingClientRect();const vis=r.bottom>0&&r.top<innerHeight&&host.offsetParent!==null;if(vis&&!host.matches(':hover')&&!document.hidden)go(1)},4200)}restart()})();
 
 /* 제작 과정 */
-const procHTML=mini=>`<div class="line"><i></i></div><ol>${PROCESS.map((s,i)=>`<li style="--i:${i}"><span class="k">STEP ${pad(i+1)}</span><h3>${s[0]}</h3><p>${s[1]}</p></li>`).join('')}</ol>`;
+const procHTML=mini=>`<div class="line"><i></i></div><ol>${PROCESS.map((s,i)=>`<li style="--i:${i}"><span class="ic">${PICONS[i]}<b>${pad(i+1)}</b></span><span class="k">STEP ${pad(i+1)}</span><h3>${s[0]}</h3><p>${s[1]}</p></li>`).join('')}</ol>`;
 document.getElementById('proc').innerHTML=procHTML();
 
 /* 그레이딩 비포/애프터 */
@@ -1782,6 +1818,8 @@ grade(document.getElementById('grade'),28808360);grade(document.getElementById('
 /* 장비(회사소개) */
 document.getElementById('neoTxt').innerHTML=SPECS.map((s,i)=>`<div class="t ${i===0?'on':''}"><b style="color:${s.c}">${s.lead}</b><p>${s.h}. ${s.p}</p><small>${s.k} · ${i+1} / ${SPECS.length}</small></div>`).join('')+`<div class="dots">${SPECS.map((s,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</div>`;
 document.getElementById('neoStage').innerHTML=SPECS.map((s,i)=>`<div class="card ${i===0?'front':'back'}" style="--c:${s.c};--d:${i}"><div class="pop">${im(s.img,1400)}</div><span class="tag">${s.k}</span><span class="lbl">${s.lbl}</span></div>`).join('');
+/* 모바일·태블릿: 카드 + 설명을 한 묶음씩 세로로 */
+document.getElementById('neoM').innerHTML=SPECS.map((s,i)=>`<div class="nm reveal"><div class="card" style="--c:${s.c}"><div class="pop">${im(s.img,1000)}</div><span class="tag">${s.k}</span><span class="lbl">${s.lbl}</span></div><div class="nm-tx"><small>${s.k} · ${i+1} / ${SPECS.length}</small><b style="color:${s.c}">${s.lead}</b><p>${s.h}. ${s.p}</p></div></div>`).join('');
 let neoIdx=-1;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function neoSync(){const sec=document.getElementById('neo');if(!sec||sec.offsetParent===null||innerWidth<=980)return;const r=sec.getBoundingClientRect();const total=r.height-innerHeight;const p=clamp(-r.top/total,0,1);const N=SPECS.length;
