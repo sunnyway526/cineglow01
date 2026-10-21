@@ -349,7 +349,7 @@ body.drawer-open{overflow:hidden}
 .cam-wrap{max-width:1440px;margin:40px auto 0;position:relative;transform:scale(.92);transform-origin:50% 100%;will-change:transform;padding:0 22px}
 .cam-stage{
   --lcd-l:37.4%; --lcd-t:44.85%; --lcd-w:23.0%; --lcd-h:28.75%; /* ALEXA 35 사진의 LCD 유리 영역 (1792×1008 기준 670,452 → 1082,742) */
-  position:relative;aspect-ratio:1792/1008;max-width:1180px;margin:0 auto}
+  position:relative;aspect-ratio:1792/1008;max-width:1320px;margin:0 auto}
 .cam-glow{position:absolute;inset:-8% -4%;background:radial-gradient(ellipse at 50% 62%,rgba(233,162,59,.14),transparent 62%);opacity:0;transition:opacity 1.4s var(--ease) .5s;pointer-events:none}
 .cam-stage.cam-in .cam-glow{opacity:1}
 .cam-art{position:absolute;inset:0;opacity:0;transform:translateY(36px) scale(.965);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
@@ -357,7 +357,6 @@ body.drawer-open{overflow:hidden}
   /* 사진의 회색 배경을 사이트 배경으로 녹임 */
   -webkit-mask-image:radial-gradient(ellipse 50% 58% at 50% 50%,#000 50%,transparent 100%);mask-image:radial-gradient(ellipse 50% 58% at 50% 50%,#000 50%,transparent 100%)}
 .cam-stage.cam-in .cam-art{opacity:1;transform:none}
-.cam-stage.zoomed .cam-art{opacity:.25;transition:opacity .6s}
 .lcd-slot{position:absolute;left:var(--lcd-l);top:var(--lcd-t);width:var(--lcd-w);height:var(--lcd-h);pointer-events:none}
 .lcd{position:absolute;left:var(--lcd-l);top:var(--lcd-t);width:var(--lcd-w);height:var(--lcd-h);background:#050506;overflow:hidden;border-radius:1.2%;container-type:inline-size;z-index:3}
 .lcd-off{position:absolute;inset:0;background:#050506;z-index:4;transition:opacity 1.1s var(--ease)}
@@ -369,12 +368,14 @@ body.drawer-open{overflow:hidden}
 .lcd-media img,.lcd-media iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
 .lcd-media iframe{left:0;width:100%;height:100%;top:0;pointer-events:none}
 .lcd.sound .lcd-media iframe{pointer-events:auto}
-.cam-stage.live .lcd-media,.lcd.fx .lcd-media{opacity:1}
+.lcd.big .lcd-media iframe{height:134.4%;top:-17.2%} /* 확대 상태: 유튜브 검은 레터박스 영역을 밖으로 밀어냄 */
+.lcd.big.sound .lcd-media iframe{height:100%;top:0}
+.cam-stage.live .lcd-media,.lcd.big .lcd-media{opacity:1}
 .lcd-scan{position:absolute;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(180deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);opacity:.5}
 .lcd.big .lcd-scan{opacity:0}
 .lcd-hud{position:absolute;inset:0;z-index:6;pointer-events:none;font-family:var(--mono);color:#F5F2EC;opacity:0;transition:opacity .5s;text-shadow:0 1px 2px rgba(0,0,0,.8);font-size:2.7cqw;letter-spacing:.03em}
-.cam-stage.hud .lcd-hud,.lcd.fx .lcd-hud{opacity:1}
-.lcd.sound .lcd-hud{opacity:0}
+.cam-stage.hud .lcd-hud{opacity:1}
+.lcd.big .lcd-hud{opacity:0}
 .lcd-hud .row{position:absolute;left:4%;right:4%;display:flex;justify-content:space-between;align-items:center;gap:3%;white-space:nowrap}
 .lcd-hud .row.top{top:4.5%}.lcd-hud .row.bot{bottom:4.5%}
 .lcd-hud .rec{display:inline-flex;align-items:center;gap:.4em;color:#FF6B5E;font-weight:600}
@@ -386,17 +387,16 @@ body.drawer-open{overflow:hidden}
 .lcd-expand{position:absolute;left:50%;bottom:14%;transform:translateX(-50%) translateY(6px);z-index:7;font:inherit;font-family:var(--font);font-size:4.2cqw;font-weight:600;padding:.55em 1.1em;border-radius:999px;background:rgba(245,242,236,.94);color:#111;border:0;cursor:pointer;opacity:0;transition:opacity .5s,transform .5s var(--ease),background .25s;white-space:nowrap}
 .cam-stage.live .lcd-expand{opacity:1;transform:translateX(-50%)}
 .lcd-expand:hover{background:var(--glow)}
-.lcd.fx .lcd-expand{display:none}
+.lcd.big .lcd-expand{display:none}
 .lcd-bar{display:none;position:absolute;left:0;right:0;top:0;height:52px;align-items:center;gap:12px;padding:0 16px;z-index:8;font-size:13px;color:var(--fg);background:linear-gradient(180deg,rgba(0,0,0,.85),rgba(0,0,0,0))}
 .lcd-bar b{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lcd-bar a,.lcd-bar button{font:inherit;font-size:12px;background:rgba(245,242,236,.14);color:var(--fg);border:0;border-radius:999px;padding:6px 11px;cursor:pointer;white-space:nowrap;flex:none}
 .lcd-bar a:hover,.lcd-bar button:hover{background:var(--accent);color:#1A1206}
 .lcd.big .lcd-bar{display:flex}
-.lcd.fx{position:fixed;z-index:88;box-shadow:0 40px 120px rgba(0,0,0,.8)}
-.lcd.fx.anim{transition:left .85s var(--ease),top .85s var(--ease),width .85s var(--ease),height .85s var(--ease),border-radius .85s var(--ease)}
-.lcd.big{border-radius:0}
-.cam-dim{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:87;opacity:0;pointer-events:none;transition:opacity .7s}
-.cam-dim.on{opacity:1;pointer-events:auto}
+.lcd.anim{transition:left .9s var(--ease),top .9s var(--ease),width .9s var(--ease),height .9s var(--ease),border-radius .9s var(--ease)}
+.lcd.big{border-radius:var(--r);box-shadow:0 40px 120px rgba(0,0,0,.7)}
+.cam-stage.zoomed .cam-art{opacity:0;transform:scale(1.06);transition:opacity .9s var(--ease),transform 1.2s var(--ease)}
+.cam-stage.zoomed .cam-glow{opacity:.5}
 .cam-tags{display:flex;justify-content:center;gap:34px;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(245,242,236,.55)}
 @media (max-width:980px){.cam-stage{max-width:none}}
 @media (max-width:600px){
@@ -1180,13 +1180,12 @@ footer .cols b{color:var(--fg);font-weight:600}
             <div class="row top"><span>24.000 FPS</span><span>172.8</span><span>800</span><span class="rec"><i></i>REC</span><span class="tc" id="lcdTc">00:00:00:00</span><span>4K · 24P</span></div>
             <div class="row bot"><span>ISO 800</span><span>1/48</span><span>T2.8</span><span>S-LOG3</span><span class="bat"><i></i></span></div>
           </div>
-          <div class="lcd-bar"><span class="rp-now">NOW PLAYING</span><b id="lcdTitle"></b><a id="lcdYt" href="#" target="_blank" rel="noopener">유튜브 ↗</a><button type="button" id="lcdClose">✕ 닫기</button></div>
+          <div class="lcd-bar"><span class="rp-now">NOW PLAYING</span><b id="lcdTitle"></b><button type="button" id="lcdSound">🔊 소리 켜기</button><a id="lcdYt" href="#" target="_blank" rel="noopener">유튜브 ↗</a><button type="button" id="lcdClose">카메라 보기</button></div>
           <button type="button" class="lcd-expand" id="lcdExpand" aria-label="전체 화면으로 재생">▶ 전체 화면으로 보기</button>
         </div>
       </div>
       <div class="cam-tags"><span>YOUTUBE</span><span>COMMERCE</span><span>WEB DRAMA</span><span>COMMERCIAL</span><span>PROMO</span><span>EDU</span></div>
     </div>
-    <div class="cam-dim" id="camDim"></div>
   </section>
 
   <div class="strip"><div class="track" id="strip"></div></div>
@@ -1850,7 +1849,7 @@ document.addEventListener('click',e=>{
 const LOCAL=location.protocol==='file:';
 if(LOCAL){const pb=document.querySelector('.proto-bar');pb.innerHTML+=' · <b>로컬 파일 미리보기</b>: 유튜브 임베드가 막혀(153) 영상은 새 창에서 열립니다. 동봉한 <b>preview.bat</b>로 열면 페이지 안에서 재생됩니다'}
 /* ---------- 히어로: 카메라 전원 → LCD 재생 → 전체 확대 ---------- */
-const CAM={stage:document.getElementById('camStage'),slot:document.getElementById('lcdSlot'),lcd:document.getElementById('lcd'),media:document.getElementById('lcdMedia'),dim:document.getElementById('camDim'),open:false,v:EPS[0]};
+const CAM={stage:document.getElementById('camStage'),slot:document.getElementById('lcdSlot'),lcd:document.getElementById('lcd'),media:document.getElementById('lcdMedia'),open:false,v:EPS[0]};
 (function(){const v=CAM.v,st=CAM.stage;
  CAM.media.innerHTML=`<img src="${ytThumb(v.id)}" alt="${SERIES} ${v.ep} — ${v.t}" onerror="this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'">`;
  document.getElementById('lcdTitle').textContent=`${SERIES} ${v.ep} — ${v.t}`;document.getElementById('lcdYt').href=ytWatch(v.id);
@@ -1861,25 +1860,21 @@ const CAM={stage:document.getElementById('camStage'),slot:document.getElementByI
  if(document.readyState==='complete')setTimeout(live,2200);else addEventListener('load',()=>setTimeout(live,1200),{once:true});
  const tc=document.getElementById('lcdTc');let fr=0;setInterval(()=>{if(!st.classList.contains('hud')||document.hidden)return;fr++;const f=fr%24,sec=Math.floor(fr/24);tc.textContent=`00:${pad(Math.floor(sec/60))}:${pad(sec%60)}:${pad(f)}`},1000/24);
 })();
-function lcdTarget(){const W=innerWidth,H=innerHeight,bar=52;let w=W,h=w*9/16;if(h>H-bar){h=H-bar;w=h*16/9}return {left:(W-w)/2,top:bar+(H-bar-h)/2,width:w,height:h}}
-function lcdExpand(){if(CAM.open)return;CAM.open=true;closePlayers();
- const r=CAM.slot.getBoundingClientRect(),l=CAM.lcd;
- document.body.appendChild(l);l.classList.add('fx');Object.assign(l.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
- CAM.dim.classList.add('on');CAM.stage.classList.add('zoomed');document.body.style.overflow='hidden';
- l.getBoundingClientRect();
- requestAnimationFrame(()=>{l.classList.add('anim','big');const t=lcdTarget();Object.assign(l.style,{left:t.left+'px',top:t.top+'px',width:t.width+'px',height:t.height+'px'})});
- setTimeout(()=>{if(!CAM.open)return;if(LOCAL){window.open(ytWatch(CAM.v.id),'_blank','noopener');toast('로컬 파일에서는 유튜브 임베드가 막혀 새 창에서 재생합니다 — 호스팅 주소에서는 이 자리에서 소리와 함께 재생됩니다',5000);return}
-  const old=CAM.media.querySelector('iframe');const f=document.createElement('iframe');f.src=ytEmbed(CAM.v.id,false);f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; picture-in-picture; fullscreen; encrypted-media';f.allowFullscreen=true;f.title=CAM.v.t;CAM.media.appendChild(f);if(old)setTimeout(()=>old.remove(),300);l.classList.add('sound')},900)}
+/* 자동 확대: LCD가 카메라 스테이지 전체(16:9)로 커지며 영상이 이어짐. 스크롤은 막지 않음 */
+function lcdExpand(){if(CAM.open)return;CAM.open=true;const l=CAM.lcd;
+ l.classList.add('anim','big');CAM.stage.classList.add('zoomed');
+ Object.assign(l.style,{left:'0%',top:'0%',width:'100%',height:'100%'})}
 function lcdCollapse(){if(!CAM.open)return;CAM.open=false;const l=CAM.lcd;
- const snd=CAM.media.querySelector('iframe');if(snd)snd.remove();if(!LOCAL){const f=document.createElement('iframe');f.src=ytEmbed(CAM.v.id,true);f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; encrypted-media';f.title='';CAM.media.appendChild(f);watchYT(f)}
- l.classList.remove('big','sound');CAM.dim.classList.remove('on');CAM.stage.classList.remove('zoomed');document.body.style.overflow='';
- const r=CAM.slot.getBoundingClientRect();Object.assign(l.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
- setTimeout(()=>{if(CAM.open)return;l.classList.remove('fx','anim');l.removeAttribute('style');CAM.stage.appendChild(l)},900)}
+ if(l.classList.contains('sound')){const f=CAM.media.querySelector('iframe');if(f)f.remove();l.classList.remove('sound');if(!LOCAL){const g=document.createElement('iframe');g.src=ytEmbed(CAM.v.id,true);g.referrerPolicy='strict-origin-when-cross-origin';g.allow='autoplay; encrypted-media';g.title='';CAM.media.appendChild(g);watchYT(g)}}
+ l.classList.remove('big');CAM.stage.classList.remove('zoomed');l.removeAttribute('style');setTimeout(()=>{if(!CAM.open)l.classList.remove('anim')},900)}
+/* 소리 켜기: 사용자 클릭(제스처)이 있어야 브라우저가 소리 재생을 허용 → 그 시점에 소리 있는 플레이어로 교체 */
+function lcdSound(){const l=CAM.lcd;if(l.classList.contains('sound'))return;if(LOCAL){window.open(ytWatch(CAM.v.id),'_blank','noopener');return}
+ const old=CAM.media.querySelector('iframe');const f=document.createElement('iframe');f.src=ytEmbed(CAM.v.id,false);f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; picture-in-picture; fullscreen; encrypted-media';f.allowFullscreen=true;f.title=CAM.v.t;CAM.media.appendChild(f);if(old)setTimeout(()=>old.remove(),300);l.classList.add('sound');watchYT(f)}
 document.getElementById('lcdExpand').addEventListener('click',lcdExpand);
+document.getElementById('lcdSound').addEventListener('click',lcdSound);
 document.getElementById('lcdClose').addEventListener('click',lcdCollapse);
-CAM.dim.addEventListener('click',lcdCollapse);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')lcdCollapse()});
-addEventListener('resize',()=>{if(CAM.open&&CAM.lcd.classList.contains('big')){const t=lcdTarget();Object.assign(CAM.lcd.style,{left:t.left+'px',top:t.top+'px',width:t.width+'px',height:t.height+'px'})}});
+/* 자동 진행: 영상이 켜진 뒤 1.3초 후 확대 — 그 전에 사용자가 히어로를 지나쳤으면 생략 */
+setTimeout(()=>{const r=CAM.stage.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)lcdExpand()},3600);
 
 /* 글자·단어 분할 (단어 사이 공백 유실 방지 패치 완료) */
 function splitChars(el){let i=0;el.setAttribute('aria-label',el.textContent.trim());const words=el.textContent.split(/(\s+)/);el.innerHTML=words.map(w=>/^\s+$/.test(w)?' ':`<span class="w" aria-hidden="true">${[...w].map(c=>`<span class="c" style="--i:${i++}">${c}</span>`).join('')}</span>`).join('');requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')))}
