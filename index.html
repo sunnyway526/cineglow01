@@ -6,16 +6,14 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0A090B">
 <meta name="supported-color-schemes" content="dark">
-<title>시네글로우 — 촬영만도. 전부도.</title>
+<title>시네글로우 홈페이지 시안 v8.2 · v78 히어로 빨리 감기</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://i.ytimg.com">
 <meta property="og:type" content="website">
-<link rel="canonical" href="index.html">
-<meta property="og:url" content="index.html">
-<meta property="og:title" content="시네글로우 — 촬영만도. 전부도.">
-<meta property="og:description" content="영상 기획·촬영·편집·섭외까지 원하는 범위만 선택하는 영상 제작사 시네글로우. 유튜브·커머스·웹드라마·광고·홍보·정보 영상, 정기 구독 프로덕션.">
+<meta property="og:title" content="시네글로우(CINEGLOW) — 촬영만도. 전부도.">
+<meta property="og:description" content="아이디어만 있어도, 대본만 있어도, 촬영본만 있어도. 당신이 멈춘 그곳에서부터 시네글로우가 완성합니다. 실시간 예상 견적을 확인해 보세요.">
 <meta property="og:image" content="https://i.ytimg.com/vi/b2_3L5PVqKc/maxresdefault.jpg">
 <link rel="icon" type="image/png" sizes="256x256" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -79,6 +77,10 @@ p{margin:0}
 .lb::before{content:"";position:absolute;inset:0;background:var(--grain);opacity:.14;mix-blend-mode:overlay;pointer-events:none;z-index:1}
 .lb::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 58%,rgba(0,0,0,.42) 100%);pointer-events:none;z-index:1}
 .lb iframe{position:absolute;left:0;width:100%;height:134.4%;top:-17.2%;border:0;z-index:0;pointer-events:none}
+/* v77: 재생 중(.playing) — 크롭 해제, 조작 허용, ▶·길이·그레인·비네트 숨김 */
+.lb.playing iframe{top:0;height:100%;pointer-events:auto;z-index:3}
+.lb.playing .play,.lb.playing .len{display:none}
+.lb.playing::before,.lb.playing::after{display:none}
 .lb .cap{position:absolute;left:14px;bottom:12px;z-index:2;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:rgba(245,242,236,.85)}
 .v16{aspect-ratio:16/9}.v916{aspect-ratio:9/16}
 .v16::after,.v916::after{background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%)}
@@ -395,6 +397,14 @@ body.drawer-open{overflow:hidden}
 .cam-stage.unzoom .cam-mask{transition:opacity .35s linear}
 .cam-stage.zoomed .cam-art img{-webkit-mask-image:none;mask-image:none}
 .cam-tags{display:flex;justify-content:center;gap:34px;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(245,242,236,.55)}
+/* v78: 빨리 감기 중(.ff) — 연출 전환 시간을 약 1/3로. 평소 값은 위 규칙 그대로 */
+.cam-stage.ff .cam-art{transition-duration:.35s,.4s}
+.cam-stage.ff .cam-glow{transition-duration:.5s;transition-delay:.1s}
+.cam-stage.ff .lcd-off{transition-duration:.35s}
+.cam-stage.ff.pwr .lcd-off::after{animation-duration:.35s}
+.cam-stage.ff .lcd-media{transition-duration:.35s}
+.cam-stage.ff.zoomed .cam-art{transition-duration:.45s}
+.cam-stage.ff.zoomed .cam-mask{transition-duration:.4s;transition-delay:.1s}
 @media (max-width:980px){.cam-stage{max-width:none}}
 @media (max-width:600px){
   .cam-wrap{padding:0;margin-top:26px;overflow:hidden}
@@ -405,6 +415,14 @@ body.drawer-open{overflow:hidden}
   .cam-wrap::after{background:linear-gradient(180deg,var(--bg) 0%,transparent 16%,transparent 84%,var(--bg) 100%)}
   .cam-stage .lcd{z-index:3}
   .cam-tags{display:none}
+  /* v76: 확대 중엔 가장자리 페이드를 끔 — .cam-art(will-change)가 스태킹 컨텍스트라 페이드가 액정 위에 덮이던 문제 */
+  .cam-wrap::before,.cam-wrap::after{transition:opacity .5s}
+  .cam-wrap.zoomed::before,.cam-wrap.zoomed::after{opacity:0}
+  /* v76: 확대 후 조작 바 크기를 확대 배율(--zk)로 나눠 화면상 크기를 고정 — 배율이 낮아져도 글자·터치 영역이 작아지지 않음 */
+  .lcd.big .lcd-bar{height:calc(44px/var(--zk,1));font-size:calc(13px/var(--zk,1));gap:calc(8px/var(--zk,1));padding:0 calc(10px/var(--zk,1))}
+  .lcd.big .lcd-bar a,.lcd.big .lcd-bar button{font-size:calc(12px/var(--zk,1));padding:calc(6px/var(--zk,1)) calc(10px/var(--zk,1))}
+  .lcd.big .lcd-bar .rp-now{display:none} /* 폭이 좁아 NOW PLAYING 생략 */
+  .lcd-expand{font-size:max(12px,4.6cqw)} /* 확대 전 버튼 최소 크기 */
 }
 
 /* ===== 편집 모드 패널 ===== */
@@ -585,6 +603,7 @@ body.drawer-open{overflow:hidden}
 .rp-bar a:hover,.rp-bar button:hover{background:var(--accent);color:#1A1206}
 .rp-in{position:relative;margin:0 auto 10px;background:#000}
 .rp-in.v16{width:100%;aspect-ratio:16/9;max-height:82vh}
+.rp-in.v916{width:min(100%,calc(82vh*9/16));aspect-ratio:9/16} /* v77: 세로형 쇼츠 — 폭 미지정으로 PC에서 거대해지던 문제 */
 .rp-in iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
 /* 숫자·후기 */
@@ -1135,30 +1154,31 @@ footer .cols b{color:var(--fg);font-weight:600}
 .band.hot .unsure{color:rgba(26,18,6,.74)}
 </style>
 </head>
-<body data-page="home">
+<body>
 
 <div id="sbar"></div>
+<div class="proto-bar">v78 — 히어로 연출 빨리 감기(스크롤을 빠르게 내리면 최대 6배속, 멈추면 1배속) / v77 — 광고 키 commercial→ad · 세로형 와이드 플레이어 · 모달 재생 상태 · 접수 안내 문구 / v76 — 모바일 히어로 확대 보정(보이는 폭 기준 배율·가장자리 페이드·조작 바 크기) · 시안 v8.2 — 성능 패스: 태그 블러·그레인 혼합·대형 블러 제거, 스크롤 핸들러 재구성, 릴 16편 단위·화면 밖 정지, 히어로 지연 삽입, OG·접근성 (v39 기준)</div>
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="index.html"><span class="mark">CINEGLOW</span></a>
+    <a class="brand" href="#home"><span class="mark">CINEGLOW</span></a>
     <ul class="menu">
-      <li><a href="index.html" data-nav="home">홈</a></li>
-      <li><a href="range.html" data-nav="range">제작 분야</a>
+      <li><a href="#home" data-nav="home">홈</a></li>
+      <li><a href="#range" data-nav="range">제작 분야</a>
         <div class="dd">
-          <a class="head" href="range.html">분야</a>
-          <a href="field-youtube.html">브이로그·유튜브</a><a href="field-commerce.html">쇼핑몰·커머스</a>
-          <a href="field-webdrama.html">웹드라마</a><a href="field-ad.html">광고</a>
-          <a href="field-promo.html">홍보영상</a><a href="field-edu.html">정보·교육</a>
-          <a class="head" href="range.html">제작 범위</a>
-          <a href="range.html">촬영만도. 전부도. — 맞춤형 제작 범위</a>
+          <a class="head" href="#range">분야</a>
+          <a href="#field-youtube">브이로그·유튜브</a><a href="#field-commerce">쇼핑몰·커머스</a>
+          <a href="#field-webdrama">웹드라마</a><a href="#field-ad">광고</a>
+          <a href="#field-promo">홍보영상</a><a href="#field-edu">정보·교육</a>
+          <a class="head" href="#range">제작 범위</a>
+          <a href="#range">촬영만도. 전부도. — 맞춤형 제작 범위</a>
         </div>
       </li>
-      <li><a href="casting.html" data-nav="casting">섭외</a></li>
-      <li><a href="portfolio.html" data-nav="portfolio">포트폴리오</a></li>
-      <li><a href="about.html" data-nav="about">회사소개</a></li>
+      <li><a href="#casting" data-nav="casting">섭외</a></li>
+      <li><a href="#portfolio" data-nav="portfolio">포트폴리오</a></li>
+      <li><a href="#about" data-nav="about">회사소개</a></li>
     </ul>
-    <div class="right"><button class="burger" id="burger" aria-label="메뉴 열기">메뉴</button><a class="pill cta" href="contact.html">견적문의</a></div>
+    <div class="right"><button class="burger" id="burger" aria-label="메뉴 열기">메뉴</button><a class="pill cta" href="#contact">견적문의</a></div>
   </div>
 </header>
 
@@ -1168,31 +1188,31 @@ footer .cols b{color:var(--fg);font-weight:600}
   <div class="dhead"><span class="mark">CINEGLOW</span><button class="dclose" id="drawerClose" aria-label="메뉴 닫기">✕</button></div>
   <div class="dslug">Menu</div>
   <nav class="dnav">
-    <a href="index.html" data-dnav="home"><span class="k">01</span>홈</a>
-    <a href="range.html" data-dnav="range"><span class="k">02</span>제작 분야</a>
+    <a href="#home" data-dnav="home"><span class="k">01</span>홈</a>
+    <a href="#range" data-dnav="range"><span class="k">02</span>제작 분야</a>
     <div class="dsub">
-      <a href="field-youtube.html">브이로그·유튜브</a><a href="field-commerce.html">쇼핑몰·커머스</a>
-      <a href="field-webdrama.html">웹드라마</a><a href="field-ad.html">광고</a>
-      <a href="field-promo.html">홍보영상</a><a href="field-edu.html">정보·교육</a>
-      <a href="range.html" class="wide">맞춤형 제작 범위 — 촬영만도. 전부도. ›</a>
+      <a href="#field-youtube">브이로그·유튜브</a><a href="#field-commerce">쇼핑몰·커머스</a>
+      <a href="#field-webdrama">웹드라마</a><a href="#field-ad">광고</a>
+      <a href="#field-promo">홍보영상</a><a href="#field-edu">정보·교육</a>
+      <a href="#range" class="wide">맞춤형 제작 범위 — 촬영만도. 전부도. ›</a>
     </div>
-    <a href="casting.html" data-dnav="casting"><span class="k">03</span>섭외</a>
-    <a href="portfolio.html" data-dnav="portfolio"><span class="k">04</span>포트폴리오</a>
-    <a href="about.html" data-dnav="about"><span class="k">05</span>회사소개</a>
-    <a href="contact.html" class="dcta" data-dnav="contact"><span class="k">06</span>견적문의</a>
+    <a href="#casting" data-dnav="casting"><span class="k">03</span>섭외</a>
+    <a href="#portfolio" data-dnav="portfolio"><span class="k">04</span>포트폴리오</a>
+    <a href="#about" data-dnav="about"><span class="k">05</span>회사소개</a>
+    <a href="#contact" class="dcta" data-dnav="contact"><span class="k">06</span>견적문의</a>
   </nav>
   <div class="dfoot"><b>000-0000-0000</b> <span class="todo">연락처</span><br>lovelysunnyway@gmail.com <span class="todo">시연용</span><br>평일 10:00–18:00 · <a data-kakao href="#" style="color:inherit">카카오톡 1:1 상담</a><br><a data-pdf href="#" style="color:var(--accent);font-weight:500">회사소개서 다운로드 ↓</a> <span class="todo">빈 파일</span></div>
 </aside>
 
 <!-- ========== 홈 ========== -->
-<main id="page-home" class="page show">
+<main id="page-home" class="page">
   <section class="hero" id="hero">
-    <div class="wrap" id="heroText" style="opacity: 1; transform: translateY(0px);">
-      <h1 class="split" id="heroH1" aria-label="촬영만도. 전부도."><span class="w" aria-hidden="true"><span class="c" style="--i:0">촬</span><span class="c" style="--i:1">영</span><span class="c" style="--i:2">만</span><span class="c" style="--i:3">도</span><span class="c" style="--i:4">.</span></span> <span class="w" aria-hidden="true"><span class="c" style="--i:5">전</span><span class="c" style="--i:6">부</span><span class="c" style="--i:7">도</span><span class="c" style="--i:8">.</span></span></h1>
+    <div class="wrap" id="heroText">
+      <h1 class="split" id="heroH1">촬영만도. 전부도.</h1>
       <p class="sub">아이디어가 없어도. 대본만 있어도. 촬영본만 있어도.<br class="br-pc"> 당신이 멈춘 그곳에서부터, 시네글로우가 시작합니다. <span class="todo">헤드라인</span></p>
-      <div class="links"><a class="lnk" href="contact.html">견적 계산하기</a><a class="lnk" href="portfolio.html">작업물 감상하기</a></div>
+      <div class="links"><a class="lnk" href="#contact">견적 계산하기</a><a class="lnk" href="#portfolio">작업물 감상하기</a></div>
     </div>
-    <div class="cam-wrap" id="heroMedia" style="transform: scale(0.92);">
+    <div class="cam-wrap" id="heroMedia">
       <div class="cam-stage" id="camStage">
         <div class="cam-glow"></div>
         <!-- 카메라 사진: 교체 시 <img> src와 아래 --lcd-* 좌표(스테이지 기준 %)만 수정 -->
@@ -1212,14 +1232,14 @@ footer .cols b{color:var(--fg);font-weight:600}
     </div>
   </section>
 
-  <div class="strip"><div class="track" id="strip"><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/37952639/pexels-photo-37952639/free-photo-of-professional-film-camera-in-a-smoky-studio-setting.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">INT. 스튜디오</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/28808360/pexels-photo-28808360/free-photo-of-cinematographer-filming-at-blue-hour-in-chicago.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">EXT. 블루아워</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/38059003/pexels-photo-38059003/free-photo-of-professional-film-crew-on-set-in-istanbul.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">SET. 광고 촬영</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/3062535/pexels-photo-3062535.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">EXT. 로케이션</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/7513459/pexels-photo-7513459.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">INT. 현장</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/2925328/pexels-photo-2925328.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">SET. 인터뷰</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/4561940/pexels-photo-4561940.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">INT. 모니터</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/38059005/pexels-photo-38059005/free-photo-of-film-crew-operating-cinema-cameras-indoors.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">SET. 2캠</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/3935027/pexels-photo-3935027.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720"><span class="cap">INT. 조명</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/6559472/pexels-photo-6559472.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720"><span class="cap">INT. 편집실</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/37952639/pexels-photo-37952639/free-photo-of-professional-film-camera-in-a-smoky-studio-setting.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">INT. 스튜디오</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/28808360/pexels-photo-28808360/free-photo-of-cinematographer-filming-at-blue-hour-in-chicago.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">EXT. 블루아워</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/38059003/pexels-photo-38059003/free-photo-of-professional-film-crew-on-set-in-istanbul.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">SET. 광고 촬영</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/3062535/pexels-photo-3062535.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">EXT. 로케이션</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/7513459/pexels-photo-7513459.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">INT. 현장</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/2925328/pexels-photo-2925328.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">SET. 인터뷰</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/4561940/pexels-photo-4561940.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">INT. 모니터</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/38059005/pexels-photo-38059005/free-photo-of-film-crew-operating-cinema-cameras-indoors.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720" style="display: none;"><span class="cap">SET. 2캠</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/3935027/pexels-photo-3935027.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720"><span class="cap">INT. 조명</span></div></div><div class="strip-cell"><div class="lb f"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/6559472/pexels-photo-6559472.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=720"><span class="cap">INT. 편집실</span></div></div></div></div>
+  <div class="strip"><div class="track" id="strip"></div></div>
 
-  <section class="lit-band"><div class="wrap"><p class="lit" id="lit1" aria-label="준비된 것이 무엇이든. 그 지점에서 완벽하게 이어받아 마지막 컷까지 완성합니다."><span class="w" aria-hidden="true" style="--i: 0;">준비된</span> <span class="w" aria-hidden="true" style="--i: 1;">것이</span> <span class="w" aria-hidden="true" style="--i: 2;">무엇이든.</span> <span class="w" aria-hidden="true" style="--i: 3;">그</span> <span class="w" aria-hidden="true" style="--i: 4;">지점에서</span> <em class="w ac" aria-hidden="true" style="--i: 5; font-style: normal;">완벽하게 이어받아</em><br class="br-pc"> <span class="w" aria-hidden="true" style="--i: 6;">마지막</span> <span class="w" aria-hidden="true" style="--i: 7;">컷까지</span> <span class="w" aria-hidden="true" style="--i: 8;">완성합니다.</span></p></div></section>
+  <section class="lit-band"><div class="wrap"><p class="lit" id="lit1">준비된 것이 무엇이든. 그 지점에서 <em>완벽하게 이어받아</em><br class="br-pc"> 마지막 컷까지 완성합니다.</p></div></section>
 
   <section class="band alt">
     <div class="wrap">
       <div class="sh reveal"><span class="slug">Where to start</span><h2 class="words">시작은 가볍게.<br>결과는 완벽하게.</h2><p>모든 것을 다 준비할 필요는 없습니다.<br class="br-pc"> 지금 가진 것만 가져오세요. 빈자리는 시네글로우가 채웁니다.</p></div>
-      <div class="tiles" id="situations"><div class="tile reveal "><div class="tx"><h3>아이디어만 있다면.</h3><p>막연한 생각 한 줄이면 충분합니다. 타깃 분석부터 컨셉, 대본, 촬영까지 백지상태에서 함께 그려나갑니다.</p><div class="links"><a class="lnk" href="contact.html" data-sit="0">이 조건으로 시작하기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/8389883/pexels-photo-8389883.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"></div></div><div class="tile reveal "><div class="tx"><h3>기획안이 준비됐다면.</h3><p>작성해 두신 기획안과 대본을 건네주세요. 시네마틱 촬영과 감각적인 편집으로 상상 이상의 결과물을 구현합니다.</p><div class="links"><a class="lnk" href="contact.html" data-sit="1">이 조건으로 시작하기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/4561940/pexels-photo-4561940.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"></div></div><div class="tile reveal "><div class="tx"><h3>사람과 공간이 필요하다면.</h3><p>캐릭터를 살리는 배우, 빛을 완성하는 스튜디오, 최적의 로케이션까지. 복잡한 섭외를 제작과 한 흐름으로 해결합니다.</p><div class="links"><a class="lnk" href="contact.html" data-sit="2">이 조건으로 시작하기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/3045397/pexels-photo-3045397.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"></div></div><div class="tile reveal hot"><div class="tx"><span class="rec-tag">RECOMMENDED · 정기 구독</span><h3>꾸준한 업로드가 목표라면.</h3><p>매달 반복되는 기획과 편집의 부담을 내려놓으세요. 월 단위 정기 구독으로 일관된 톤과 스케줄을 보장합니다. <span class="todo">운영 포함 여부</span></p><div class="links"><a class="lnk" href="contact.html" data-sit="3">이 조건으로 시작하기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/7239945/pexels-photo-7239945.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200"></div></div></div>
+      <div class="tiles" id="situations"></div>
     </div>
   </section>
 
@@ -1248,7 +1268,7 @@ footer .cols b{color:var(--fg);font-weight:600}
           <div class="msg me"><span class="av">고객</span><div class="b">B안 썸네일이 임팩트 있네요! 1분 20초 구간 자막 수치만 수정해서 최종본 부탁드립니다.</div><span class="t">17:30</span></div><button type="button" class="replay">대화 다시 보기 ↻</button></div>
         </div>
       </div>
-      <div style="text-align:center;margin-top:40px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><a class="pill" href="contact.html" data-pre-range="5">정기 구독 상담하기</a><a class="pill ghost" href="field-youtube.html">PREMIUM 패키지 살펴보기</a></div>
+      <div style="text-align:center;margin-top:40px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><a class="pill" href="#contact" data-pre-range="5">정기 구독 상담하기</a><a class="pill ghost" href="#field-youtube">PREMIUM 패키지 살펴보기</a></div>
     </div>
   </section>
 
@@ -1267,344 +1287,10 @@ footer .cols b{color:var(--fg);font-weight:600}
     <div class="wrap">
       <div class="sh reveal" style="margin-bottom:40px"><span class="slug">Recent works · 35mm Archive</span><h2 class="words">프레임으로 증명하는 감각.</h2><p>보고 싶은 필름을 고르세요. 컷을 클릭하면 필름 위로 플레이어가 넓게 열립니다.</p></div>
     </div>
-    <div id="homeReels"><div class="picker" id="homeReels-pk">
-  <div class="wrap"><div class="pick-bar"><div class="filters seg pick-sub"><button class="" data-sub="ep">가로형 본편 <small>5</small></button><button class="" data-sub="short">세로형 쇼츠 <small>44</small></button><button class="" data-sub="cookie">쿠키 · 예고 <small>1</small></button></div><div class="filters seg pick-gen"><button class="" data-gen="all">모든 장르</button><button data-gen="youtube">브이로그·유튜브</button><button data-gen="commerce">쇼핑몰·커머스</button><button data-gen="webdrama">웹드라마</button><button data-gen="ad">광고</button><button data-gen="promo">홍보영상</button><button data-gen="edu">정보·교육</button></div></div></div>
-  <div class="pick-body"><div class="reel-sec">
-  <div class="wrap">
-   <div class="reel-head">
-    <div class="lh"><h3>가로형 본편</h3><small>5 EPISODES · 16:9 · 35MM REEL</small></div>
-    <div class="ctl">
-     
-     <button type="button" data-rscroll="reel-homeReels-pk-r" data-dir="-1" aria-label="이전 컷">‹</button>
-     <button type="button" data-rscroll="reel-homeReels-pk-r" data-dir="1" aria-label="다음 컷">›</button>
-    </div>
-   </div>
-  </div>
-  <div class="reel " id="reel-homeReels-pk-r" data-page="0" data-pages="1" style="--spd:68s"><div class="trk"><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 01A</span></div>
-  <div class="rf v16 lb-host" data-host="b2_3L5PVqKc" data-i="b2_3L5PVqKc">
-   <img alt="대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/b2_3L5PVqKc/hqdefault.jpg'" src="https://i.ytimg.com/vi/b2_3L5PVqKc/maxresdefault.jpg">
-   <span class="fnum">CUT EP-01</span>
-   <span class="len">7:00</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="b2_3L5PVqKc" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 01</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 02A</span></div>
-  <div class="rf v16 lb-host" data-host="_s-earm-ZyA" data-i="_s-earm-ZyA">
-   <img alt="대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_s-earm-ZyA/hqdefault.jpg'" src="https://i.ytimg.com/vi/_s-earm-ZyA/maxresdefault.jpg">
-   <span class="fnum">CUT EP-02</span>
-   <span class="len">12:26</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_s-earm-ZyA" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 02</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 03A</span></div>
-  <div class="rf v16 lb-host" data-host="_Nku_qTpSKs" data-i="_Nku_qTpSKs">
-   <img alt="대본대로 안 되네 3화 — 어…? 작가님? 몸매가??" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_Nku_qTpSKs/hqdefault.jpg'" src="https://i.ytimg.com/vi/_Nku_qTpSKs/maxresdefault.jpg">
-   <span class="fnum">CUT EP-03</span>
-   <span class="len">11:52</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_Nku_qTpSKs" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 3화 — 어…? 작가님? 몸매가??</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 03</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 04A</span></div>
-  <div class="rf v16 lb-host" data-host="yy4Hr7Tmgq0" data-i="yy4Hr7Tmgq0">
-   <img alt="대본대로 안 되네 2화 — 여기가 놀이터야?!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/yy4Hr7Tmgq0/hqdefault.jpg'" src="https://i.ytimg.com/vi/yy4Hr7Tmgq0/maxresdefault.jpg">
-   <span class="fnum">CUT EP-04</span>
-   <span class="len">8:32</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="yy4Hr7Tmgq0" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 2화 — 여기가 놀이터야?!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 04</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 05A</span></div>
-  <div class="rf v16 lb-host" data-host="GjHiGEtztM4" data-i="GjHiGEtztM4">
-   <img alt="대본대로 안 되네 1화 — 너도 똑같아!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/GjHiGEtztM4/hqdefault.jpg'" src="https://i.ytimg.com/vi/GjHiGEtztM4/maxresdefault.jpg">
-   <span class="fnum">CUT EP-05</span>
-   <span class="len">10:59</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="GjHiGEtztM4" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 1화 — 너도 똑같아!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 05</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 01A</span></div>
-  <div class="rf v16 lb-host" data-host="b2_3L5PVqKc" data-i="b2_3L5PVqKc">
-   <img alt="대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/b2_3L5PVqKc/hqdefault.jpg'" src="https://i.ytimg.com/vi/b2_3L5PVqKc/maxresdefault.jpg">
-   <span class="fnum">CUT EP-01</span>
-   <span class="len">7:00</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="b2_3L5PVqKc" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 01</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 02A</span></div>
-  <div class="rf v16 lb-host" data-host="_s-earm-ZyA" data-i="_s-earm-ZyA">
-   <img alt="대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_s-earm-ZyA/hqdefault.jpg'" src="https://i.ytimg.com/vi/_s-earm-ZyA/maxresdefault.jpg">
-   <span class="fnum">CUT EP-02</span>
-   <span class="len">12:26</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_s-earm-ZyA" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 02</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 03A</span></div>
-  <div class="rf v16 lb-host" data-host="_Nku_qTpSKs" data-i="_Nku_qTpSKs">
-   <img alt="대본대로 안 되네 3화 — 어…? 작가님? 몸매가??" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_Nku_qTpSKs/hqdefault.jpg'" src="https://i.ytimg.com/vi/_Nku_qTpSKs/maxresdefault.jpg">
-   <span class="fnum">CUT EP-03</span>
-   <span class="len">11:52</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_Nku_qTpSKs" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 3화 — 어…? 작가님? 몸매가??</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 03</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 04A</span></div>
-  <div class="rf v16 lb-host" data-host="yy4Hr7Tmgq0" data-i="yy4Hr7Tmgq0">
-   <img alt="대본대로 안 되네 2화 — 여기가 놀이터야?!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/yy4Hr7Tmgq0/hqdefault.jpg'" src="https://i.ytimg.com/vi/yy4Hr7Tmgq0/maxresdefault.jpg">
-   <span class="fnum">CUT EP-04</span>
-   <span class="len">8:32</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="yy4Hr7Tmgq0" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 2화 — 여기가 놀이터야?!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 04</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 05A</span></div>
-  <div class="rf v16 lb-host" data-host="GjHiGEtztM4" data-i="GjHiGEtztM4">
-   <img alt="대본대로 안 되네 1화 — 너도 똑같아!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/GjHiGEtztM4/hqdefault.jpg'" src="https://i.ytimg.com/vi/GjHiGEtztM4/maxresdefault.jpg">
-   <span class="fnum">CUT EP-05</span>
-   <span class="len">10:59</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="GjHiGEtztM4" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 1화 — 너도 똑같아!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 05</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 01A</span></div>
-  <div class="rf v16 lb-host" data-host="b2_3L5PVqKc" data-i="b2_3L5PVqKc">
-   <img alt="대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/b2_3L5PVqKc/hqdefault.jpg'" src="https://i.ytimg.com/vi/b2_3L5PVqKc/maxresdefault.jpg">
-   <span class="fnum">CUT EP-01</span>
-   <span class="len">7:00</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="b2_3L5PVqKc" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 01</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 02A</span></div>
-  <div class="rf v16 lb-host" data-host="_s-earm-ZyA" data-i="_s-earm-ZyA">
-   <img alt="대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_s-earm-ZyA/hqdefault.jpg'" src="https://i.ytimg.com/vi/_s-earm-ZyA/maxresdefault.jpg">
-   <span class="fnum">CUT EP-02</span>
-   <span class="len">12:26</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_s-earm-ZyA" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 02</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 03A</span></div>
-  <div class="rf v16 lb-host" data-host="_Nku_qTpSKs" data-i="_Nku_qTpSKs">
-   <img alt="대본대로 안 되네 3화 — 어…? 작가님? 몸매가??" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_Nku_qTpSKs/hqdefault.jpg'" src="https://i.ytimg.com/vi/_Nku_qTpSKs/maxresdefault.jpg">
-   <span class="fnum">CUT EP-03</span>
-   <span class="len">11:52</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_Nku_qTpSKs" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 3화 — 어…? 작가님? 몸매가??</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 03</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 04A</span></div>
-  <div class="rf v16 lb-host" data-host="yy4Hr7Tmgq0" data-i="yy4Hr7Tmgq0">
-   <img alt="대본대로 안 되네 2화 — 여기가 놀이터야?!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/yy4Hr7Tmgq0/hqdefault.jpg'" src="https://i.ytimg.com/vi/yy4Hr7Tmgq0/maxresdefault.jpg">
-   <span class="fnum">CUT EP-04</span>
-   <span class="len">8:32</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="yy4Hr7Tmgq0" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 2화 — 여기가 놀이터야?!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 04</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 05A</span></div>
-  <div class="rf v16 lb-host" data-host="GjHiGEtztM4" data-i="GjHiGEtztM4">
-   <img alt="대본대로 안 되네 1화 — 너도 똑같아!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/GjHiGEtztM4/hqdefault.jpg'" src="https://i.ytimg.com/vi/GjHiGEtztM4/maxresdefault.jpg">
-   <span class="fnum">CUT EP-05</span>
-   <span class="len">10:59</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="GjHiGEtztM4" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 1화 — 너도 똑같아!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 05</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 01A</span></div>
-  <div class="rf v16 lb-host" data-host="b2_3L5PVqKc" data-i="b2_3L5PVqKc">
-   <img alt="대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/b2_3L5PVqKc/hqdefault.jpg'" src="https://i.ytimg.com/vi/b2_3L5PVqKc/maxresdefault.jpg">
-   <span class="fnum">CUT EP-01</span>
-   <span class="len">7:00</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="b2_3L5PVqKc" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 5화 — 여친 옆에서 다른 여자한테 눈이 간다고?</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 01</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 02A</span></div>
-  <div class="rf v16 lb-host" data-host="_s-earm-ZyA" data-i="_s-earm-ZyA">
-   <img alt="대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_s-earm-ZyA/hqdefault.jpg'" src="https://i.ytimg.com/vi/_s-earm-ZyA/maxresdefault.jpg">
-   <span class="fnum">CUT EP-02</span>
-   <span class="len">12:26</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_s-earm-ZyA" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 4화 — 사랑이라고? 넌 호구 된 거야!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 02</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 03A</span></div>
-  <div class="rf v16 lb-host" data-host="_Nku_qTpSKs" data-i="_Nku_qTpSKs">
-   <img alt="대본대로 안 되네 3화 — 어…? 작가님? 몸매가??" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/_Nku_qTpSKs/hqdefault.jpg'" src="https://i.ytimg.com/vi/_Nku_qTpSKs/maxresdefault.jpg">
-   <span class="fnum">CUT EP-03</span>
-   <span class="len">11:52</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="_Nku_qTpSKs" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 3화 — 어…? 작가님? 몸매가??</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 03</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 04A</span></div>
-  <div class="rf v16 lb-host" data-host="yy4Hr7Tmgq0" data-i="yy4Hr7Tmgq0">
-   <img alt="대본대로 안 되네 2화 — 여기가 놀이터야?!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/yy4Hr7Tmgq0/hqdefault.jpg'" src="https://i.ytimg.com/vi/yy4Hr7Tmgq0/maxresdefault.jpg">
-   <span class="fnum">CUT EP-04</span>
-   <span class="len">8:32</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="yy4Hr7Tmgq0" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 2화 — 여기가 놀이터야?!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 04</span></div>
- </div><div class="rf-cell">
-  <div class="edge-top"><span>CINEGLOW 5219</span><span>▶ 05A</span></div>
-  <div class="rf v16 lb-host" data-host="GjHiGEtztM4" data-i="GjHiGEtztM4">
-   <img alt="대본대로 안 되네 1화 — 너도 똑같아!" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/GjHiGEtztM4/hqdefault.jpg'" src="https://i.ytimg.com/vi/GjHiGEtztM4/maxresdefault.jpg">
-   <span class="fnum">CUT EP-05</span>
-   <span class="len">10:59</span>
-   <div class="play"><span>▶</span></div>
-   <div class="meta" data-open-modal="GjHiGEtztM4" title="클릭하여 상세 제작 정보 보기">
-    <div class="meta-tx">
-     <div class="cap">대본대로 안 되네 1화 — 너도 똑같아!</div>
-     <div class="subcap">펀 스토리제작소 · 촬영 · 편집 · 섭외</div>
-    </div>
-    <span class="info-btn">상세 ›</span>
-   </div>
-  </div>
-  <div class="edge-bot"><span>35MM SAFETY FILM</span><span>● 05</span></div>
- </div></div></div>
- </div></div></div></div>
+    <div id="homeReels"></div>
     <div class="wrap">
       <p class="reel-note">▶ 버튼을 누르면 필름 위로 와이드 플레이어가 열리고, 하단 제목 바(상세 ›)를 누르면 제작 스펙 창이 열립니다.</p>
-      <div style="text-align:center;margin-top:34px"><a class="lnk" href="portfolio.html">포트폴리오 아카이브 전체 보기</a></div>
+      <div style="text-align:center;margin-top:34px"><a class="lnk" href="#portfolio">포트폴리오 아카이브 전체 보기</a></div>
     </div>
   </section>
 
@@ -1612,26 +1298,26 @@ footer .cols b{color:var(--fg);font-weight:600}
     <div class="wrap">
       <div class="sh reveal"><span class="slug">Scope</span><h2 class="words">필요한 만큼만.<br>원하는 깊이까지.</h2><p>다섯 가지 모듈 중 필요한 범위만 선택하세요.<br class="br-pc"> 시네글로우가 책임질 타임라인이 즉시 활성화됩니다. <span class="todo">단계 정의</span></p></div>
       <div class="tl reveal">
-        <div class="tl-sel" id="tlSel"><button class="" data-r="1"><span class="k">01</span><b>촬영</b><small>단가 기준</small></button><button class="" data-r="2"><span class="k">02</span><b>촬영+편집</b><small>맞춤 견적</small></button><button class="" data-r="3"><span class="k">03</span><b>대본+촬영+편집</b><small>맞춤 견적</small></button><button class="" data-r="4"><span class="k">04</span><b>기획+촬영+편집</b><small>맞춤 견적</small></button><button class="" data-r="5"><span class="k">05</span><b>올인원</b><small>맞춤 견적</small></button></div>
-        <div class="bar" id="bar"><div class="seg5 ">기획<small>고객 준비</small></div><div class="seg5 ">대본<small>고객 준비</small></div><div class="seg5">촬영<small>시네글로우</small></div><div class="seg5">편집<small>시네글로우</small></div><div class="seg5 ">운영<small>선택 옵션</small></div></div>
-        <div class="panel" id="panel"><div><h4>② 촬영+편집</h4><p>전문 촬영 + 컷 편집·모션 자막·사운드 믹싱·색보정·맞춤 썸네일 · 소요 기간 촬영 후 4~5일 이내 · 유튜브 패키지 또는 맞춤 견적</p></div><div class="acts"><a class="pill ghost" href="range.html">상세 스펙 보기</a><a class="pill" href="contact.html" data-pre-range="2">이 범위로 견적 계산</a></div></div>
+        <div class="tl-sel" id="tlSel"></div>
+        <div class="bar" id="bar"></div>
+        <div class="panel" id="panel"></div>
       </div>
-      <p class="unsure">어느 단계가 맞을지 고민된다면 <a href="contact.html" data-pre-range="unknown">전문가 상담으로 결정하기 ›</a> · 영상 장르는 다음 단계에서 선택합니다</p>
+      <p class="unsure">어느 단계가 맞을지 고민된다면 <a href="#contact" data-pre-range="unknown">전문가 상담으로 결정하기 ›</a> · 영상 장르는 다음 단계에서 선택합니다</p>
     </div>
   </section>
 
   <section class="band alt">
     <div class="wrap">
       <div class="sh reveal"><span class="slug">Fields</span><h2 class="words">장르가 다르면,<br>문법도 달라야 하니까.</h2><p>15초 안에 설득해야 하는 커머스와 10분간 몰입시켜야 하는 웹드라마.<br class="br-pc"> 같은 시네마 카메라로 찍어도 컷의 호흡과 조명의 온도는 완전히 다르게 설계합니다.</p></div>
-      <div class="tiles c3" id="fieldCards"><div class="tile reveal"><div class="tx"><span class="slug">YOUTUBE &amp; VLOG</span><h3>브이로그·유튜브</h3><p>기획, 촬영, 썸네일까지. 채널 성장의 완벽한 파트너.</p><div class="links"><a class="lnk" href="#field-youtube">제작 가이드</a><a class="lnk" href="portfolio.html">작업물 보기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/2608519/pexels-photo-2608519.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"></div></div><div class="tile reveal"><div class="tx"><span class="slug">COMMERCE</span><h3>쇼핑몰·커머스</h3><p>정지된 사진으로는 결코 담을 수 없는 제품의 진짜 매력.</p><div class="links"><a class="lnk" href="#field-commerce">제작 가이드</a><a class="lnk" href="portfolio.html">작업물 보기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/1932666/pexels-photo-1932666.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"></div></div><div class="tile reveal"><div class="tx"><span class="slug">WEB DRAMA</span><h3>웹드라마</h3><p>브랜드의 메시지를 시청자가 먼저 찾아보는 이야기로.</p><div class="links"><a class="lnk" href="#field-webdrama">제작 가이드</a><a class="lnk" href="portfolio.html">작업물 보기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/37893943/pexels-photo-37893943/free-photo-of-professional-film-production-on-set-with-monitor.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"></div></div><div class="tile reveal"><div class="tx"><span class="slug">COMMERCIAL</span><h3>광고</h3><p>날카로운 컨셉, 감각적인 미장센, 치밀한 컷의 리듬.</p><div class="links"><a class="lnk" href="#field-ad">제작 가이드</a><a class="lnk" href="portfolio.html">작업물 보기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/38059000/pexels-photo-38059000/free-photo-of-professional-film-crew-with-advanced-cinema-equipment.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"></div></div><div class="tile reveal"><div class="tx"><span class="slug">PROMOTIONAL</span><h3>홍보영상</h3><p>공간의 품격과 전문가의 진정성을 온전히 담아내는 연출.</p><div class="links"><a class="lnk" href="#field-promo">제작 가이드</a><a class="lnk" href="portfolio.html">작업물 보기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/17205947/pexels-photo-17205947/free-photo-of-men-looking-on-camera-screen.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"></div></div><div class="tile reveal"><div class="tx"><span class="slug">EDUCATIONAL</span><h3>정보·교육</h3><p>전달력을 극대화하는 구조 설계와 명쾌한 비주얼 그래픽.</p><div class="links"><a class="lnk" href="#field-edu">제작 가이드</a><a class="lnk" href="portfolio.html">작업물 보기</a></div></div><div class="media"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/20419524/pexels-photo-20419524/free-photo-of-photographer-with-equipment-in-studio.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1000"></div></div></div>
+      <div class="tiles c3" id="fieldCards"></div>
     </div>
   </section>
 
   <section class="band">
     <div class="wrap">
       <div class="sh reveal"><span class="slug">Casting · Studio · Location</span><h2 class="words">인물. 공간. 배경까지.<br>완벽한 미장센의 완성.</h2><p>캐릭터에 숨을 불어넣는 배우, 빛을 통제하는 스튜디오, 서사를 완성하는 로케이션.<br class="br-pc"> 섭외의 모든 과정을 제작 타임라인 안에서 한 번에 해결합니다. <span class="todo">단독 판매 여부</span></p></div>
-      <div class="behind reveal" id="castPhotos"><div class="lb"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/32610376/pexels-photo-32610376/free-photo-of-professional-film-camera-setup-on-movie-set.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800"><span class="cap">CASTING</span></div><div class="lb"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/7383647/pexels-photo-7383647.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800"><span class="cap">STUDIO</span></div><div class="lb"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/3062540/pexels-photo-3062540.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800"><span class="cap">LOCATION</span></div><div class="lb"><img alt="" loading="lazy" onerror="this.style.display='none'" src="https://images.pexels.com/photos/14920144/pexels-photo-14920144.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800"><span class="cap">STUDIO B</span></div></div>
-      <div style="text-align:center;margin-top:40px"><a class="lnk" href="casting.html">섭외 및 로케이션 자세히 보기</a></div>
+      <div class="behind reveal" id="castPhotos"></div>
+      <div style="text-align:center;margin-top:40px"><a class="lnk" href="#casting">섭외 및 로케이션 자세히 보기</a></div>
     </div>
   </section>
 
@@ -1643,7 +1329,7 @@ footer .cols b{color:var(--fg);font-weight:600}
         <div class="stat"><div class="n"><span data-count="4.9" data-dec="1">0</span></div><div class="l">프로덕션 평점</div></div>
       </div>
       <div class="sh reveal" style="margin:100px auto 48px"><span class="slug">Voices</span><h2 class="words" style="font-size:clamp(26px,3.2vw,40px)">함께 만든 사람들의 이야기.</h2><p>시네글로우의 워크플로우를 직접 경험한 파트너들의 기록입니다. <span class="todo">후기 수집 후 교체</span></p></div>
-      <div class="flipbook reveal" id="bubbles"><div class="rings"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="pages"><div class="pg cur" data-i="0"><div class="pg-head"><span class="slug">Voices · 01 / 03</span><span class="todo">후기 수집 후 교체</span></div><div class="bubbles"><div class="bubble"><div class="q">“</div><div class="ln" style="width:92%"></div><div class="ln" style="width:78%"></div><div class="ln" style="width:52%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div><div class="bubble"><div class="q">“</div><div class="ln" style="width:80%"></div><div class="ln" style="width:66%"></div><div class="ln" style="width:40%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div><div class="bubble"><div class="q">“</div><div class="ln" style="width:86%"></div><div class="ln" style="width:72%"></div><div class="ln" style="width:46%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div></div></div><div class="pg " data-i="1"><div class="pg-head"><span class="slug">Voices · 02 / 03</span><span class="todo">후기 수집 후 교체</span></div><div class="bubbles"><div class="bubble"><div class="q">“</div><div class="ln" style="width:78%"></div><div class="ln" style="width:64%"></div><div class="ln" style="width:38%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div><div class="bubble"><div class="q">“</div><div class="ln" style="width:90%"></div><div class="ln" style="width:76%"></div><div class="ln" style="width:50%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div><div class="bubble"><div class="q">“</div><div class="ln" style="width:70%"></div><div class="ln" style="width:56%"></div><div class="ln" style="width:34%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div></div></div><div class="pg " data-i="2"><div class="pg-head"><span class="slug">Voices · 03 / 03</span><span class="todo">후기 수집 후 교체</span></div><div class="bubbles"><div class="bubble"><div class="q">“</div><div class="ln" style="width:84%"></div><div class="ln" style="width:70%"></div><div class="ln" style="width:44%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div><div class="bubble"><div class="q">“</div><div class="ln" style="width:72%"></div><div class="ln" style="width:58%"></div><div class="ln" style="width:34%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div><div class="bubble"><div class="q">“</div><div class="ln" style="width:94%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:54%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div></div></div></div><div class="flip-ctl"><button type="button" data-flip="-1" aria-label="이전">‹</button><span class="dots"><i class=""></i><i class=""></i><i class=""></i></span><button type="button" data-flip="1" aria-label="다음">›</button></div></div>
+      <div class="bubbles reveal" id="bubbles"></div>
     </div>
   </section>
 
@@ -1651,11 +1337,11 @@ footer .cols b{color:var(--fg);font-weight:600}
     <div class="wrap">
       <div class="proc-pin" id="procPin"><div class="proc-stage">
       <div class="sh reveal"><span class="slug">Process</span><h2 class="words">첫 대화부터 최종 납품까지.<br>오차 없는 다섯 단계.</h2><p>어느 지점에서 합류하든 흔들리지 않는 표준 워크플로우로 움직입니다. <span class="todo">단계별 기간·계약 방식 확정</span></p></div>
-      <div class="proc reveal" id="proc"><div class="line"><i></i></div><ol><li style="--i:0"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="13" height="17" rx="2"></rect><path d="M7.5 8h6M7.5 11.5h6M7.5 15h3"></path><path d="M15.5 14.5l4.2-4.2 1.8 1.8-4.2 4.2H15.5v-1.8z"></path></svg><b>01</b></span><span class="k">STEP 01</span><h3>기획</h3><p>문의가 접수되면 전담 PD가 배정됩니다. 목표·레퍼런스·예산을 바탕으로 제작 범위와 일정을 설계하고 견적을 확정해 계약합니다.</p></li><li style="--i:1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5h17v9.5a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"></path><path d="M4.2 9.5l1.3-4.5 15.3 2.1-.8 2.4"></path><path d="M8.2 5.6l1.6 3.6M12.5 6.2l1.6 3.6M16.8 6.8l1.6 3.4"></path></svg><b>02</b></span><span class="k">STEP 02</span><h3>촬영 준비</h3><p>기획안·대본·스토리보드를 구체화하고 장비 세팅, 배우 섭외, 로케이션 헌팅까지 촬영의 모든 설계를 마칩니다.</p></li><li style="--i:2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="12" height="9" rx="2"></rect><path d="M15 11l5.5-2.5v8L15 14z"></path><circle cx="7.5" cy="5" r="1.8"></circle><circle cx="12" cy="5" r="1.8"></circle></svg><b>03</b></span><span class="k">STEP 03</span><h3>촬영</h3><p>철저한 현장 디렉팅과 실시간 모니터링으로 계획된 모든 프레임을 담아냅니다.</p></li><li style="--i:3"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path><circle cx="9" cy="7" r="2" fill="var(--bg)"></circle><circle cx="15" cy="12" r="2" fill="var(--bg)"></circle><circle cx="7.5" cy="17" r="2" fill="var(--bg)"></circle></svg><b>04</b></span><span class="k">STEP 04</span><h3>후작업</h3><p>컷 편집·색보정·사운드 믹싱을 거친 마스터본을 시사하고, 기본 2회 수정으로 정밀하게 다듬습니다.</p></li><li style="--i:4"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M8 12.2l2.7 2.7L16.3 9.5"></path></svg><b>05</b></span><span class="k">STEP 05</span><h3>최종</h3><p>매체별 최적 규격의 완성본과 썸네일을 납품합니다. 원본 제공 여부는 별도 협의.</p></li></ol></div>
+      <div class="proc reveal" id="proc"></div>
       </div></div>
       <div class="sh reveal" style="margin:120px auto 40px"><span class="slug">Color grading</span><h2 class="words" style="font-size:clamp(26px,3.2vw,40px)">빛과 색으로 완성하는 분위기.</h2><p>풍부한 데이터를 담은 Log 원본에서 시네마틱 룩을 입힌 그레이딩까지.<br class="br-pc"> 슬라이더를 움직여 색의 깊이를 직접 비교해 보세요.</p></div>
-      <div class="grade reveal" id="grade"><img class="before" src="https://images.pexels.com/photos/28808360/pexels-photo-28808360/free-photo-of-cinematographer-filming-at-blue-hour-in-chicago.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="" onerror="this.style.display='none'" style="display: none;"><img class="after" src="https://images.pexels.com/photos/28808360/pexels-photo-28808360/free-photo-of-cinematographer-filming-at-blue-hour-in-chicago.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="" onerror="this.style.display='none'" style="display: none;"><span class="lab l">LOG · 원본 데이터</span><span class="lab r">GRADED · 컬러 그레이딩</span><div class="bar"></div><input type="range" min="2" max="98" value="50" aria-label="비교"></div>
-      <div class="gearline reveal"><span><b>Canon C400 · C50</b> 4K 시네마 라인업</span><span><b>14–200mm</b> 전 구간 프리미엄 렌즈군</span><span><b>100–300W 고출력 지속광</b> 완벽한 주광 재현</span><span><b>짐벌 · 드론 · 무선 오디오</b></span><a class="lnk" href="about.html" style="font-size:15px">장비 라인업 더 보기</a></div>
+      <div class="grade reveal" id="grade"></div>
+      <div class="gearline reveal"><span><b>Canon C400 · C50</b> 4K 시네마 라인업</span><span><b>14–200mm</b> 전 구간 프리미엄 렌즈군</span><span><b>100–300W 고출력 지속광</b> 완벽한 주광 재현</span><span><b>짐벌 · 드론 · 무선 오디오</b></span><a class="lnk" href="#about" style="font-size:15px">장비 라인업 더 보기</a></div>
     </div>
   </section>
 
@@ -1672,7 +1358,7 @@ footer .cols b{color:var(--fg);font-weight:600}
     </div>
   </section>
 
-  <section class="cta-final"><div class="wrap reveal"><span class="slug">Ready to roll</span><h2 class="words" style="margin-top:14px">당신의 다음 장면.<br>지금 시작하세요.</h2><p>영상의 장르와 필요한 범위만 선택하세요.<br class="br-pc"> 가장 빠르고 정확한 제작 로드맵을 제안해 드립니다.</p><div class="row"><a class="pill" href="contact.html">실시간 견적 계산하기</a><a class="pill ghost" data-kakao="" href="https://open.kakao.com/o/s0Ro0qTi" target="_blank" rel="noopener">카카오톡 간편 상담</a></div></div></section>
+  <section class="cta-final"><div class="wrap reveal"><span class="slug">Ready to roll</span><h2 class="words" style="margin-top:14px">당신의 다음 장면.<br>지금 시작하세요.</h2><p>영상의 장르와 필요한 범위만 선택하세요.<br class="br-pc"> 가장 빠르고 정확한 제작 로드맵을 제안해 드립니다.</p><div class="row"><a class="pill" href="#contact">실시간 견적 계산하기</a><a class="pill ghost" data-kakao href="#">카카오톡 간편 상담</a></div></div></section>
 </main>
 
 <!-- ========== 제작 범위 안내 ========== -->
@@ -1685,11 +1371,11 @@ footer .cols b{color:var(--fg);font-weight:600}
   <section class="band tight" style="padding-top:0"><div class="wrap" id="rangeSteps"></div></section>
   <section class="band alt">
     <div class="wrap tiles">
-      <div class="tile reveal"><div class="tx"><h3>유연하게 이어받는 워크플로우.</h3><p>내부에서 잡은 기획안으로 촬영·편집만 진행하거나, 이미 찍어둔 원본으로 편집만 맡기는 것까지 <span class="todo">편집 단독 여부</span> — 어떤 지점에서든 매끄럽게 바통을 이어받습니다.</p><div class="links"><a class="lnk" href="contact.html">맞춤 견적 문의</a></div></div><div class="media"><img data-id="7634784" data-w="1200" alt=""></div></div>
-      <div class="tile reveal"><div class="tx"><h3>캐스팅과 로케이션의 결합.</h3><p>전문 배우, 호리존 스튜디오, 야외 로케이션까지. 선택한 제작 범위에 필요한 섭외 옵션을 자유롭게 추가할 수 있습니다.</p><div class="links"><a class="lnk" href="casting.html">섭외 가이드 보기</a></div></div><div class="media"><img data-id="32610376" data-w="1200" alt=""></div></div>
+      <div class="tile reveal"><div class="tx"><h3>유연하게 이어받는 워크플로우.</h3><p>내부에서 잡은 기획안으로 촬영·편집만 진행하거나, 이미 찍어둔 원본으로 편집만 맡기는 것까지 <span class="todo">편집 단독 여부</span> — 어떤 지점에서든 매끄럽게 바통을 이어받습니다.</p><div class="links"><a class="lnk" href="#contact">맞춤 견적 문의</a></div></div><div class="media"><img data-id="7634784" data-w="1200" alt=""></div></div>
+      <div class="tile reveal"><div class="tx"><h3>캐스팅과 로케이션의 결합.</h3><p>전문 배우, 호리존 스튜디오, 야외 로케이션까지. 선택한 제작 범위에 필요한 섭외 옵션을 자유롭게 추가할 수 있습니다.</p><div class="links"><a class="lnk" href="#casting">섭외 가이드 보기</a></div></div><div class="media"><img data-id="32610376" data-w="1200" alt=""></div></div>
     </div>
   </section>
-  <section class="cta-final"><div class="wrap reveal"><h2>범위가 정해졌다면,<br>이제 견적을 확인할 차례.</h2><p>원하는 제작 범위를 선택하면 즉시 예상 비용과 일정을 확인하실 수 있습니다.</p><div class="row"><a class="pill" href="contact.html">견적 계산하러 가기</a></div></div></section>
+  <section class="cta-final"><div class="wrap reveal"><h2>범위가 정해졌다면,<br>이제 견적을 확인할 차례.</h2><p>원하는 제작 범위를 선택하면 즉시 예상 비용과 일정을 확인하실 수 있습니다.</p><div class="row"><a class="pill" href="#contact">견적 계산하러 가기</a></div></div></section>
 </main>
 
 <main id="page-field" class="page"></main>
@@ -1706,7 +1392,7 @@ footer .cols b{color:var(--fg);font-weight:600}
     <div class="wrap"><div class="sh reveal" style="margin-bottom:36px"><span class="slug">Casting Archive</span><h2 class="words">캐스팅으로 완성한 서사.</h2><p>전문 배우 섭외와 맞춤형 로케이션이 투입된 오리지널 웹드라마 필름입니다. <span class="todo">섭외 범위 확인</span></p></div></div>
     <div id="castCases"></div>
   </section>
-  <section class="cta-final"><div class="wrap reveal"><h2>섭외가 필요한 프로젝트,<br>한 번에 해결하세요.</h2><p>견적문의에서 필요한 섭외 항목을 체크하시면 제작비와 통합된 최적의 견적을 제안해 드립니다.</p><div class="row"><a class="pill" href="contact.html" data-pre-cast="actor">섭외 포함 견적문의</a></div></div></section>
+  <section class="cta-final"><div class="wrap reveal"><h2>섭외가 필요한 프로젝트,<br>한 번에 해결하세요.</h2><p>견적문의에서 필요한 섭외 항목을 체크하시면 제작비와 통합된 최적의 견적을 제안해 드립니다.</p><div class="row"><a class="pill" href="#contact" data-pre-cast="actor">섭외 포함 견적문의</a></div></div></section>
 </main>
 
 <!-- ========== 포트폴리오 ========== -->
@@ -1717,7 +1403,7 @@ footer .cols b{color:var(--fg);font-weight:600}
     </div>
     <div id="pbody"></div>
   </section>
-  <section class="cta-final"><div class="wrap reveal"><h2>마음에 드는 레퍼런스를<br>찾으셨나요?</h2><p>원하는 스타일을 알려주시면 당신의 브랜드에 맞게 재해석해 드립니다.</p><div class="row" style="margin-top:34px"><a class="pill" href="contact.html">이 스타일로 견적문의</a></div></div></section>
+  <section class="cta-final"><div class="wrap reveal"><h2>마음에 드는 레퍼런스를<br>찾으셨나요?</h2><p>원하는 스타일을 알려주시면 당신의 브랜드에 맞게 재해석해 드립니다.</p><div class="row" style="margin-top:34px"><a class="pill" href="#contact">이 스타일로 견적문의</a></div></div></section>
 </main>
 
 <!-- ========== 회사소개 ========== -->
@@ -1739,7 +1425,7 @@ footer .cols b{color:var(--fg);font-weight:600}
     <div class="stat"><div class="n"><span data-count="98">0</span><small>%</small></div><div class="l">클라이언트 만족도</div></div>
     <div class="stat"><div class="n"><span data-count="4.9" data-dec="1">0</span></div><div class="l">프로덕션 평점</div></div>
   </div></div></section>
-  <section class="cta-final"><div class="wrap reveal"><h2>우리의 다음 크레딧에<br>당신의 이름을 올려보세요.</h2><div class="row" style="margin-top:34px"><a class="pill" href="contact.html">프로젝트 문의하기</a></div></div></section>
+  <section class="cta-final"><div class="wrap reveal"><h2>우리의 다음 크레딧에<br>당신의 이름을 올려보세요.</h2><div class="row" style="margin-top:34px"><a class="pill" href="#contact">프로젝트 문의하기</a></div></div></section>
 </main>
 
 <!-- ========== 견적문의 ========== -->
@@ -1778,7 +1464,7 @@ footer .cols b{color:var(--fg);font-weight:600}
             <input id="f-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
             <label class="full" style="flex-direction:row;align-items:center;gap:10px;font-size:15px;color:var(--fg)"><input id="f-agree" type="checkbox" style="accent-color:var(--accent)"> 개인정보 수집 및 이용에 동의합니다 <span class="todo">동의문</span></label>
           </div>
-          <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center"><button class="pill" type="submit">견적서 요청하기</button><a class="pill ghost" data-kakao href="#">카카오톡으로 바로 문의</a><span style="font-size:13px;color:var(--mute)">제목 <b style="color:var(--fg)">[영상 견적]</b>으로 그레이필름 공식 메일에 즉시 접수됩니다 <span class="todo">그레이필름 메일 주소</span></span></div></div>
+          <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center"><button class="pill" type="submit">견적서 요청하기</button><a class="pill ghost" data-kakao href="#">카카오톡으로 바로 문의</a><span style="font-size:13px;color:var(--mute)">메일 앱 실행 없이 시네글로우 접수 대장에 바로 등록되고, 1영업일 내 담당 PD가 연락드립니다 <span class="todo">그레이필름 알림 메일 확정</span></span></div></div>
         </form>
         <aside class="aside">
           <span class="slug" style="color:var(--mute)">견적 요약</span>
@@ -1798,8 +1484,8 @@ footer .cols b{color:var(--fg);font-weight:600}
   <div class="wrap">
     <div><div class="brand"><span class="mark">CINEGLOW</span></div><div style="margin-top:10px">촬영만도. 전부도. 당신이 멈춘 그곳에서부터 시작합니다.</div></div>
     <div class="cols">
-      <div><b>제작 분야</b><a href="field-youtube.html">브이로그·유튜브</a><a href="field-commerce.html">쇼핑몰·커머스</a><a href="field-webdrama.html">웹드라마</a><a href="field-ad.html">광고</a><a href="field-promo.html">홍보영상</a><a href="field-edu.html">정보·교육</a></div>
-      <div><b>메뉴</b><a href="range.html">제작 범위 안내</a><a href="casting.html">섭외</a><a href="portfolio.html">포트폴리오</a><a href="about.html">회사소개</a><a href="contact.html">견적문의</a></div>
+      <div><b>제작 분야</b><a href="#field-youtube">브이로그·유튜브</a><a href="#field-commerce">쇼핑몰·커머스</a><a href="#field-webdrama">웹드라마</a><a href="#field-ad">광고</a><a href="#field-promo">홍보영상</a><a href="#field-edu">정보·교육</a></div>
+      <div><b>메뉴</b><a href="#range">제작 범위 안내</a><a href="#casting">섭외</a><a href="#portfolio">포트폴리오</a><a href="#about">회사소개</a><a href="#contact">견적문의</a></div>
       <div><b>연락</b><span>000-0000-0000 <span class="todo">연락처</span></span><span>lovelysunnyway@gmail.com <span class="todo">시연용</span></span><a href="https://www.youtube.com/@bbigpt" target="_blank" rel="noopener">유튜브 채널 ↗</a></div>
     </div>
   </div>
@@ -1817,12 +1503,10 @@ footer .cols b{color:var(--fg);font-weight:600}
     <div class="adm-row"><button type="button" class="pill" id="admSave" disabled>반영된 index.html 다운로드</button><span class="adm-note">다운로드한 파일을 깃허브에 덮어쓰기하면 반영됩니다</span></div>
   </div>
 </div>
-<div class="float" id="float"><a class="pill ghost" data-pdf href="#">회사소개서 다운 ↓</a><a class="pill ghost" data-kakao href="#">카카오톡</a><a class="pill" href="contact.html">견적문의</a></div>
+<div class="float" id="float"><a class="pill ghost" data-pdf href="#">회사소개서 다운 ↓</a><a class="pill ghost" data-kakao href="#">카카오톡</a><a class="pill" href="#contact">견적문의</a></div>
 <div class="modal" id="modal"><div class="inner"><button class="close" id="modalClose" aria-label="닫기">✕</button><div id="modalBody"></div></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="videos.js"></script>
-<script>window.VIDEOS_EXTERNAL=1;</script>
 <script>
 /* ---------- 이미지: Pexels 무료 스톡 (참고용) ---------- */
 const LONG={
@@ -1843,7 +1527,63 @@ document.querySelectorAll('img[data-id]').forEach(el=>{el.src=PX(el.dataset.id,e
 
 /* ---------- 유튜브: @bbigpt(펀 스토리제작소) 채널 50편 ---------- */
 const CH={handle:'@bbigpt',name:'펀 스토리제작소',url:'https://www.youtube.com/@bbigpt'};
-/* VIDEO_ROWS → videos.js (빌드로 분리) */
+/*@@VIDEOS_START@@*/
+/* 영상 목록 — 편집 모드(#admin)에서 구글 시트로부터 가져와 이 블록을 통째로 교체합니다. 직접 고쳐도 됩니다.
+   kind: 가로형|쇼츠|쿠키 · id: 유튜브 영상 ID · ep: 화수 · t: 부제 · len: 길이 · type: youtube|commerce|webdrama|ad|promo|edu
+   c: 클라이언트 · ind: 업종 · done: 작업(·로 구분) · aim: 한 줄 설명 · show: Y/N · order: 노출 순서 */
+const VIDEO_ROWS=[
+ {"kind":"가로형","id":"b2_3L5PVqKc","ep":"5화","t":"여친 옆에서 다른 여자한테 눈이 간다고?","len":"7:00","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":1},
+ {"kind":"가로형","id":"_s-earm-ZyA","ep":"4화","t":"사랑이라고? 넌 호구 된 거야!","len":"12:26","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":2},
+ {"kind":"가로형","id":"_Nku_qTpSKs","ep":"3화","t":"어…? 작가님? 몸매가??","len":"11:52","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":3},
+ {"kind":"가로형","id":"yy4Hr7Tmgq0","ep":"2화","t":"여기가 놀이터야?!","len":"8:32","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":4},
+ {"kind":"가로형","id":"GjHiGEtztM4","ep":"1화","t":"너도 똑같아!","len":"10:59","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":5},
+ {"kind":"쇼츠","id":"3fP302bWEU0","ep":"43화","t":"","len":"0:52","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":6},
+ {"kind":"쇼츠","id":"E2bIL0Q0u4A","ep":"42화","t":"","len":"1:03","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":7},
+ {"kind":"쇼츠","id":"W_J1wzmVhhE","ep":"41화","t":"","len":"1:03","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":8},
+ {"kind":"쇼츠","id":"hKfB0agrwO4","ep":"40화","t":"","len":"1:04","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":9},
+ {"kind":"쇼츠","id":"18Qw8aEQ940","ep":"39화","t":"","len":"1:30","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":10},
+ {"kind":"쇼츠","id":"YyKqKKatsHE","ep":"38화","t":"","len":"0:46","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":11},
+ {"kind":"쇼츠","id":"JvfucPDKD74","ep":"37화","t":"","len":"0:47","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":12},
+ {"kind":"쇼츠","id":"QOPCZn1ijMI","ep":"36화","t":"","len":"1:06","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":13},
+ {"kind":"쇼츠","id":"jQ2dlko14iQ","ep":"35화","t":"","len":"1:28","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":14},
+ {"kind":"쇼츠","id":"5dedmnNEbNQ","ep":"34화","t":"","len":"1:05","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":15},
+ {"kind":"쇼츠","id":"Uj-WXJL2pq4","ep":"33화","t":"","len":"1:04","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":16},
+ {"kind":"쇼츠","id":"sQ4EI4UmC1Y","ep":"32화","t":"","len":"1:33","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":17},
+ {"kind":"쇼츠","id":"GKa5sD3NKmM","ep":"31화","t":"","len":"1:17","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":18},
+ {"kind":"쇼츠","id":"1nEOynE9azE","ep":"30화","t":"","len":"1:51","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":19},
+ {"kind":"쇼츠","id":"6HUea1PokyA","ep":"29화","t":"","len":"1:35","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":20},
+ {"kind":"쇼츠","id":"vqu7NUIuBIM","ep":"28화","t":"","len":"1:31","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":21},
+ {"kind":"쇼츠","id":"0ELUhOY-2nk","ep":"27화","t":"","len":"0:47","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":22},
+ {"kind":"쇼츠","id":"oAZWJMpu5go","ep":"26화","t":"","len":"1:39","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":23},
+ {"kind":"쇼츠","id":"RlxGRZftByE","ep":"25화","t":"","len":"1:06","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":24},
+ {"kind":"쇼츠","id":"Ws5gVh-ezQw","ep":"24화","t":"","len":"1:37","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":25},
+ {"kind":"쇼츠","id":"-WQG4QsBTVU","ep":"23화","t":"","len":"1:10","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":26},
+ {"kind":"쇼츠","id":"-zu5SUyp0LM","ep":"22화","t":"","len":"1:08","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":27},
+ {"kind":"쇼츠","id":"zmNbk942wJY","ep":"22화 (2)","t":"","len":"1:08","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":28},
+ {"kind":"쇼츠","id":"0F90dDz12fY","ep":"21화","t":"","len":"1:06","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":29},
+ {"kind":"쇼츠","id":"fRtpUETUPbQ","ep":"20화","t":"","len":"1:35","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":30},
+ {"kind":"쇼츠","id":"-Pmf1C1Duoo","ep":"19화","t":"","len":"1:51","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":31},
+ {"kind":"쇼츠","id":"5SLt4dT6P-E","ep":"18화","t":"","len":"1:26","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":32},
+ {"kind":"쇼츠","id":"KPvvGUB0sQc","ep":"17화","t":"","len":"1:01","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":33},
+ {"kind":"쇼츠","id":"L94VE1I5TOI","ep":"16화","t":"","len":"1:02","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":34},
+ {"kind":"쇼츠","id":"lGjkxQxgGbk","ep":"15화","t":"","len":"1:04","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":35},
+ {"kind":"쇼츠","id":"c4MgRaeXHBk","ep":"14화","t":"","len":"1:05","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":36},
+ {"kind":"쇼츠","id":"yNE1s_3baSo","ep":"13화","t":"","len":"1:09","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":37},
+ {"kind":"쇼츠","id":"KOw8oDQlXbs","ep":"12화","t":"","len":"1:01","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":38},
+ {"kind":"쇼츠","id":"3OV6NEJmgro","ep":"11화","t":"","len":"1:04","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":39},
+ {"kind":"쿠키","id":"37YtQrvBLhw","ep":"쿠키 (1)","t":"","len":"1:12","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":40},
+ {"kind":"쇼츠","id":"Tn1tpCVl9Mo","ep":"10화","t":"","len":"1:09","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":41},
+ {"kind":"쇼츠","id":"qphmb6hPfSw","ep":"9화","t":"","len":"1:01","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":42},
+ {"kind":"쇼츠","id":"XG8WlEBkQhs","ep":"8화","t":"","len":"1:06","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":43},
+ {"kind":"쇼츠","id":"BaCYn0acTUI","ep":"7화","t":"","len":"1:04","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":44},
+ {"kind":"쇼츠","id":"j9BhWqYyA9U","ep":"6화","t":"","len":"1:04","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":45},
+ {"kind":"쇼츠","id":"RbCMqRq020U","ep":"5화","t":"","len":"1:03","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":46},
+ {"kind":"쇼츠","id":"TQPGTXgi0po","ep":"4화","t":"","len":"1:02","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":47},
+ {"kind":"쇼츠","id":"aU0_ZmZ4Z5k","ep":"3화","t":"","len":"1:07","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":48},
+ {"kind":"쇼츠","id":"e1oAaGvIszI","ep":"2화","t":"","len":"1:03","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":49},
+ {"kind":"쇼츠","id":"D-_1ZUhOKs0","ep":"1화","t":"","len":"1:06","type":"webdrama","c":"펀 스토리제작소","ind":"웹드라마 · 쇼츠","done":"촬영·편집","aim":"임팩트 있는 호흡으로 재구성한 세로형 숏폼","show":"Y","order":50}
+];
+/*@@VIDEOS_END@@*/
 const SERIES='대본대로 안 되네';
 const EPS=VIDEO_ROWS.filter(r=>r.kind==='가로형'&&r.show!=='N').sort((a,b)=>a.order-b.order).map(r=>({id:r.id,ep:r.ep,t:r.t,len:r.len}));
 const SHORTS=VIDEO_ROWS.filter(r=>r.kind!=='가로형'&&r.show!=='N').sort((a,b)=>a.order-b.order).map(r=>({id:r.id,ep:r.kind==='쿠키'&&!/쿠키/.test(r.ep)?r.ep+' 쿠키':r.ep,len:r.len}));
@@ -2094,9 +1834,9 @@ function reelStripHTML(list,idSuffix,opts={}){
 }
 /* 화면 밖 릴은 애니메이션 정지 — 보일 때만 흐름 */
 const bandIO=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(en=>en.target.classList.toggle('vis',en.isIntersecting)),{rootMargin:'80px 0px'}):null;
-function watchBands(){if(window.__PRERENDER)return;document.querySelectorAll('.band.alt:not([data-io])').forEach(b=>{b.dataset.io=1;if(bandIO)bandIO.observe(b);else b.classList.add('vis')})}
+function watchBands(){document.querySelectorAll('.band.alt:not([data-io])').forEach(b=>{b.dataset.io=1;if(bandIO)bandIO.observe(b);else b.classList.add('vis')})}
 const reelIO=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(en=>en.target.classList.toggle('off',!en.isIntersecting)),{rootMargin:'120px 0px'}):null;
-function watchReels(root=document){if(window.__PRERENDER)return;root.querySelectorAll('.reel:not([data-io])').forEach(r=>{r.dataset.io=1;reelIO&&reelIO.observe(r)})}
+function watchReels(root=document){root.querySelectorAll('.reel:not([data-io])').forEach(r=>{r.dataset.io=1;reelIO&&reelIO.observe(r)})}
 
 function reelSectionHTML(title,sub,list,idSuffix,opts={}){
  if(!list.length)return '';
@@ -2211,23 +1951,39 @@ document.addEventListener('click',e=>{
 const LOCAL=location.protocol==='file:';
 if(LOCAL){const pb=document.querySelector('.proto-bar');pb.innerHTML+=' · <b>로컬 파일 미리보기</b>: 유튜브 임베드가 막혀(153) 영상은 새 창에서 열립니다. 동봉한 <b>preview.bat</b>로 열면 페이지 안에서 재생됩니다'}
 /* ---------- 히어로: 카메라 전원 → LCD 재생 → 전체 확대 ---------- */
+/* v78 빨리 감기 설정: max 최대 배속 · v0 이 속도(px/ms)까지는 1배속 · v1 이 속도에서 최대 배속 · decay 스크롤이 멈춘 뒤 프레임당 감쇠(.82 ≈ 0.3초면 1배속) · down 내릴 때만 */
+const FF={max:6,v0:.6,v1:2,decay:.82,down:true,t:0,rate:1,v:0,lastY:scrollY,lastT:performance.now(),done:false};
 const CAM={stage:document.getElementById('camStage'),slot:document.getElementById('lcdSlot'),lcd:document.getElementById('lcd'),media:document.getElementById('lcdMedia'),open:false,v:EPS[0]};
-(function(){const v=CAM.v,st=CAM.stage;if(window.__PRERENDER)return;
+(function(){const v=CAM.v,st=CAM.stage;
  CAM.media.innerHTML=`<img src="${ytThumb(v.id)}" alt="${SERIES} ${v.ep} — ${v.t}" onerror="this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'">`;
  document.getElementById('lcdTitle').textContent=`${SERIES} ${v.ep} — ${v.t}`;document.getElementById('lcdYt').href=ytWatch(v.id);
- setTimeout(()=>st.classList.add('cam-in'),120);
- setTimeout(()=>st.classList.add('pwr'),1000);
- setTimeout(()=>st.classList.add('hud'),1750);
  const live=()=>{st.classList.add('live');if(!LOCAL&&!CAM.media.querySelector('iframe')){const f=document.createElement('iframe');f.src=ytEmbed(v.id,true);f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; encrypted-media';f.title='';CAM.media.appendChild(f);watchYT(f)}};
- if(document.readyState==='complete')setTimeout(live,2200);else addEventListener('load',()=>setTimeout(live,1200),{once:true});
+ /* v78: 연출 시계 — 평소 1배속(기존 타이밍 그대로), 스크롤을 빠르게 내리는 동안 최대 FF.max배로 빨리 감기, 멈추면 바로 1배속 복귀.
+    단계: 120ms 카메라 등장 → 1000ms 전원 → 1750ms HUD → 2200ms 영상 켜짐(페이지 load 이후) → 3600ms 자동 확대(히어로가 보일 때만) */
+ let loaded=document.readyState==='complete';if(!loaded)addEventListener('load',()=>{loaded=true},{once:true});
+ const stages=[[120,()=>st.classList.add('cam-in')],[1000,()=>st.classList.add('pwr')],[1750,()=>st.classList.add('hud')],[2200,live,()=>loaded],[3600,()=>{const r=st.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)lcdExpand()}]];
+ let i=0,prev=performance.now();
+ const tick=now=>{const dt=Math.min(64,now-prev);prev=now;
+  if(now-FF.lastT>120)FF.v*=FF.decay; /* 스크롤 이벤트가 끊기면 속도 감쇠 → 곧 1배속 */
+  const r=FF.v<=FF.v0?1:Math.min(FF.max,1+(FF.v-FF.v0)/(FF.v1-FF.v0)*(FF.max-1));
+  FF.rate=r;st.classList.toggle('ff',r>=1.5); /* 빨리 감기 중엔 전환 시간도 짧게(CSS .ff) */
+  FF.t+=dt*r;
+  while(i<stages.length&&FF.t>=stages[i][0]){const s=stages[i];if(s[2]&&!s[2]())break;s[1]();if(s[2])FF.t=Math.min(FF.t,s[0]);i++} /* load를 기다린 단계는 그 시점부터 다시 셈 */
+  if(i<stages.length)requestAnimationFrame(tick);else{FF.done=true;st.classList.remove('ff')}};
+ requestAnimationFrame(tick);
 })();
 /* 자동 확대: LCD가 카메라 스테이지 전체(16:9)로 커지며 영상이 이어짐. 스크롤은 막지 않음 */
 function lcdExpand(){if(CAM.open)return;CAM.open=true;const l=CAM.lcd,st=CAM.stage;
  /* 달리인: 모니터 틀(베젤)이 스테이지에 꽉 차는 배율로 사진 전체를 확대. 베젤·버튼·HUD가 보이는 상태에서 영상 재생 */
  const cs=getComputedStyle(st),pct=v=>parseFloat(cs.getPropertyValue(v))/100;
  const S=st.getBoundingClientRect(),W=S.width,H=S.height;
+ /* v76: 실제로 보이는 폭 기준 — 모바일은 스테이지(235%)가 화면보다 넓어 그대로 채우면 가운데만 보이고 양옆·버튼이 잘림 */
+ const vw=Math.min(W,st.parentElement.getBoundingClientRect().width);
  const mon={l:pct('--mon-l')*W,t:pct('--mon-t')*H,w:pct('--mon-w')*W,h:pct('--mon-h')*H};
- const k=Math.min(W/mon.w,H/mon.h)*0.985;const cx=mon.l+mon.w/2,cy=mon.t+mon.h/2;
+ const lcdW=pct('--lcd-w')*W;
+ /* 모바일(vw<W): 액정 폭을 보이는 화면에 맞춤(베젤 양옆만 잘림) · PC: 모니터 전체를 스테이지에 맞춤 */
+ const k=(vw<W?vw/lcdW:Math.min(vw/mon.w,H/mon.h))*0.985;const cx=mon.l+mon.w/2,cy=mon.t+mon.h/2;
+ st.parentElement.classList.add('zoomed'); /* 모바일 가장자리 페이드 끄기 */
  st.style.setProperty('--zk',k.toFixed(3));st.style.setProperty('--zox',(cx/W*100).toFixed(2)+'%');st.style.setProperty('--zoy',(cy/H*100).toFixed(2)+'%');
  st.style.setProperty('--zdx',(W/2-cx).toFixed(1)+'px');st.style.setProperty('--zdy',(H/2-cy).toFixed(1)+'px');
  /* 베젤 바깥 가리개: 확대가 끝났을 때의 베젤 위치에 구멍을 두고 나머지를 배경색으로 */
@@ -2235,6 +1991,7 @@ function lcdExpand(){if(CAM.open)return;CAM.open=true;const l=CAM.lcd,st=CAM.sta
  Object.assign(m.style,{left:(ML/W*100).toFixed(3)+'%',top:(MT/H*100).toFixed(3)+'%',width:(mon.w*k/W*100).toFixed(3)+'%',height:(mon.h*k/H*100).toFixed(3)+'%'});
  l.classList.add('big');st.classList.add('zoomed')}
 function lcdCollapse(){if(!CAM.open)return;CAM.open=false;const l=CAM.lcd;CAM.stage.classList.add('unzoom');setTimeout(()=>CAM.stage.classList.remove('unzoom'),1300);
+ CAM.stage.parentElement.classList.remove('zoomed');
  if(l.classList.contains('sound')){const f=CAM.media.querySelector('iframe');if(f)f.remove();l.classList.remove('sound');if(!LOCAL){const g=document.createElement('iframe');g.src=ytEmbed(CAM.v.id,true);g.referrerPolicy='strict-origin-when-cross-origin';g.allow='autoplay; encrypted-media';g.title='';CAM.media.appendChild(g);watchYT(g)}}
  l.classList.remove('big');CAM.stage.classList.remove('zoomed')}
 /* 소리 켜기: 사용자 클릭(제스처)이 있어야 브라우저가 소리 재생을 허용 → 그 시점에 소리 있는 플레이어로 교체 */
@@ -2244,8 +2001,7 @@ document.getElementById('lcdExpand').addEventListener('click',lcdExpand);
 addEventListener('resize',()=>{if(!CAM.open)return;CAM.open=false;lcdExpand()});
 document.getElementById('lcdSound').addEventListener('click',lcdSound);
 document.getElementById('lcdClose').addEventListener('click',lcdCollapse);
-/* 자동 진행: 영상이 켜진 뒤 1.3초 후 확대 — 그 전에 사용자가 히어로를 지나쳤으면 생략 */
-setTimeout(()=>{const r=CAM.stage.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)lcdExpand()},3600);
+/* 자동 확대는 v78부터 연출 시계(stages 3600ms)가 담당 */
 
 /* 글자·단어 분할 (단어 사이 공백 유실 방지 패치 완료) */
 function splitChars(el){let i=0;el.setAttribute('aria-label',el.textContent.trim());const words=el.textContent.split(/(\s+)/);el.innerHTML=words.map(w=>/^\s+$/.test(w)?' ':`<span class="w" aria-hidden="true">${[...w].map(c=>`<span class="c" style="--i:${i++}">${c}</span>`).join('')}</span>`).join('');requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')))}
@@ -2278,7 +2034,7 @@ document.querySelectorAll('.lit').forEach(splitWords);
 /* 스크롤 연동 */
 /* ---------- 스크롤 핸들러 — 요소 목록 캐시 + 보이는 것만 계산 + 읽기/쓰기 분리 ---------- */
 const SC={lit:[],proc:[],imgs:[],vis:new Set(),io:null};
-function scCollect(){if(window.__PRERENDER)return;
+function scCollect(){
  SC.proc.forEach(x=>{x.pio&&x.pio.disconnect();x.playing=false;clearTimeout(x.t0);clearTimeout(x.mt);x.raf&&cancelAnimationFrame(x.raf)});SC.lit.forEach(x=>{x.io&&x.io.disconnect();x.timers&&x.timers.forEach(clearTimeout)}); /* 이전 관찰자 정리 */
  SC.lit=[...document.querySelectorAll('.lit')].map(el=>({el,ws:[...el.querySelectorAll('.w')]}));
  SC.proc=[...document.querySelectorAll('.proc')].map(el=>({el,pin:el.closest('.proc-pin'),line:el.querySelector('.line i'),lis:[...el.querySelectorAll('li')]}));
@@ -2323,6 +2079,8 @@ function onScroll(){const y=scrollY,vh=innerHeight;
  const neo=document.getElementById('neo');const neoW=(neo&&isVis(neo))?neoRead():null;
  /* --- 쓰기 단계 --- */
  W.forEach(f=>f());if(neoW)neoW();}
+/* v78: 스크롤 속도(px/ms) 측정 — 연출이 끝나면 더 이상 계산하지 않음 */
+addEventListener('scroll',()=>{if(FF.done)return;const now=performance.now(),y=scrollY,dt=now-FF.lastT,dy=y-FF.lastY;FF.lastT=now;FF.lastY=y;if(dt<=0||dt>400)return;const vv=(FF.down?Math.max(0,dy):Math.abs(dy))/dt;FF.v=FF.v*.5+vv*.5},{passive:true});
 let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{onScroll();ticking=false})}},{passive:true});addEventListener('resize',onScroll);scCollect();
 
 /* 상단 히어로 아래 필름 스트립 — 한 컷(.strip-cell) 구조로 함께 흐름 */
@@ -2333,7 +2091,7 @@ let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;reque
 document.addEventListener('click',e=>{const r=e.target.closest('.rangebar .r[data-r]');if(!r)return;const bar=r.closest('.rangebar');const box=bar.nextElementSibling;if(!box||!box.classList.contains('rdesc'))return;const n=+r.dataset.r;const was=r.classList.contains('sel');
  bar.querySelectorAll('.r').forEach(x=>x.classList.remove('sel'));if(was){box.classList.remove('show');return}
  r.classList.add('sel');const s=RSTEPS[n-1],k=bar.dataset.type;const pm=k?priceMode(k,n):s.price;
- box.innerHTML=`<div class="in"><div><span class="slug">STEP ${s.k}</span><h4 style="margin-top:6px">${RANGE[n-1]}</h4><p>${s.inc}</p></div><dl><dt>고객 준비</dt><dd>${s.prep}</dd><dt>최종 결과물</dt><dd>${s.out}</dd><dt>소요 기간</dt><dd>${s.dur}</dd><dt>견적 기준</dt><dd>${pm}</dd></dl><div class="acts"><a class="pill" href="contact.html" ${k?`data-pre-type="${k}"`:''} data-pre-range="${n}">이 범위로 견적 계산하기</a>${k?'':'<a class="pill ghost" href="contact.html" data-pre-range="unknown">전문가 상담으로 시작</a>'}</div></div>`;
+ box.innerHTML=`<div class="in"><div><span class="slug">STEP ${s.k}</span><h4 style="margin-top:6px">${RANGE[n-1]}</h4><p>${s.inc}</p></div><dl><dt>고객 준비</dt><dd>${s.prep}</dd><dt>최종 결과물</dt><dd>${s.out}</dd><dt>소요 기간</dt><dd>${s.dur}</dd><dt>견적 기준</dt><dd>${pm}</dd></dl><div class="acts"><a class="pill" href="#contact" ${k?`data-pre-type="${k}"`:''} data-pre-range="${n}">이 범위로 견적 계산하기</a>${k?'':'<a class="pill ghost" href="#contact" data-pre-range="unknown">전문가 상담으로 시작</a>'}</div></div>`;
  box.classList.add('show')});
 
 /* 홈 화면 포트폴리오 & 섭외 페이지 사례 */
@@ -2354,14 +2112,14 @@ document.getElementById('castCases').innerHTML=
    el.classList.add('shown');scrollEnd();await wait(Math.min(550,220+el.textContent.length*4))}
   replay.classList.add('show')}
  replay.addEventListener('click',playChat);
- if(window.__PRERENDER)return;if(!('IntersectionObserver' in window)){items.forEach(x=>x.classList.add('shown'));return}
+ if(!('IntersectionObserver' in window)){items.forEach(x=>x.classList.add('shown'));return}
  new IntersectionObserver(es=>es.forEach(en=>{if(en.intersectionRatio>=.35)playChat();else if(en.intersectionRatio===0){run++;items.forEach(x=>x.classList.remove('shown'));log.querySelectorAll('.typing').forEach(x=>x.remove())}}),{threshold:[0,.35]}).observe(chat)})();
 
 /* 타일 기울기·스포트라이트 */
 document.addEventListener('mouseover',e=>{const t=e.target.closest('.tile');if(t)t._rect=t.getBoundingClientRect()},{passive:true});
 document.addEventListener('mousemove',e=>{const t=e.target.closest('.tile');if(!t||!matchMedia('(hover:hover)').matches)return;const r=t._rect||(t._rect=t.getBoundingClientRect());t.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');t.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')},{passive:true});
 /* 상황 타일 */
-document.getElementById('situations').innerHTML=SITUATIONS.map((s,i)=>`<div class="tile reveal ${s.hot?'hot':''}"><div class="tx">${s.hot?'<span class="rec-tag">RECOMMENDED · 정기 구독</span>':''}<h3>${s.h}</h3><p>${s.p}${s.todo?` <span class="todo">${s.todo}</span>`:''}</p><div class="links"><a class="lnk" href="contact.html" data-sit="${i}">이 조건으로 시작하기</a></div></div><div class="media">${im(s.img,1200)}</div></div>`).join('');
+document.getElementById('situations').innerHTML=SITUATIONS.map((s,i)=>`<div class="tile reveal ${s.hot?'hot':''}"><div class="tx">${s.hot?'<span class="rec-tag">RECOMMENDED · 정기 구독</span>':''}<h3>${s.h}</h3><p>${s.p}${s.todo?` <span class="todo">${s.todo}</span>`:''}</p><div class="links"><a class="lnk" href="#contact" data-sit="${i}">이 조건으로 시작하기</a></div></div><div class="media">${im(s.img,1200)}</div></div>`).join('');
 
 /* 범위 선택 */
 let curRange=2;
@@ -2372,12 +2130,12 @@ function renderSeg(){
  renderTL()}
 function renderTL(){const s=RSTEPS[curRange-1];
  document.getElementById('bar').innerHTML=STAGES.map(st=>{const on=s.on.includes(st[0]),ask=s.ask.includes(st[0]);return `<div class="seg5 ${on?'on':ask?'ask':''}">${st[1]}<small>${on?'시네글로우':ask?'상담 확정':st[0]==='ops'?'선택 옵션':'고객 준비'}</small></div>`}).join('');
- document.getElementById('panel').innerHTML=`<div><h4>${RANGE[curRange-1]}</h4><p>${s.inc} · 소요 기간 ${s.dur} · ${s.price}</p></div><div class="acts"><a class="pill ghost" href="range.html">상세 스펙 보기</a><a class="pill" href="contact.html" data-pre-range="${curRange}">이 범위로 견적 계산</a></div>`}
+ document.getElementById('panel').innerHTML=`<div><h4>${RANGE[curRange-1]}</h4><p>${s.inc} · 소요 기간 ${s.dur} · ${s.price}</p></div><div class="acts"><a class="pill ghost" href="#range">상세 스펙 보기</a><a class="pill" href="#contact" data-pre-range="${curRange}">이 범위로 견적 계산</a></div>`}
 document.getElementById('tlSel').addEventListener('click',e=>{const b=e.target.closest('button[data-r]');if(!b)return;curRange=+b.dataset.r;renderSeg()});
 renderSeg();
 
 /* 분야 타일 */
-document.getElementById('fieldCards').innerHTML=FIELD_ORDER.map(k=>{const f=FIELDS[k];return `<div class="tile reveal"><div class="tx"><span class="slug">${f.en}</span><h3>${f.name}</h3><p>${f.one}</p><div class="links"><a class="lnk" href="#field-${k}">제작 가이드</a><a class="lnk" href="portfolio.html">작업물 보기</a></div></div><div class="media">${im(f.img,1000)}</div></div>`}).join('');
+document.getElementById('fieldCards').innerHTML=FIELD_ORDER.map(k=>{const f=FIELDS[k];return `<div class="tile reveal"><div class="tx"><span class="slug">${f.en}</span><h3>${f.name}</h3><p>${f.one}</p><div class="links"><a class="lnk" href="#field-${k}">제작 가이드</a><a class="lnk" href="#portfolio">작업물 보기</a></div></div><div class="media">${im(f.img,1000)}</div></div>`}).join('');
 
 /* 섭외 */
 document.getElementById('castPhotos').innerHTML=[[32610376,'CASTING'],[7383647,'STUDIO'],[3062540,'LOCATION'],[14920144,'STUDIO B']].map(x=>`<div class="lb">${im(x[0],800)}<span class="cap">${x[1]}</span></div>`).join('');
@@ -2449,27 +2207,27 @@ document.getElementById('rangeSteps').innerHTML=RSTEPS.map(s=>`<div class="rstep
 function renderField(k){const f=FIELDS[k]||FIELDS.youtube;const bar=RANGE.map((r,i)=>`<div class="r ${i+1>=f.range[0]&&i+1<=f.range[1]?'on':''}" data-r="${i+1}"><b>0${i+1}</b>${RSHORT[i]}</div>`).join('');
  const real=VIDEOS.filter(v=>v.type===k);const eps=real.filter(v=>v.kind==='ep'),shorts=real.filter(v=>v.kind==='short');
  const S={
-  who:`<section class="band"><div class="wrap"><div class="sh reveal"><span class="slug">When you need us</span><h2 class="words">이런 순간,<br>시네글로우가 필요합니다.</h2></div><div class="stmts reveal">${f.who.map((w,i)=>`<div class="stmt"><span class="k">0${i+1}</span><div><h3>${w[0]}</h3><p>${w[1]}</p></div><a class="lnk" href="contact.html" data-pre-type="${k}">바로 시작하기</a></div>`).join('')}</div></div></section>`,
+  who:`<section class="band"><div class="wrap"><div class="sh reveal"><span class="slug">When you need us</span><h2 class="words">이런 순간,<br>시네글로우가 필요합니다.</h2></div><div class="stmts reveal">${f.who.map((w,i)=>`<div class="stmt"><span class="k">0${i+1}</span><div><h3>${w[0]}</h3><p>${w[1]}</p></div><a class="lnk" href="#contact" data-pre-type="${k}">바로 시작하기</a></div>`).join('')}</div></div></section>`,
   cases:`<section class="band alt"><div class="wrap"><div class="sh reveal" style="margin-bottom:36px"><span class="slug">35mm Film Works</span><h2 class="words">${f.name} 아카이브.</h2><p>${real.length?`오리지널 에피소드 본편 ${eps.length}편 · 하이라이트 쇼츠 ${shorts.length}편.`:`${f.name} 대표 레퍼런스가 업데이트될 자리입니다.`}</p></div></div>
    <div id="fieldReels-${k}"></div>
    <div class="wrap"><p class="reel-note">썸네일에 커서를 올리면 필름이 멈추고, 클릭하면 필름 위로 플레이어가 열립니다. <span class="todo">${k==='webdrama'?'사례 확정':'이 분야 사례로 교체 — 지금은 웹드라마 영상 플레이스홀더'}</span></p></div></section>`,
   flow:`<section class="band alt"><div class="wrap"><div class="sh reveal"><span class="slug">Workflow</span><h2 class="words">빈틈없이 맞물리는<br>${f.name} 제작 흐름.</h2><p>고객이 준비할 것과 시네글로우가 완성할 것.<br class="br-pc"> 처음 영상을 제작하셔도 결과물은 프로페셔널하도록 모든 과정을 리드합니다.</p></div><div class="flow reveal" style="--n:${f.flow.length}">${f.flow.map((st,i)=>`<div class="fs ${st[0]==='시네글로우'?'cg':''}" style="--i:${i}"><span class="who"><i></i>${st[0]}</span><span class="k">STEP ${pad(i+1)}</span><h3>${st[1]}</h3><p>${st[2]}</p></div>`).join('')}</div><p class="flow-note">가지고 계신 자료와 핵심 목표만 들려주세요. 영상의 언어로 번역하는 일은 시네글로우가 맡습니다. <span class="todo">분야별 흐름 확정</span></p></div></section>`,
-  how:`<section class="band"><div class="wrap tiles"><div class="tile reveal"><div class="tx"><h3>${f.name}의 완성도를<br>결정짓는 디테일.</h3><p>${f.how.join(' · ')} <span class="todo">제작 포인트</span></p></div><div class="media">${im(f.behind[0],1200)}</div></div><div class="tile dark reveal"><div class="tx"><h3>섭외까지 한 호흡으로.</h3><p>이 장르에서 가장 많이 결합되는 섭외는 ${f.cast}입니다. 제작 스케줄 안에서 한 번에 준비해 드립니다.</p><div class="links"><a class="lnk" href="casting.html">섭외 가이드 보기</a></div></div><div class="media">${im(f.behind[1],1200)}</div></div></div></section>`,
-  range:`<section class="band hot"><div class="wrap"><div class="sh reveal"><span class="slug">Scope</span><h2 class="words">원하는 범위만.<br>자유롭게 선택하세요.</h2><p>불이 켜진 모듈이 ${f.name} 클라이언트분들이 가장 많이 선택하시는 구간입니다.<br class="br-pc"> 각 단계를 클릭해 상세 스펙을 확인해 보세요.</p></div><div class="rangebar reveal" data-type="${k}">${bar}</div><div class="rdesc"></div><div style="text-align:center;margin-top:28px"><a class="lnk" href="range.html">5단계 제작 범위 전체 비교하기</a></div></div></section>`,
+  how:`<section class="band"><div class="wrap tiles"><div class="tile reveal"><div class="tx"><h3>${f.name}의 완성도를<br>결정짓는 디테일.</h3><p>${f.how.join(' · ')} <span class="todo">제작 포인트</span></p></div><div class="media">${im(f.behind[0],1200)}</div></div><div class="tile dark reveal"><div class="tx"><h3>섭외까지 한 호흡으로.</h3><p>이 장르에서 가장 많이 결합되는 섭외는 ${f.cast}입니다. 제작 스케줄 안에서 한 번에 준비해 드립니다.</p><div class="links"><a class="lnk" href="#casting">섭외 가이드 보기</a></div></div><div class="media">${im(f.behind[1],1200)}</div></div></div></section>`,
+  range:`<section class="band hot"><div class="wrap"><div class="sh reveal"><span class="slug">Scope</span><h2 class="words">원하는 범위만.<br>자유롭게 선택하세요.</h2><p>불이 켜진 모듈이 ${f.name} 클라이언트분들이 가장 많이 선택하시는 구간입니다.<br class="br-pc"> 각 단계를 클릭해 상세 스펙을 확인해 보세요.</p></div><div class="rangebar reveal" data-type="${k}">${bar}</div><div class="rdesc"></div><div style="text-align:center;margin-top:28px"><a class="lnk" href="#range">5단계 제작 범위 전체 비교하기</a></div></div></section>`,
   price:f.price==='package'?`<section class="band"><div class="wrap"><div class="sh reveal"><span class="slug">Packages</span><h2 class="words">명확하고 투명한<br>패키지 라인업.</h2></div><div class="price reveal"><table class="price-table"><thead><tr><th>패키지</th><th>제작 비용</th><th>포함 구성</th></tr></thead><tbody>
    <tr><td>STANDARD</td><td class="n">390,000원</td><td class="sm">촬영 90분 · 4K 카메라 2대 · 메인 감독 1명 · 5분 마스터 편집 · 맞춤 썸네일 (4K 촬영 후 원하시는 해상도로 납품)</td></tr>
    <tr><td>DELUXE</td><td class="n">690,000원</td><td class="sm">STANDARD 구성 + 감독 1명 · 카메라 1대 추가 투입 (총 촬영 120분, 3캠 멀티 앵글)</td></tr>
    <tr class="hot"><td>PREMIUM</td><td class="n">2,400,000원</td><td class="sm">월 5편 정기 구독 프로덕션 · 편당 5~8분 러닝타임 · 월 총 촬영 300분 제공</td></tr>
    <tr><td>총괄기획 옵션</td><td class="n">650,000원</td><td class="sm">PREMIUM 구독 고객 전용 채널 방향성 컨설팅 · 세부 기획안 및 대본 집필 <span class="todo">단독 판매 여부</span></td></tr>
-   </tbody></table><p style="color:var(--mute);font-size:15px;margin-top:16px">공통 사항: 촬영 후 7일 이내 1차 본 전달, 수정 2회 기본 포함. 옵션 추가: 카메라 1대당 10만 원(3캠 이상), 러닝타임 1분 추가당 18,000원, 촬영 시간 연장 시 시간당 10만 원 <span class="todo">가격 확정</span></p><p style="text-align:center;margin-top:28px"><a class="lnk" href="contact.html">세부 옵션을 조합해 실시간 예상 견적 확인하기</a></p></div></div></section>`
-  :`<section class="band"><div class="wrap"><div class="sh reveal"><span class="slug">Estimate</span><h2 class="words">합리적인 맞춤형 견적.</h2></div><div class="quote reveal"><div class="q"><span class="slug" style="color:var(--mute)">산출 방식</span><h3 style="margin-top:10px">프로젝트 맞춤형 견적</h3><p>투입되는 카메라 대수, 스태프 규모, 러닝타임, 로케이션 지역, 숏폼 베리에이션 편수를 선택하면 즉시 예상 금액이 계산됩니다. <span class="todo">단가 확정</span></p><p style="margin-top:16px"><a class="lnk" href="contact.html" data-pre-type="${k}">실시간 예상 금액 계산하기</a></p></div><div class="q"><span class="slug" style="color:var(--mute)">견적 구성 요소</span><div class="chips" style="margin-top:14px"><span class="chip ac">카메라 대수</span><span class="chip ac">디렉터·스태프 인원</span><span class="chip ac">최종 러닝타임</span><span class="chip">로케이션 지역</span><span class="chip">숏폼 추가</span><span class="chip">배우·장소 섭외</span><span class="chip">후반 그래픽 난이도</span></div></div></div></div></section>`,
+   </tbody></table><p style="color:var(--mute);font-size:15px;margin-top:16px">공통 사항: 촬영 후 7일 이내 1차 본 전달, 수정 2회 기본 포함. 옵션 추가: 카메라 1대당 10만 원(3캠 이상), 러닝타임 1분 추가당 18,000원, 촬영 시간 연장 시 시간당 10만 원 <span class="todo">가격 확정</span></p><p style="text-align:center;margin-top:28px"><a class="lnk" href="#contact">세부 옵션을 조합해 실시간 예상 견적 확인하기</a></p></div></div></section>`
+  :`<section class="band"><div class="wrap"><div class="sh reveal"><span class="slug">Estimate</span><h2 class="words">합리적인 맞춤형 견적.</h2></div><div class="quote reveal"><div class="q"><span class="slug" style="color:var(--mute)">산출 방식</span><h3 style="margin-top:10px">프로젝트 맞춤형 견적</h3><p>투입되는 카메라 대수, 스태프 규모, 러닝타임, 로케이션 지역, 숏폼 베리에이션 편수를 선택하면 즉시 예상 금액이 계산됩니다. <span class="todo">단가 확정</span></p><p style="margin-top:16px"><a class="lnk" href="#contact" data-pre-type="${k}">실시간 예상 금액 계산하기</a></p></div><div class="q"><span class="slug" style="color:var(--mute)">견적 구성 요소</span><div class="chips" style="margin-top:14px"><span class="chip ac">카메라 대수</span><span class="chip ac">디렉터·스태프 인원</span><span class="chip ac">최종 러닝타임</span><span class="chip">로케이션 지역</span><span class="chip">숏폼 추가</span><span class="chip">배우·장소 섭외</span><span class="chip">후반 그래픽 난이도</span></div></div></div></div></section>`,
   behind:`<section class="band alt"><div class="wrap"><div class="sh reveal"><span class="slug">Behind the scenes</span><h2 class="words" style="font-size:clamp(26px,3.2vw,40px)">프로덕션 현장 스틸.</h2></div><div class="behind reveal">${f.behind.map(id=>`<div class="lb">${im(id,800)}</div>`).join('')}</div></div></section>`,
   process:`<section class="band"><div class="wrap"><div class="sh reveal"><span class="slug">Process</span><h2 class="words">상담부터 납품까지.<br>한눈에 보는 여정.</h2><p>평균 제작 소요 기간: ${k==='youtube'?'촬영일로부터 4~5일 이내':'프로젝트 규모에 따라 2~4주'} <span class="todo">기간</span></p></div><div class="proc mini reveal">${procHTML(true)}</div></div></section>`,
   faq:`<section class="band alt"><div class="wrap"><div class="sh reveal"><span class="slug">FAQ</span><h2 class="words">자주 묻는 질문.</h2></div><div class="faq reveal">${f.faq.map(q=>`<details><summary><span>${q[0]}</span></summary><p>${q[1]}</p></details>`).join('')}</div></div></section>`
  };
- document.getElementById('page-field').innerHTML=`<section class="phero"><div class="wrap"><span class="slug">${f.en}</span><h1 style="margin-top:14px">${f.head}</h1><p class="sub">${f.sub}</p><div class="links"><a class="lnk" href="contact.html" data-pre-type="${k}">이 장르로 견적 계산하기</a><a class="lnk" href="portfolio.html">레퍼런스 살펴보기</a></div></div><div class="lb frame">${im(f.img,1920)}</div></section>`
+ document.getElementById('page-field').innerHTML=`<section class="phero"><div class="wrap"><span class="slug">${f.en}</span><h1 style="margin-top:14px">${f.head}</h1><p class="sub">${f.sub}</p><div class="links"><a class="lnk" href="#contact" data-pre-type="${k}">이 장르로 견적 계산하기</a><a class="lnk" href="#portfolio">레퍼런스 살펴보기</a></div></div><div class="lb frame">${im(f.img,1920)}</div></section>`
   +f.order.map(key=>S[key]).join('')
-  +`<section class="cta-final"><div class="wrap reveal"><h2>${f.name} 제작,<br>가장 확실하게 시작하세요.</h2><p>버튼을 누르면 견적 계산기에 '${f.name}' 장르가 자동으로 세팅됩니다.</p><div class="row"><a class="pill" href="contact.html" data-pre-type="${k}">이 장르로 견적문의</a><a class="pill ghost" data-kakao href="#">카카오톡 간편 상담</a></div></div></section>`;
+  +`<section class="cta-final"><div class="wrap reveal"><h2>${f.name} 제작,<br>가장 확실하게 시작하세요.</h2><p>버튼을 누르면 견적 계산기에 '${f.name}' 장르가 자동으로 세팅됩니다.</p><div class="row"><a class="pill" href="#contact" data-pre-type="${k}">이 장르로 견적문의</a><a class="pill ghost" data-kakao href="#">카카오톡 간편 상담</a></div></div></section>`;
  mountPicker(document.getElementById('fieldReels-'+k),VIDEOS,{genres:false});
  observe()}
 
@@ -2480,8 +2238,8 @@ mountPicker(document.getElementById('pbody'),VIDEOS,{});
 const modal=document.getElementById('modal');
 function openModal(id){const v=VIDEOS.find(x=>x.id===id);if(!v)return;const f=FIELDS[v.type];const vert=v.kind==='short';
  const sim=VIDEOS.filter(q=>q.id!==id&&q.kind===v.kind).slice(0,8);
- document.getElementById('modalBody').innerHTML=`<div class="top ${vert?'vert':''}">${vbox(v)}${vert?`<div class="side"><span class="slug">${f.en} · SHORTS</span><h2 style="margin-top:10px">${v.title}</h2><p style="margin-top:14px">${v.c} · ${v.len}</p><div style="margin-top:14px">${chips(v.done)}</div><div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><a class="pill" href="contact.html" data-pre-type="${v.type}" data-pre-ref="${v.title}">이 영상 스타일로 견적문의</a><a class="pill ghost" href="${ytWatch(v.id)}" target="_blank" rel="noopener">유튜브에서 보기 ↗</a></div></div>`:''}</div>
- ${vert?'':`<div class="info"><div><span class="slug">${f.en} · ${v.ind}</span><h2 style="margin-top:10px">${v.title}</h2><p style="color:var(--mute);margin-top:16px;font-size:17px">${v.aim}. 프로젝트의 기획 의도와 현장 연출 포인트가 기록될 영역입니다. 클라이언트의 어떤 과제를 해결했는지 세 문장으로 명쾌하게 서술합니다. <span class="todo">설명문</span></p><div style="margin-top:14px">${chips(v.done)}</div><div style="margin-top:26px;display:flex;gap:10px;flex-wrap:wrap"><a class="pill" href="contact.html" data-pre-type="${v.type}" data-pre-ref="${v.title}">이 영상 스타일로 견적문의</a><a class="pill ghost" href="${ytWatch(v.id)}" target="_blank" rel="noopener">유튜브에서 보기 ↗</a></div></div>
+ document.getElementById('modalBody').innerHTML=`<div class="top ${vert?'vert':''}">${vbox(v)}${vert?`<div class="side"><span class="slug">${f.en} · SHORTS</span><h2 style="margin-top:10px">${v.title}</h2><p style="margin-top:14px">${v.c} · ${v.len}</p><div style="margin-top:14px">${chips(v.done)}</div><div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><a class="pill" href="#contact" data-pre-type="${v.type}" data-pre-ref="${v.title}">이 영상 스타일로 견적문의</a><a class="pill ghost" href="${ytWatch(v.id)}" target="_blank" rel="noopener">유튜브에서 보기 ↗</a></div></div>`:''}</div>
+ ${vert?'':`<div class="info"><div><span class="slug">${f.en} · ${v.ind}</span><h2 style="margin-top:10px">${v.title}</h2><p style="color:var(--mute);margin-top:16px;font-size:17px">${v.aim}. 프로젝트의 기획 의도와 현장 연출 포인트가 기록될 영역입니다. 클라이언트의 어떤 과제를 해결했는지 세 문장으로 명쾌하게 서술합니다. <span class="todo">설명문</span></p><div style="margin-top:14px">${chips(v.done)}</div><div style="margin-top:26px;display:flex;gap:10px;flex-wrap:wrap"><a class="pill" href="#contact" data-pre-type="${v.type}" data-pre-ref="${v.title}">이 영상 스타일로 견적문의</a><a class="pill ghost" href="${ytWatch(v.id)}" target="_blank" rel="noopener">유튜브에서 보기 ↗</a></div></div>
  <dl><dt>클라이언트</dt><dd>${v.c}</dd><dt>장르</dt><dd>${f.name}</dd><dt>담당 범위</dt><dd>③ 대본+촬영+편집 <span class="todo">확인</span></dd><dt>섭외 내역</dt><dd>전문 배우 캐스팅 <span class="todo">확인</span></dd><dt>투입 장비</dt><dd>Canon C400 · C50 · 2캠 · 지속광</dd><dt>러닝타임</dt><dd>${v.len}</dd><dt>공식 채널</dt><dd><a href="${CH.url}" target="_blank" rel="noopener" style="color:var(--accent)">${CH.name} ${CH.handle} ↗</a></dd></dl></div>`}
  <div class="sim"><h4>연관 필름 아카이브</h4>${reelStripHTML(sim,'modal-sim',{spd:55})}</div>`;
  modal.classList.add('show');document.body.style.overflow='hidden';modal.scrollTop=0}
@@ -2571,7 +2329,7 @@ function prefill(o){if(o.type){const r=document.querySelector(`input[name="type"
 document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;
  if(a.dataset.sit!==undefined){prefill(SITUATIONS[+a.dataset.sit].pre)}
  const o={};if(a.dataset.preType)o.type=a.dataset.preType;if(a.dataset.preRange)o.range=a.dataset.preRange;if(a.dataset.preCast)o.cast=[a.dataset.preCast];if(a.dataset.preRef)o.ref=a.dataset.preRef;
- if(Object.keys(o).length){prefill(o);try{sessionStorage.setItem('cg_pre',JSON.stringify(o))}catch(e){}}});
+ if(Object.keys(o).length)prefill(o)});
 function showPrebar(){const bar=document.getElementById('prebar');const p=pending;pending=null;if(!p){bar.classList.remove('show');return}
  const t=document.querySelector('input[name="type"]:checked'),r=document.querySelector('input[name="range"]:checked');const parts=[];
  if(p.type&&t)parts.push(FIELDS[t.value].name);if(p.range&&r)parts.push(r.value==='unknown'?'범위는 상담 후 결정':RANGE[+r.value-1]);if(p.cast)parts.push('섭외 옵션 포함');if(p.ref)parts.push('레퍼런스: '+p.ref);
@@ -2581,7 +2339,7 @@ function showPrebar(){const bar=document.getElementById('prebar');const p=pendin
 
 /* 라우터 */
 const pages=['home','range','field','casting','portfolio','about','contact'];
-function route(){let h=(location.hash||'').slice(1);if(!h||h==='admin')h=document.body.dataset.page||'home';let page=h.startsWith('field-')?'field':h;if(!pages.includes(page))page='home';
+function route(){let h=(location.hash||'#home').slice(1);let page=h.startsWith('field-')?'field':h;if(!pages.includes(page))page='home';
  if(page==='field')renderField(h.slice(6));wireContacts();
  pages.forEach(p=>document.getElementById('page-'+p).classList.toggle('show',p===page));
  /* v40: 비활성 페이지의 이미지는 src를 보류했다가 페이지가 열릴 때 주입 — 브라우저별 lazy 처리 차이에 대한 안전장치 */
@@ -2589,11 +2347,11 @@ function route(){let h=(location.hash||'').slice(1);if(!h||h==='admin')h=documen
  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===page||(page==='field'&&a.dataset.nav==='range')));
  document.getElementById('float').classList.toggle('hide',page==='contact');
  lcdCollapse();closePlayers();closeModal();closeDrawer();window.scrollTo({top:0,behavior:'instant'});observe();watchReels();watchBands();scCollect();neoIdx=-1;NEO.f=-1;NEO.cards=NEO.txt=NEO.dots=null;onScroll();
- if(page==='contact'){if(!pending){try{const p=sessionStorage.getItem('cg_pre');if(p){prefill(JSON.parse(p));sessionStorage.removeItem('cg_pre')}}catch(e){}}summary();showPrebar()}}
+ if(page==='contact'){summary();showPrebar()}}
 window.addEventListener('hashchange',route);
 /* 사이드 메뉴 */
 const drawer=document.getElementById('drawer');let drawerBy=null;
-function openDrawer(by){drawerBy=by;document.body.classList.add('drawer-open');const cur=(location.hash||'').slice(1)||document.body.dataset.page||'home';const page=cur.startsWith('field-')?'range':cur;drawer.querySelectorAll('[data-dnav]').forEach(a=>a.classList.toggle('active',a.dataset.dnav===page))}
+function openDrawer(by){drawerBy=by;document.body.classList.add('drawer-open');const cur=(location.hash||'#home').slice(1);const page=cur.startsWith('field-')?'range':cur;drawer.querySelectorAll('[data-dnav]').forEach(a=>a.classList.toggle('active',a.dataset.dnav===page))}
 function closeDrawer(){drawerBy=null;document.body.classList.remove('drawer-open')}
 document.getElementById('burger').addEventListener('click',()=>document.body.classList.contains('drawer-open')?closeDrawer():openDrawer('button'));
 document.getElementById('drawerClose').addEventListener('click',closeDrawer);
@@ -2618,7 +2376,7 @@ const shIO=new IntersectionObserver(es=>es.forEach(en=>{const el=en.target;
  if(en.isIntersecting){el.classList.add('in');el.querySelectorAll('.words').forEach(w=>w.classList.add('in'))}
  else if(!en.isIntersecting&&en.boundingClientRect.top>innerHeight*.8){el.classList.remove('in');el.querySelectorAll('.words').forEach(w=>w.classList.remove('in'))}}),{rootMargin:'0px 0px -20% 0px',threshold:0});
 function countUp(el){const to=+el.dataset.count,dec=+(el.dataset.dec||0),t0=performance.now(),dur=1400;const step=now=>{const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=dec?(to*e).toFixed(dec):Math.round(to*e).toLocaleString('ko-KR');if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
-function observe(){if(window.__PRERENDER)return;document.querySelectorAll('.words:not([data-split])').forEach(h=>{h.dataset.split=1;splitWords(h)});
+function observe(){document.querySelectorAll('.words:not([data-split])').forEach(h=>{h.dataset.split=1;splitWords(h)});
  if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal,.words,.reveal-row').forEach(el=>el.classList.add('in'));document.querySelectorAll('[data-count]').forEach(countUp);return}
  io=io||new IntersectionObserver(es=>es.forEach(en=>{const el=en.target;
   if(en.intersectionRatio>=.04){el.classList.add('in');el.querySelectorAll('.words').forEach(w=>w.classList.add('in'));
@@ -2664,11 +2422,10 @@ renderEst();route();
   return `읽은 행 <b>${rows.length}</b> (가로형 ${rows.filter(r=>r.kind==='가로형').length} · 쇼츠 ${rows.filter(r=>r.kind==='쇼츠').length} · 쿠키 ${rows.filter(r=>r.kind==='쿠키').length})\n추가 <b>${add.length}</b>${add.length?' — '+add.map(r=>r.ep||r.id).join(', '):''}\n삭제 <b>${del.length}</b>${del.length?' — '+del.map(r=>r.ep||r.id).join(', '):''}\n변경 <b>${chg.length}</b>${chg.length?' — '+chg.map(r=>r.ep||r.id).join(', '):''}\n노출 제외 ${rows.filter(r=>r.show==='N').length}`}
  function show(rows,bad){const box=document.getElementById('admDiff');box.innerHTML=diff(rows)+(bad.length?'\n<span class="bad">'+bad.join('\n')+'</span>':'');pending=rows;document.getElementById('admSave').disabled=!rows.length}
  function serialize(rows){return rows.map(r=>' '+JSON.stringify({kind:r.kind,id:r.id,ep:r.ep,t:r.t,len:r.len,type:r.type,c:r.c,ind:r.ind,done:r.done,aim:r.aim,show:r.show,order:r.order})).join(',\n')}
- async function save(){if(!pending)return;const ext=!!window.VIDEOS_EXTERNAL;const src=ext?'videos.js':(location.pathname.split('/').pop()||'index.html');
-  const html=await (await fetch(src,{cache:'no-store'})).text();
+ async function save(){if(!pending)return;const html=await (await fetch(location.pathname||'index.html',{cache:'no-store'})).text();
   const a=html.indexOf('const VIDEO_ROWS=['),b=html.indexOf('];',a);if(a<0||b<0){toast('원본 파일에서 영상 블록을 찾지 못했습니다');return}
   const out=html.slice(0,a)+'const VIDEO_ROWS=[\n'+serialize(pending)+'\n'+html.slice(b);
-  const name=ext?'videos.js':'index.html';const blob=new Blob([out],{type:ext?'text/javascript':'text/html'});const u=URL.createObjectURL(blob);const l=document.createElement('a');l.href=u;l.download=name;l.click();setTimeout(()=>URL.revokeObjectURL(u),2000);toast(`${name}을 내려받았습니다 — 깃허브에 덮어쓰기하면 반영됩니다`,5000)}
+  const blob=new Blob([out],{type:'text/html'});const u=URL.createObjectURL(blob);const l=document.createElement('a');l.href=u;l.download='index.html';l.click();setTimeout(()=>URL.revokeObjectURL(u),2000);toast('index.html을 내려받았습니다 — 깃허브에 덮어쓰기하면 반영됩니다',5000)}
  function template(){const head=COLS.map(c=>c[1]);const KO={youtube:'유튜브',commerce:'커머스',webdrama:'웹드라마',ad:'광고',promo:'홍보영상',edu:'정보·교육'};const lines=[head.map(esc).join(',')].concat(VIDEO_ROWS.map(r=>COLS.map(([k])=>esc(k==='id'?'https://www.youtube.com/watch?v='+r.id:k==='type'?(KO[r.type]||r.type):r[k])).join(',')));
   const blob=new Blob(['﻿'+lines.join('\n')],{type:'text/csv;charset=utf-8'});const u=URL.createObjectURL(blob);const l=document.createElement('a');l.href=u;l.download='시네글로우_영상목록.csv';l.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
  async function fetchSheet(){const url=document.getElementById('admUrl').value.trim();if(!url){toast('시트 게시 주소를 입력해 주세요');return}try{localStorage.setItem('cg_sheet',url)}catch(e){}
