@@ -15,7 +15,6 @@
 <meta property="og:title" content="시네글로우(CINEGLOW) — 촬영만도. 전부도.">
 <meta property="og:description" content="아이디어만 있어도, 대본만 있어도, 촬영본만 있어도. 당신이 멈춘 그곳에서부터 시네글로우가 완성합니다. 실시간 예상 견적을 확인해 보세요.">
 <meta property="og:image" content="https://i.ytimg.com/vi/b2_3L5PVqKc/maxresdefault.jpg">
-<link rel="icon" type="image/png" href="cineglow-favicon.png">
 <meta name="description" content="영상 기획·촬영·편집·섭외까지 원하는 범위만 선택하는 영상 제작사 시네글로우. 유튜브·커머스·웹드라마·광고·홍보·정보 영상, 정기 구독 프로덕션.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -286,9 +285,6 @@ p{margin:0}
 .nav{position:sticky;top:0;z-index:50;background:rgba(10,9,11,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(245,242,236,.06)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:52px;gap:24px}
 .brand .mark{font-weight:800;font-size:17px;letter-spacing:.16em;color:var(--fg)}
-.brand .logo{display:block;height:30px;width:auto;filter:drop-shadow(0 0 10px rgba(246,195,90,.18))}
-.brand .logo.foot{height:44px;filter:drop-shadow(0 0 16px rgba(246,195,90,.22))}
-@media (max-width:600px){.brand .logo{height:24px}.brand .logo.foot{height:36px}}
 .menu{display:flex;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
 .menu>li{position:relative}
 .menu a{display:block;padding:8px 14px;font-size:13.5px;color:rgba(245,242,236,.78);border-radius:8px;font-weight:450}
@@ -315,7 +311,6 @@ body.drawer-open .drawer-bg{opacity:1;pointer-events:auto}
 body.drawer-open{overflow:hidden}
 .dhead{display:flex;justify-content:space-between;align-items:center;height:52px;flex:none}
 .dhead .mark{font-weight:800;font-size:15px;letter-spacing:.16em}
-.dhead .logo{display:block;height:26px;width:auto}
 .dclose{width:34px;height:34px;border-radius:50%;border:1px solid rgba(245,242,236,.22);background:transparent;color:var(--fg);font-size:14px;cursor:pointer}
 .dclose:hover{border-color:var(--accent)}
 .dslug{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);margin:26px 0 6px;text-transform:uppercase}
@@ -555,7 +550,7 @@ body.drawer-open{overflow:hidden}
 /* 제작 과정 */
 .proc{position:relative;max-width:1120px;margin:0 auto}
 .proc .line{position:absolute;left:0;right:0;top:31px;height:1px;background:var(--line)}
-.proc .line i{display:block;height:100%;width:0;background:var(--accent);transition:width .6s cubic-bezier(.35,.7,.3,1)}
+.proc .line i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
 .proc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:48px 24px}
 .proc li{position:relative;padding-top:0}
 .proc li .ic{position:relative;z-index:1;display:grid;place-items:center;width:62px;height:62px;border-radius:18px;background:var(--bg2);border:1px solid var(--line);color:var(--mute);margin-bottom:22px;transition:background .4s,border-color .4s,color .4s,box-shadow .4s,transform .4s var(--ease)}
@@ -567,47 +562,6 @@ body.drawer-open{overflow:hidden}
 .proc li .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent)}
 .proc li h3{font-size:20px;margin-top:8px;letter-spacing:-.01em}
 .proc li p{margin-top:8px;color:var(--mute);font-size:14.5px;line-height:1.5;max-width:24ch}
-/* ---- 핀 고정 스테이지(PC): 스크롤이 단계를 하나씩 켬 ---- */
-.proc-pin{position:relative}
-@media (min-width:981px){
-  .proc-stage{display:flex;flex-direction:column;gap:34px}
-  .proc-stage .sh{margin-bottom:0}
-  /* 단계: 켜지기 전엔 희미하게 대기 */
-  .proc-pin .proc li{opacity:.22;transform:translateY(18px) scale(.97);transition:opacity .55s var(--ease),transform .65s var(--ease)}
-  .proc-pin .proc.reveal.in li{opacity:.22;transform:translateY(18px) scale(.97)}
-  .proc-pin .proc li.on,.proc-pin .proc.reveal.in li.on{opacity:1;transform:none}
-  .proc-pin .proc li.on .ic{animation:icpop .7s var(--ease)}
-  .proc-pin .proc li.on .ic::before{content:"";position:absolute;inset:-6px;border-radius:24px;border:2px solid var(--glow);opacity:0;animation:ring 1.1s var(--ease) .05s}
-  .proc-pin .proc li.on .ic::after{content:"";position:absolute;inset:-28px;border-radius:50%;background:radial-gradient(circle,rgba(246,195,90,.45),transparent 65%);opacity:0;animation:glowpulse 1.3s var(--ease) forwards;pointer-events:none;z-index:-1}
-  .proc-pin .proc li.on h3{animation:slideup .6s var(--ease) .12s both}
-  .proc-pin .proc li.on p{animation:slideup .6s var(--ease) .22s both}
-  .proc-pin .proc li.on .k{animation:slideup .5s var(--ease) .05s both}
-  /* 라인 끝의 빛 점이 다음 단계로 달려감 */
-  /* 화살표 트랙: 굵은 레일 + 셰브런 패턴, 진행부는 앰버 그라데이션 위로 셰브런이 흐르고 끝에 화살촉 */
-  .proc-pin .line{top:20px;height:22px;border-radius:999px;background:
-      repeating-linear-gradient(135deg,rgba(245,242,236,.06) 0 8px,transparent 8px 20px),
-      linear-gradient(180deg,rgba(245,242,236,.07),rgba(245,242,236,.03));
-    box-shadow:inset 0 1px 0 rgba(245,242,236,.06);overflow:visible}
-  .proc-pin .line i{position:relative;height:100%;border-radius:999px 0 0 999px;transition:width .8s cubic-bezier(.35,.7,.3,1);
-    background:
-      repeating-linear-gradient(135deg,rgba(255,255,255,.3) 0 8px,transparent 8px 20px),
-      linear-gradient(90deg,#B8762A,var(--accent) 60%,var(--glow));
-    background-size:56px 100%,100% 100%;animation:chev 1s linear infinite;
-    box-shadow:0 0 18px rgba(246,195,90,.55),0 0 2px rgba(255,255,255,.5) inset}
-  /* 화살촉: 밑변이 레일 끝에 정확히 맞닿는 정삼각형(밑변 46px = 레일 22px + 위아래 12px) */
-  .proc-pin .line i::after{content:"";position:absolute;left:100%;top:50%;width:30px;height:46px;transform:translateY(-50%);background:var(--glow);
-    clip-path:polygon(0 0,100% 50%,0 100%);filter:drop-shadow(0 0 10px rgba(246,195,90,.9));transition:opacity .3s}
-  .proc-pin .line i::before{content:"";position:absolute;left:calc(100% - 8px);top:50%;width:56px;height:56px;transform:translate(0,-50%);border-radius:50%;
-    background:radial-gradient(circle,rgba(246,195,90,.6),transparent 65%);pointer-events:none}
-  .proc-pin.done .line i::after,.proc-pin.done .line i::before{opacity:0}
-  .proc-pin.done .line i{border-radius:999px}
-  .proc-pin .proc li .ic{box-shadow:0 0 0 6px var(--bg)} /* 아이콘이 레일 위에 또렷이 얹히도록 */
-  @keyframes chev{from{background-position:0 0,0 0}to{background-position:56px 0,0 0}}
-}
-@keyframes icpop{0%{transform:translateY(-4px) scale(.8)}45%{transform:translateY(-6px) scale(1.12)}100%{transform:translateY(-4px) scale(1)}}
-@keyframes ring{0%{opacity:.9;transform:scale(.7)}100%{opacity:0;transform:scale(1.6)}}
-@keyframes glowpulse{0%{opacity:0;transform:scale(.6)}35%{opacity:1}100%{opacity:.55;transform:scale(1)}}
-@keyframes slideup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .proc.mini ol{grid-template-columns:repeat(5,1fr);gap:16px}
 .proc.mini li h3{font-size:15px}.proc.mini li p{display:none}
 .proc.mini li .ic{width:48px;height:48px;border-radius:14px;margin-bottom:14px}.proc.mini li .ic svg{width:22px;height:22px}.proc.mini li .ic b{display:none}
@@ -626,8 +580,8 @@ body.drawer-open{overflow:hidden}
 .gearline span b{color:var(--fg);font-weight:600}
 
 /* 장비 — 애플 맥북 네오식 */
-.neo{position:relative;height:290vh;background:var(--bg);color:var(--fg)}
-.neo .stick{position:sticky;top:64px;height:calc(100vh - 64px);display:grid;grid-template-columns:1fr 1.6fr;align-items:center;gap:48px;overflow:hidden;max-width:1600px;margin:0 auto;padding:0 40px}
+.neo{position:relative;height:580vh;background:var(--bg);color:var(--fg)}
+.neo .stick{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1.25fr;align-items:center;gap:40px;overflow:hidden;max-width:1400px;margin:0 auto;padding:0 40px}
 .neo .txt{position:relative;min-height:220px}
 .neo .t{position:absolute;inset:0;opacity:0;transform:translateY(24px);transition:opacity .15s linear,transform .15s linear;pointer-events:none}
 .neo .t.on{opacity:1;transform:none;pointer-events:auto}
@@ -637,8 +591,8 @@ body.drawer-open{overflow:hidden}
 .neo .dots{position:absolute;left:0;bottom:-70px;display:flex;gap:8px}
 .neo .dots i{width:8px;height:8px;border-radius:50%;background:rgba(245,242,236,.2);transition:background .3s,transform .3s}
 .neo .dots i.on{background:var(--accent);transform:scale(1.3)}
-.neo .stage{position:relative;height:calc(100vh - 64px);perspective:1400px}
-.neo .card{position:absolute;inset:0;margin:auto;width:min(100%,calc((100vh - 120px)*4/3));aspect-ratio:4/3;height:auto;border-radius:26px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08);transition:none;transform-origin:50% 100%;will-change:transform}
+.neo .stage{position:relative;height:78vh;perspective:1400px}
+.neo .card{position:absolute;left:8%;right:8%;top:10%;aspect-ratio:4/3;max-height:70vh;border-radius:26px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08);transition:none;transform-origin:50% 100%;will-change:transform}
 .neo .card .pop{position:absolute;inset:0;background:var(--c)}
 .neo .card .pop img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.75) brightness(1.08);mix-blend-mode:multiply;opacity:.92}
 .neo .card .pop::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(0,0,0,.42) 1px,transparent 1.5px) 0 0/7px 7px;mix-blend-mode:overlay;opacity:.7;pointer-events:none}
@@ -1051,7 +1005,7 @@ footer .cols b{color:var(--fg);font-weight:600}
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#home"><img class="logo" src="cineglow-logo-nav.png" alt="CINEGLOW Film Production" width="347" height="72"></a>
+    <a class="brand" href="#home"><span class="mark">CINEGLOW</span></a>
     <ul class="menu">
       <li><a href="#home" data-nav="home">홈</a></li>
       <li><a href="#range" data-nav="range">제작 분야</a>
@@ -1075,7 +1029,7 @@ footer .cols b{color:var(--fg);font-weight:600}
 <div class="edge" id="edge" aria-hidden="true"></div>
 <div class="drawer-bg" id="drawerBg"></div>
 <aside class="drawer" id="drawer" aria-label="사이트 메뉴">
-  <div class="dhead"><img class="logo" src="cineglow-logo-nav.png" alt="CINEGLOW" width="347" height="72"><button class="dclose" id="drawerClose" aria-label="메뉴 닫기">✕</button></div>
+  <div class="dhead"><span class="mark">CINEGLOW</span><button class="dclose" id="drawerClose" aria-label="메뉴 닫기">✕</button></div>
   <div class="dslug">Menu</div>
   <nav class="dnav">
     <a href="#home" data-dnav="home"><span class="k">01</span>홈</a>
@@ -1208,10 +1162,8 @@ footer .cols b{color:var(--fg);font-weight:600}
 
   <section class="band">
     <div class="wrap">
-      <div class="proc-pin" id="procPin"><div class="proc-stage">
       <div class="sh reveal"><span class="slug">Process</span><h2 class="words">첫 대화부터 최종 납품까지.<br>오차 없는 다섯 단계.</h2><p>어느 지점에서 합류하든 흔들리지 않는 표준 워크플로우로 움직입니다. <span class="todo">단계별 기간·계약 방식 확정</span></p></div>
       <div class="proc reveal" id="proc"></div>
-      </div></div>
       <div class="sh reveal" style="margin:120px auto 40px"><span class="slug">Color grading</span><h2 class="words" style="font-size:clamp(26px,3.2vw,40px)">빛과 색으로 완성하는 분위기.</h2><p>풍부한 데이터를 담은 Log 원본에서 시네마틱 룩을 입힌 그레이딩까지.<br class="br-pc"> 슬라이더를 움직여 색의 깊이를 직접 비교해 보세요.</p></div>
       <div class="grade reveal" id="grade"></div>
       <div class="gearline reveal"><span><b>Canon C400 · C50</b> 4K 시네마 라인업</span><span><b>14–200mm</b> 전 구간 프리미엄 렌즈군</span><span><b>100–300W 고출력 지속광</b> 완벽한 주광 재현</span><span><b>짐벌 · 드론 · 무선 오디오</b></span><a class="lnk" href="#about" style="font-size:15px">장비 라인업 더 보기</a></div>
@@ -1355,7 +1307,7 @@ footer .cols b{color:var(--fg);font-weight:600}
 
 <footer>
   <div class="wrap">
-    <div><div class="brand"><img class="logo foot" src="cineglow-logo.png" alt="CINEGLOW Film Production"></div><div style="margin-top:10px">촬영만도. 전부도. 당신이 멈춘 그곳에서부터 시작합니다.</div></div>
+    <div><div class="brand"><span class="mark">CINEGLOW</span></div><div style="margin-top:10px">촬영만도. 전부도. 당신이 멈춘 그곳에서부터 시작합니다.</div></div>
     <div class="cols">
       <div><b>제작 분야</b><a href="#field-youtube">브이로그·유튜브</a><a href="#field-commerce">쇼핑몰·커머스</a><a href="#field-webdrama">웹드라마</a><a href="#field-ad">광고</a><a href="#field-promo">홍보영상</a><a href="#field-edu">정보·교육</a></div>
       <div><b>메뉴</b><a href="#range">제작 범위 안내</a><a href="#casting">섭외</a><a href="#portfolio">포트폴리오</a><a href="#about">회사소개</a><a href="#contact">견적문의</a></div>
@@ -1804,46 +1756,23 @@ document.querySelectorAll('.lit').forEach(splitWords);
 /* ---------- 스크롤 핸들러 — 요소 목록 캐시 + 보이는 것만 계산 + 읽기/쓰기 분리 ---------- */
 const SC={lit:[],proc:[],imgs:[],vis:new Set(),io:null};
 function scCollect(){
- SC.proc.forEach(x=>{x.pio&&x.pio.disconnect();x.playing=false;clearTimeout(x.t0);clearTimeout(x.mt);x.raf&&cancelAnimationFrame(x.raf)});SC.lit.forEach(x=>{x.io&&x.io.disconnect();x.timers&&x.timers.forEach(clearTimeout)}); /* 이전 관찰자 정리 */
  SC.lit=[...document.querySelectorAll('.lit')].map(el=>({el,ws:[...el.querySelectorAll('.w')]}));
- SC.proc=[...document.querySelectorAll('.proc')].map(el=>({el,pin:el.closest('.proc-pin'),line:el.querySelector('.line i'),lis:[...el.querySelectorAll('li')]}));
+ SC.proc=[...document.querySelectorAll('.proc')].map(el=>({el,line:el.querySelector('.line i'),lis:[...el.querySelectorAll('li')]}));
  SC.imgs=[...document.querySelectorAll('.tile .media img')];
  SC.vis.clear();
  if(SC.io)SC.io.disconnect();
  if('IntersectionObserver' in window){SC.io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)SC.vis.add(en.target);else SC.vis.delete(en.target)});requestAnimationFrame(onScroll)},{rootMargin:'160px 0px'}); /* 가시 집합이 바뀌면 한 프레임 재계산 — 점프 스크롤 대비 */
-  SC.lit.forEach(x=>litWatch(x));SC.proc.forEach(x=>procWatch(x));SC.imgs.forEach(x=>SC.io.observe(x));const neo=document.getElementById('neo');if(neo)SC.io.observe(neo)}
+  SC.lit.forEach(x=>SC.io.observe(x.el));SC.proc.forEach(x=>SC.io.observe(x.el));SC.imgs.forEach(x=>SC.io.observe(x));const neo=document.getElementById('neo');if(neo)SC.io.observe(neo)}
 }
 const isVis=el=>SC.io?SC.vis.has(el):true;
-/* 문장 점등(.lit): 화면에 들어오면 단어가 왼쪽부터 차례로 켜지고, 시작되면 스크롤을 멈춰도 끝까지 진행 */
-function litWatch(x){if(x.io)x.io.disconnect();if(!x.ws.length)return;const STEP=70;
- const reset=()=>{x.timers&&x.timers.forEach(clearTimeout);x.timers=[];x.playing=false;x.ws.forEach(w=>w.classList.remove('on'))};
- const play=()=>{if(x.playing)return;x.playing=true;x.timers=x.ws.map((w,i)=>setTimeout(()=>w.classList.add('on'),200+i*STEP))};
- x.io=new IntersectionObserver(es=>es.forEach(en=>{if(en.intersectionRatio>=.4)play();else if(!en.isIntersecting)reset()}),{threshold:[0,.4]});x.io.observe(x.el)}
-/* 홈 제작 과정: 화면에 들어오면 단계가 0.85초 간격으로 자동 점등, 화살표가 앞서 달려감. 벗어나면 리셋 → 다시 들어오면 재생 */
-function procWatch(x){if(x.pio)x.pio.disconnect();const N=x.lis.length,TIP=x.pin?30:0;const host=x.pin||x.el;if(!N)return;
- const reset=()=>{clearTimeout(x.t0);clearTimeout(x.mt);x.mt=0;x.playing=false;if(x.raf)cancelAnimationFrame(x.raf);x.raf=0;host.classList.remove('done');if(x.line){x.line.style.transition='none';x.line.style.width='0%';x.line.offsetWidth;x.line.style.transition=''}x.lis.forEach(li=>li.classList.remove('on'))};
- /* 레일 목표 = 다음 아이콘의 중심(열 경계가 아니라 실제 아이콘 위치 기준) */
- const target=k=>{const L=x.line.parentElement.getBoundingClientRect(),ic=x.lis[k].querySelector('.ic').getBoundingClientRect();return Math.max(0,Math.min(100,(ic.left+ic.width/2-L.left)/L.width*100))};
- const light=k=>{x.lis[k].classList.add('on');if(k<N-1){if(x.line)x.line.style.width=target(k+1)+'%'}else host.classList.add('done')};
- /* 화살촉(레일 끝 + TIP)이 다음 아이콘의 왼쪽 가장자리에 닿는 순간 그 단계를 점등 — 타이머가 아니라 실제 위치 기준. 레일이 없는 모바일 세로형은 0.52초 간격 */
- const run=()=>{x.raf=0;if(!x.playing)return;const k=x.lis.findIndex(li=>!li.classList.contains('on'));if(k<0)return;
-  const lineOn=x.line&&x.line.getBoundingClientRect().height>0;
-  if(!lineOn){if(!x.mt)x.mt=setTimeout(()=>{x.mt=0;if(!x.playing)return;light(k);x.raf=requestAnimationFrame(run)},520);return}
-  const edge=x.lis[k].querySelector('.ic').getBoundingClientRect().left;const tip=x.line.getBoundingClientRect().right+TIP;
-  if(tip>=edge-2)light(k);x.raf=requestAnimationFrame(run)};
- /* 레일 트랙을 마지막 아이콘 중심까지만 */
- const fit=()=>{if(!x.line)return;const L=x.el.getBoundingClientRect(),ic=x.lis[N-1].querySelector('.ic').getBoundingClientRect();x.line.parentElement.style.right=Math.max(0,L.right-(ic.left+ic.width/2))+'px'};
- fit();if(!x.fitBound){x.fitBound=true;addEventListener('resize',()=>setTimeout(fit,120))}
- const play=()=>{if(x.playing)return;x.playing=true;fit();x.t0=setTimeout(()=>{if(!x.playing)return;light(0);x.raf=requestAnimationFrame(run)},300)};
- x.pio=new IntersectionObserver(es=>es.forEach(en=>{if(en.intersectionRatio>=.35)play();else if(!en.isIntersecting)reset()}),{threshold:[0,.35]});x.pio.observe(x.el)}
 function onScroll(){const y=scrollY,vh=innerHeight;
  /* --- 읽기 단계 --- */
  const W=[];
  W.push(()=>{document.getElementById('sbar').style.width=(y/Math.max(1,document.documentElement.scrollHeight-vh)*100)+'%'});
  const ht=document.getElementById('heroText'),hm=document.getElementById('heroMedia');
  if(ht&&y<vh*1.2&&ht.offsetParent!==null){const p=Math.min(1,y/(vh*.55)),s=.92+.08*Math.min(1,y/300);W.push(()=>{ht.style.opacity=1-p*.9;ht.style.transform=`translateY(${-p*48}px)`;hm.style.transform=`scale(${s})`})}
-
- /* .proc / .lit 는 한번 시작되면 스크롤과 무관하게 끝까지 진행(procWatch / litWatch) */
+ SC.lit.forEach(x=>{if(!x.ws.length||!isVis(x.el))return;const r=x.el.getBoundingClientRect();const p=Math.max(0,Math.min(1,(vh*.78-r.top)/(r.height+vh*.25)));const n=Math.round(p*x.ws.length);if(x.n===n)return;x.n=n;W.push(()=>x.ws.forEach((w,i)=>w.classList.toggle('on',i<n)))});
+ SC.proc.forEach(x=>{if(!isVis(x.el))return;const r=x.el.getBoundingClientRect();const p=Math.max(0,Math.min(1,(vh*.72-r.top)/(r.height*.9)));const n=Math.ceil(p*x.lis.length);W.push(()=>{if(x.line)x.line.style.width=(p*100)+'%';if(x.n!==n){x.n=n;x.lis.forEach((li,i)=>li.classList.toggle('on',i<n))}})});
  SC.imgs.forEach(img=>{if(!isVis(img))return;const r=img.getBoundingClientRect();const d=(r.top+r.height/2-vh/2)/vh;const v=Math.max(28,Math.min(72,50+d*22)).toFixed(1);if(img._op===v)return;img._op=v;W.push(()=>{img.style.objectPosition=`50% ${v}%`})});
  const neo=document.getElementById('neo');const neoW=(neo&&isVis(neo))?neoRead():null;
  /* --- 쓰기 단계 --- */
@@ -1873,11 +1802,12 @@ document.getElementById('castCases').innerHTML=
  function typingEl(me){const d=document.createElement('div');d.className='msg typing shown'+(me?' me':'');d.innerHTML=`<span class="av ${me?'':'cg'}">${me?'고객':'PD'}</span><div class="b"><i></i><i></i><i></i></div>`;return d}
  function scrollEnd(){log.scrollTo({top:log.scrollHeight,behavior:'smooth'})}
  async function playChat(){const id=++run;replay.classList.remove('show');items.forEach(x=>x.classList.remove('shown'));log.querySelectorAll('.typing').forEach(x=>x.remove());log.scrollTop=0;
-  const wait=ms=>new Promise(r=>setTimeout(r,ms));await wait(150);
-  /* v40: 입력 중 표시 없이 말풍선이 바로 올라옴. 간격은 글 길이에 비례(최대 0.55초) */
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));await wait(250);
   for(const el of items){if(id!==run)return;
-   if(el.classList.contains('day')){el.classList.add('shown');scrollEnd();await wait(200);continue}
-   el.classList.add('shown');scrollEnd();await wait(Math.min(550,220+el.textContent.length*4))}
+   if(el.classList.contains('day')){el.classList.add('shown');scrollEnd();await wait(380);continue}
+   const me=el.classList.contains('me');const t=typingEl(me);log.insertBefore(t,el);scrollEnd();
+   await wait(Math.min(1100,380+el.textContent.length*7));if(id!==run)return;
+   t.remove();el.classList.add('shown');scrollEnd();await wait(450)}
   replay.classList.add('show')}
  replay.addEventListener('click',playChat);
  if(!('IntersectionObserver' in window)){items.forEach(x=>x.classList.add('shown'));return}
@@ -1943,26 +1873,18 @@ document.getElementById('neoStage').innerHTML=SPECS.map((s,i)=>`<div class="card
 document.getElementById('neoM').innerHTML=SPECS.map((s,i)=>`<div class="nm reveal"><div class="card" style="--c:${s.c}"><div class="pop">${im(s.img,1000)}</div><span class="tag">${s.k}</span><span class="lbl">${s.lbl}</span></div><div class="nm-tx"><small>${s.k} · ${i+1} / ${SPECS.length}</small><b style="color:${s.c}">${s.lead}</b><p>${s.h}. ${s.p}</p></div></div>`).join('');
 let neoIdx=-1;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-const NEO={f:-1,target:0,shown:0,inTrans:false,lastScroll:0,raf:0};
-/* 표시값(shown)이 목표값(target)을 부드럽게 따라감. 스크롤이 120ms 멈췄는데 전환 도중이면 가까운 카드로 목표를 스냅 */
-function neoTick(){if(NEO.raf)return;NEO.prev=performance.now();NEO.raf=requestAnimationFrame(function step(){NEO.raf=0;
- if(NEO.inTrans&&performance.now()-NEO.lastScroll>120){NEO.target=NEO.dir<0?Math.floor(NEO.target):Math.ceil(NEO.target);NEO.inTrans=false} /* 전환이 시작됐으면 스크롤 방향으로 확정 — 되돌아가지 않음 */
- const now=performance.now(),dt=Math.min(64,now-(NEO.prev||now));NEO.prev=now;
- const d=NEO.target-NEO.shown;if(Math.abs(d)<.002){NEO.shown=NEO.target}else{NEO.shown+=d*(1-Math.exp(-dt/110))} /* 프레임 속도와 무관하게 약 0.35초에 수렴 */
- const w=neoApply();if(w)w();
- if(Math.abs(NEO.target-NEO.shown)>.0005)neoTick()})}
-function neoApply(){const f=NEO.shown;if(NEO.f===f)return null;NEO.f=f;const N=SPECS.length;return neoWriter(f,N)}
-function neoSync(){NEO.f=-1;neoRead();NEO.shown=NEO.target;NEO.inTrans=false;const w=neoApply();if(w)w()}
+const NEO={f:-1};
+function neoSync(){NEO.f=-1;const w=neoRead();if(w)w()}
 function neoRead(){const sec=document.getElementById('neo');if(!sec||sec.offsetParent===null||innerWidth<=980)return null;const r=sec.getBoundingClientRect();const total=r.height-innerHeight;const p=clamp(-r.top/total,0,1);const N=SPECS.length;
  /* 각 카드가 자기 구간의 약 65%를 머문 뒤 나머지 35% 동안 다음 카드로 전환 */
- const raw=clamp(p*N,0,N-1e-6),i=Math.floor(raw),t=raw-i,HOLD=.65;const e=t<HOLD?0:(t-HOLD)/(1-HOLD);const es=e*e*(3-2*e);
- const tg=clamp(i+es,0,N-1);NEO.dir=tg>NEO.target?1:tg<NEO.target?-1:(NEO.dir||1);NEO.target=tg;NEO.inTrans=e>0&&e<1;NEO.lastScroll=performance.now();neoTick();return null}
-function neoWriter(f,N){(NEO.cards||(NEO.cards=[...document.querySelectorAll('#neoStage .card')])).forEach((c,i)=>{const d=i-f;
+ const raw=clamp(p*N,0,N-1e-6),i=Math.floor(raw),t=raw-i,HOLD=.65;const e=t<HOLD?0:(t-HOLD)/(1-HOLD);const es=e*e*(3-2*e);const f=clamp(i+es,0,N-1);
+ if(NEO.f===f)return null;NEO.f=f;
+ return()=>{(NEO.cards||(NEO.cards=[...document.querySelectorAll('#neoStage .card')])).forEach((c,i)=>{const d=i-f;
   if(d<0){const g=clamp(-d,0,1);c.style.transform=`translateY(${-130*g}%) rotate(${7*g}deg) scale(${1-.05*g})`;c.style.opacity=1-g;c.style.zIndex=20-i}
   else{c.style.transform=`translateY(${d*7}%) scale(${1-d*.06}) rotate(${-2.5*d}deg)`;c.style.opacity=1;c.style.zIndex=20-i}
   const front=Math.abs(d)<.5;c.querySelector('.lbl').style.opacity=front?1:.25;c.querySelector('.tag').style.opacity=front?1:.25});
  (NEO.txt||(NEO.txt=[...document.querySelectorAll('#neoTxt .t')])).forEach((t,i)=>{const o=clamp(1-Math.max(0,Math.abs(i-f)-.22)*2.6,0,1);t.style.opacity=o;t.style.transform=`translateY(${(i-f)*22}px)`;t.style.pointerEvents=o>.5?'auto':'none'});
- const idx=Math.round(f);if(idx!==neoIdx){neoIdx=idx;document.getElementById('neoStage').style.setProperty('--glowc',SPECS[idx].c+'55');(NEO.dots||(NEO.dots=[...document.querySelectorAll('#neoTxt .dots i')])).forEach((d,i)=>d.classList.toggle('on',i===idx))}}
+ const idx=Math.round(f);if(idx!==neoIdx){neoIdx=idx;document.getElementById('neoStage').style.setProperty('--glowc',SPECS[idx].c+'55');(NEO.dots||(NEO.dots=[...document.querySelectorAll('#neoTxt .dots i')])).forEach((d,i)=>d.classList.toggle('on',i===idx))}}}
 
 /* 회사소개 */
 document.getElementById('aboutBehind').innerHTML=[3935026,38059005,7239946,18366238].map(id=>`<div class="lb">${im(id,800)}</div>`).join('');
