@@ -1286,6 +1286,7 @@ footer .cols b{color:var(--fg);font-weight:600}
           </div></div>
           <div class="fstep" id="step6"><span class="slug">Step 6</span><h3>클라이언트 정보</h3><div class="fields">
             <label>성함 또는 기업명<input id="f-name" type="text"></label><label>연락처<input id="f-phone" type="tel"></label><label class="full">이메일<input id="f-email" type="email"></label>
+            <input id="f-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
             <label class="full" style="flex-direction:row;align-items:center;gap:10px;font-size:15px;color:var(--fg)"><input id="f-agree" type="checkbox" style="accent-color:var(--accent)"> 개인정보 수집 및 이용에 동의합니다 <span class="todo">동의문</span></label>
           </div>
           <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center"><button class="pill" type="submit">견적서 요청하기</button><a class="pill ghost" data-kakao href="#">카카오톡으로 바로 문의</a><span style="font-size:13px;color:var(--mute)">제목 <b style="color:var(--fg)">[영상 견적]</b>으로 그레이필름 공식 메일에 즉시 접수됩니다 <span class="todo">그레이필름 메일 주소</span></span></div></div>
@@ -1972,7 +1973,8 @@ const CONTACT={
  mail:'lovelysunnyway@gmail.com',          /* 견적문의 수신 메일 */
  kakaoMail:'my-teddy@nate.com',             /* 카카오톡 버튼 — 오픈채팅 링크 확정 전까지 메일로 대체 수신 */
  kakaoUrl:'https://open.kakao.com/o/s0Ro0qTi', /* 1:1 오픈채팅 — 버튼을 누르면 고객별 개별 대화방이 열림 */
- pdf:'시네글로우_회사소개서_빈파일.pdf'      /* 회사소개서 파일명 — 정식 파일로 교체 시 같은 이름으로 올리거나 여기만 수정 */
+ pdf:'시네글로우_회사소개서_빈파일.pdf',     /* 회사소개서 파일명 — 정식 파일로 교체 시 같은 이름으로 올리거나 여기만 수정 */
+ sheetUrl:'https://script.google.com/macros/s/AKfycbxeWK9icN0_dd1nHC9_LnNhuSNstuJpn1GOgbfUzMvcdTGcTYI8PU9Rmx3vt8Q088Q5/exec' /* 구글 앱스 스크립트 '웹 앱' 배포 주소(https://script.google.com/macros/s/.../exec) — 비어 있으면 mailto 방식으로 동작 */
 };
 const QUOTE_MAIL=CONTACT.mail;
 function kakaoHref(){return CONTACT.kakaoUrl||`mailto:${CONTACT.kakaoMail}?subject=${encodeURIComponent('[카카오톡 상담 요청] 시네글로우 홈페이지')}&body=${encodeURIComponent('카카오톡으로 상담을 원합니다.\n\n성함/기업명: \n카카오톡 ID 또는 연락처: \n문의 내용: ')}`}
@@ -1991,8 +1993,16 @@ form.addEventListener('submit',e=>{e.preventDefault();
  const type=t?FIELDS[t.value].name:'-',range=r?(r.value==='unknown'?'상담 후 결정':RANGE[+r.value-1]):'-';
  const subject=`[영상 견적] ${type} · ${range} · ${name}`;
  const body=[`■ 영상 장르: ${type}`,`■ 제작 범위: ${range}`,`■ 섭외 옵션: ${cs.join(', ')||'-'}`,'',`■ 실시간 예상 금액(상담 후 확정): ${won(total)} (VAT 별도)`,...lines.map(l=>`  - ${l[0]}: ${won(l[1])}`),`  - 세부 조건: 카메라 ${CALC.cams}대 · 감독 ${CALC.dirs}명 · 러닝타임 ${CALC.min}분 · 지역 ${RATES.regionName[CALC.region]} · 숏폼 ${CALC.shorts}편`,'',`■ 희망 촬영 시기: ${document.getElementById('f-when').value||'-'}`,`■ 가용 예산: ${document.getElementById('f-budget').value}`,`■ 레퍼런스: ${document.getElementById('f-ref').value||'-'}`,`■ 상세 내용:`,document.getElementById('f-msg').value||'-','',`■ 성함·기업명: ${name}`,`■ 연락처: ${phone}`,`■ 이메일: ${document.getElementById('f-email').value||'-'}`,'',`— CINEGLOW 공식 홈페이지 견적 시스템에서 발송됨`].join('\n');
- location.href=`mailto:${QUOTE_MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
- toast('기본 메일 앱이 실행됩니다 — 제목 [영상 견적]으로 시네글로우에 즉시 전달 (본작업 시 서버 발송으로 연동)',5000)});
+ const sendMail=()=>{location.href=`mailto:${QUOTE_MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;toast('기본 메일 앱이 실행됩니다 — 제목 [영상 견적]으로 시네글로우에 전달됩니다',5000)};
+ if(!CONTACT.sheetUrl){sendMail();return}
+ /* 구글 시트 접수 — 폼 인코딩 전송(프리플라이트 없음). 실패하면 메일 방식으로 자동 전환 */
+ if(document.getElementById('f-hp')&&document.getElementById('f-hp').value){toast('접수되었습니다');return} /* 허니팟: 봇이 채우는 숨은 칸 */
+ const last=+localStorage.getItem('cg_last')||0;if(Date.now()-last<20000){toast('방금 접수되었습니다. 잠시 후 다시 시도해 주세요');return}
+ const btn=form.querySelector('button[type=submit]');btn.disabled=true;const label=btn.textContent;btn.textContent='접수 중…';
+ const data=new URLSearchParams({ts:new Date().toISOString(),name,phone,email:document.getElementById('f-email').value||'',type,range,cast:cs.join(', ')||'-',total:String(total),detail:`카메라 ${CALC.cams}대 · 감독 ${CALC.dirs}명 · 러닝타임 ${CALC.min}분 · 지역 ${RATES.regionName[CALC.region]} · 숏폼 ${CALC.shorts}편`,when:document.getElementById('f-when').value||'',budget:document.getElementById('f-budget').value,ref:document.getElementById('f-ref').value||'',msg:document.getElementById('f-msg').value||'',subject,body,page:location.href});
+ fetch(CONTACT.sheetUrl,{method:'POST',body:data}).then(r=>r.json()).then(j=>{if(!j||j.ok!==true)throw new Error(j&&j.error||'bad');
+  localStorage.setItem('cg_last',String(Date.now()));btn.textContent='접수 완료 ✓';toast('접수되었습니다. 1영업일 내에 담당 PD가 연락드리겠습니다',6000)})
+ .catch(()=>{btn.disabled=false;btn.textContent=label;toast('서버 접수가 지연되어 메일 방식으로 전환합니다',4000);setTimeout(sendMail,900)})});
 document.getElementById('optCast').addEventListener('change',e=>{const cs=[...document.querySelectorAll('input[name="cast"]')];const none=cs.find(c=>c.value==='none');
  if(e.target===none&&none.checked)cs.forEach(c=>{if(c!==none)c.checked=false});else if(e.target.checked)none.checked=false;
  if(!cs.some(c=>c.checked))none.checked=true;summary()});
