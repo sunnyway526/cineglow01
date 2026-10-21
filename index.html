@@ -349,7 +349,7 @@ body.drawer-open{overflow:hidden}
 .cam-wrap{max-width:1440px;margin:40px auto 0;position:relative;transform:scale(.92);transform-origin:50% 100%;will-change:transform;padding:0 22px}
 .cam-stage{
   --lcd-l:37.4%; --lcd-t:44.85%; --lcd-w:23.0%; --lcd-h:28.75%; /* ALEXA 35 사진의 LCD 유리 영역 (1792×1008 기준 670,452 → 1082,742) */
-  position:relative;aspect-ratio:1792/1008;max-width:1320px;margin:0 auto}
+  position:relative;aspect-ratio:1792/1008;max-width:1320px;margin:0 auto;overflow:hidden;border-radius:var(--r)}
 .cam-glow{position:absolute;inset:-8% -4%;background:radial-gradient(ellipse at 50% 62%,rgba(233,162,59,.14),transparent 62%);opacity:0;transition:opacity 1.4s var(--ease) .5s;pointer-events:none}
 .cam-stage.cam-in .cam-glow{opacity:1}
 .cam-art{position:absolute;inset:0;opacity:0;transform:translateY(36px) scale(.965);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
@@ -393,10 +393,13 @@ body.drawer-open{overflow:hidden}
 .lcd-bar a,.lcd-bar button{font:inherit;font-size:12px;background:rgba(245,242,236,.14);color:var(--fg);border:0;border-radius:999px;padding:6px 11px;cursor:pointer;white-space:nowrap;flex:none}
 .lcd-bar a:hover,.lcd-bar button:hover{background:var(--accent);color:#1A1206}
 .lcd.big .lcd-bar{display:flex}
-.lcd.anim{transition:left .9s var(--ease),top .9s var(--ease),width .9s var(--ease),height .9s var(--ease),border-radius .9s var(--ease)}
+.lcd.anim{transition:left 1.15s cubic-bezier(.55,0,.2,1),top 1.15s cubic-bezier(.55,0,.2,1),width 1.15s cubic-bezier(.55,0,.2,1),height 1.15s cubic-bezier(.55,0,.2,1),border-radius 1.15s cubic-bezier(.55,0,.2,1)}
 .lcd.big{border-radius:var(--r);box-shadow:0 40px 120px rgba(0,0,0,.7)}
-.cam-stage.zoomed .cam-art{opacity:0;transform:scale(1.06);transition:opacity .9s var(--ease),transform 1.2s var(--ease)}
+/* 달리인: 사진이 액정 중심으로 확대·이동하며 액정이 스테이지를 채움. 사진은 후반부에 사라짐 */
+.cam-stage.zoomed .cam-art{transform-origin:var(--zox,50%) var(--zoy,50%);transform:translate(var(--zdx,0),var(--zdy,0)) scale(var(--zk,4));opacity:0;transition:transform 1.15s cubic-bezier(.55,0,.2,1),opacity .55s linear .6s}
+.cam-stage.unzoom .cam-art{transition:transform 1.1s cubic-bezier(.55,0,.2,1),opacity .6s linear}
 .cam-stage.zoomed .cam-glow{opacity:.5}
+.cam-stage.zoomed .cam-art img{-webkit-mask-image:none;mask-image:none}
 .cam-tags{display:flex;justify-content:center;gap:34px;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:rgba(245,242,236,.55)}
 @media (max-width:980px){.cam-stage{max-width:none}}
 @media (max-width:600px){
@@ -1861,10 +1864,14 @@ const CAM={stage:document.getElementById('camStage'),slot:document.getElementByI
  const tc=document.getElementById('lcdTc');let fr=0;setInterval(()=>{if(!st.classList.contains('hud')||document.hidden)return;fr++;const f=fr%24,sec=Math.floor(fr/24);tc.textContent=`00:${pad(Math.floor(sec/60))}:${pad(sec%60)}:${pad(f)}`},1000/24);
 })();
 /* 자동 확대: LCD가 카메라 스테이지 전체(16:9)로 커지며 영상이 이어짐. 스크롤은 막지 않음 */
-function lcdExpand(){if(CAM.open)return;CAM.open=true;const l=CAM.lcd;
- l.classList.add('anim','big');CAM.stage.classList.add('zoomed');
+function lcdExpand(){if(CAM.open)return;CAM.open=true;const l=CAM.lcd,st=CAM.stage;
+ /* 카메라 사진을 액정 중심으로 확대(달리인) — 액정 폭이 스테이지 폭이 되는 배율, 액정 중심이 스테이지 중심으로 이동 */
+ const S=st.getBoundingClientRect(),L=CAM.slot.getBoundingClientRect();const k=S.width/L.width;const cx=L.left+L.width/2-S.left,cy=L.top+L.height/2-S.top;
+ st.style.setProperty('--zk',k.toFixed(3));st.style.setProperty('--zox',(cx/S.width*100).toFixed(2)+'%');st.style.setProperty('--zoy',(cy/S.height*100).toFixed(2)+'%');
+ st.style.setProperty('--zdx',(S.width/2-cx).toFixed(1)+'px');st.style.setProperty('--zdy',(S.height/2-cy).toFixed(1)+'px');
+ l.classList.add('anim','big');st.classList.add('zoomed');
  Object.assign(l.style,{left:'0%',top:'0%',width:'100%',height:'100%'})}
-function lcdCollapse(){if(!CAM.open)return;CAM.open=false;const l=CAM.lcd;
+function lcdCollapse(){if(!CAM.open)return;CAM.open=false;const l=CAM.lcd;CAM.stage.classList.add('unzoom');setTimeout(()=>CAM.stage.classList.remove('unzoom'),1300);
  if(l.classList.contains('sound')){const f=CAM.media.querySelector('iframe');if(f)f.remove();l.classList.remove('sound');if(!LOCAL){const g=document.createElement('iframe');g.src=ytEmbed(CAM.v.id,true);g.referrerPolicy='strict-origin-when-cross-origin';g.allow='autoplay; encrypted-media';g.title='';CAM.media.appendChild(g);watchYT(g)}}
  l.classList.remove('big');CAM.stage.classList.remove('zoomed');l.removeAttribute('style');setTimeout(()=>{if(!CAM.open)l.classList.remove('anim')},900)}
 /* 소리 켜기: 사용자 클릭(제스처)이 있어야 브라우저가 소리 재생을 허용 → 그 시점에 소리 있는 플레이어로 교체 */
