@@ -2000,7 +2000,8 @@ form.addEventListener('submit',e=>{e.preventDefault();
  const last=+localStorage.getItem('cg_last')||0;if(Date.now()-last<20000){toast('방금 접수되었습니다. 잠시 후 다시 시도해 주세요');return}
  const btn=form.querySelector('button[type=submit]');btn.disabled=true;const label=btn.textContent;btn.textContent='접수 중…';
  const data=new URLSearchParams({ts:new Date().toISOString(),name,phone,email:document.getElementById('f-email').value||'',type,range,cast:cs.join(', ')||'-',total:String(total),detail:`카메라 ${CALC.cams}대 · 감독 ${CALC.dirs}명 · 러닝타임 ${CALC.min}분 · 지역 ${RATES.regionName[CALC.region]} · 숏폼 ${CALC.shorts}편`,when:document.getElementById('f-when').value||'',budget:document.getElementById('f-budget').value,ref:document.getElementById('f-ref').value||'',msg:document.getElementById('f-msg').value||'',subject,body,page:location.href});
- fetch(CONTACT.sheetUrl,{method:'POST',body:data}).then(r=>r.json()).then(j=>{if(!j||j.ok!==true)throw new Error(j&&j.error||'bad');
+ /* 앱스 스크립트는 POST 후 리다이렉트하므로 응답을 읽는 방식(cors)은 브라우저에 막힘 → 응답을 읽지 않는 no-cors 전송. 전송이 나가면 접수로 간주(기록 여부는 시트·메일로 확인) */
+ fetch(CONTACT.sheetUrl,{method:'POST',mode:'no-cors',body:data}).then(()=>{
   localStorage.setItem('cg_last',String(Date.now()));btn.textContent='접수 완료 ✓';toast('접수되었습니다. 1영업일 내에 담당 PD가 연락드리겠습니다',6000)})
  .catch(()=>{btn.disabled=false;btn.textContent=label;toast('서버 접수가 지연되어 메일 방식으로 전환합니다',4000);setTimeout(sendMail,900)})});
 document.getElementById('optCast').addEventListener('change',e=>{const cs=[...document.querySelectorAll('input[name="cast"]')];const none=cs.find(c=>c.value==='none');
