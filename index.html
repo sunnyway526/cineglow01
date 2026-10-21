@@ -6,7 +6,16 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0A090B">
 <meta name="supported-color-schemes" content="dark">
-<title>시네글로우 홈페이지 시안 v8.1 (Dark-Mode Safe)</title>
+<title>시네글로우 홈페이지 시안 v8.2 (Performance Pass)</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="시네글로우(CINEGLOW) — 촬영만도. 전부도.">
+<meta property="og:description" content="아이디어만 있어도, 대본만 있어도, 촬영본만 있어도. 당신이 멈춘 그곳에서부터 시네글로우가 완성합니다. 실시간 예상 견적을 확인해 보세요.">
+<meta property="og:image" content="https://i.ytimg.com/vi/b2_3L5PVqKc/maxresdefault.jpg">
+<meta name="description" content="영상 기획·촬영·편집·섭외까지 원하는 범위만 선택하는 영상 제작사 시네글로우. 유튜브·커머스·웹드라마·광고·홍보·정보 영상, 정기 구독 프로덕션.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
@@ -27,7 +36,7 @@
 @media (prefers-color-scheme:light){:root{color-scheme:dark}}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
-p,dd,li,.empty,summary{word-break:keep-all;overflow-wrap:break-word;text-wrap:pretty}
+p,dd,li,summary{word-break:keep-all;overflow-wrap:break-word;text-wrap:pretty}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 h1,h2,h3,h4{font-weight:700;line-height:1.15;margin:0;word-break:keep-all;overflow-wrap:break-word;text-wrap:balance;letter-spacing:-.025em}
@@ -37,7 +46,6 @@ p{margin:0}
 .nw{white-space:nowrap}
 @media (max-width:380px){.nw{white-space:normal}}
 .br-pc{display:inline}
-.br-mo{display:none}
 
 .wrap{max-width:var(--w);margin:0 auto;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
 .band{padding-block:136px}
@@ -83,6 +91,9 @@ p{margin:0}
 .reel-head h3{font-size:clamp(20px,2.2vw,28px);letter-spacing:-.02em}
 .reel-head small{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}
 .reel-head .ctl{display:flex;gap:8px;align-items:center}
+.reel-head .rpages{display:inline-flex;gap:4px;margin-right:6px}
+.reel-head .rpages button{width:auto;height:30px;padding:0 10px;border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+.reel-head .rpages button.on{background:var(--accent);color:#1A1206;border-color:var(--accent)}
 .reel-head .ctl button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(245,242,236,.24);background:rgba(20,19,22,.8);color:var(--fg);cursor:pointer;font-size:17px;display:grid;place-items:center;transition:border-color .2s,background .2s,transform .2s}
 .reel-head .ctl button:hover{border-color:var(--accent);background:var(--accent);color:#111;transform:scale(1.06)}
 
@@ -114,7 +125,7 @@ p{margin:0}
   will-change:transform;
 }
 .reel.rev .trk{animation-direction:reverse}
-.reel:hover .trk,.reel.hold .trk,.strip .track:hover{animation-play-state:paused}
+.reel:hover .trk,.reel.hold .trk,.reel.off .trk,.strip .track:hover{animation-play-state:paused}
 @keyframes reel{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* 필름 표면의 빈티지 그레인/먼지 질감 — 트랙과 함께 이동 */
@@ -124,8 +135,7 @@ p{margin:0}
   inset:0;
   background-image:var(--grain);
   background-size:210px 210px;
-  opacity:.26;
-  mix-blend-mode:screen;
+  opacity:.08; /* v40: mix-blend-mode(screen) 제거 — 일반 겹침. 2x 비교 캡처 후 .08로 조정 */
   pointer-events:none;
   z-index:6;
 }
@@ -194,14 +204,14 @@ p{margin:0}
 .rf .fnum{
   position:absolute;left:12px;top:10px;z-index:2;
   font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;
-  color:var(--glow);background:rgba(0,0,0,.65);
-  padding:3px 8px;border-radius:5px;backdrop-filter:blur(4px);
+  color:var(--glow);background:rgba(0,0,0,.78);
+  padding:3px 8px;border-radius:5px;
 }
 .rf .len{
   position:absolute;right:10px;top:10px;z-index:2;
   font-family:var(--mono);font-size:11px;letter-spacing:.05em;
-  color:var(--fg);background:rgba(0,0,0,.65);
-  padding:3px 7px;border-radius:5px;backdrop-filter:blur(4px);
+  color:var(--fg);background:rgba(0,0,0,.78);
+  padding:3px 7px;border-radius:5px;
 }
 .rf .play{
   position:absolute;inset:0;display:grid;place-items:center;z-index:2;
@@ -338,13 +348,13 @@ body.drawer-open{overflow:hidden}
 .split .c{display:inline-block;transform:translateY(115%) rotate(8deg);transition:transform 1.1s var(--ease);transition-delay:calc(var(--i)*.045s)}
 .split.in .c{transform:none}
 .words .w{display:inline-block;opacity:0;filter:blur(14px);transform:translateY(.85em) rotateX(-80deg) scale(1.08);transform-origin:50% 100%;transition:opacity .85s var(--ease),filter .85s var(--ease),transform .95s var(--ease);transition-delay:calc(var(--i)*.07s)}
-.words.in .w{opacity:1;filter:blur(0);transform:none}
+.words.in .w{opacity:1;filter:none;transform:none}
 .words{perspective:600px}
 
 /* 타이틀 */
 .sh{position:relative}
 .sh::before{content:"";position:absolute;left:50%;top:40%;width:60vw;max-width:720px;height:220px;transform:translate(-50%,-50%) scale(.6);background:radial-gradient(ellipse at center,rgba(233,162,59,.34),transparent 65%);filter:blur(30px);opacity:0;transition:opacity 1.2s var(--ease),transform 1.4s var(--ease);pointer-events:none;z-index:-1}
-.sh.in::before{animation:halo 3s var(--ease) 1.9s forwards}
+.sh.in::before{animation:halo 2.4s var(--ease) .5s forwards}
 @keyframes halo{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}40%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 .sh .slug{position:relative;padding-bottom:10px}
 .sh .slug::after{content:"";position:absolute;left:50%;bottom:0;height:6px;width:0;border-radius:999px;background:radial-gradient(ellipse at center,var(--glow),rgba(233,162,59,.35) 60%,transparent 100%);filter:blur(1px);transition:width 1.1s var(--ease) .2s,left 1.1s var(--ease) .2s}
@@ -354,10 +364,11 @@ body.drawer-open{overflow:hidden}
 
 /* 배경 빛 */
 .band.alt{position:relative;overflow:hidden}
-.band.alt::before{content:"";position:absolute;width:60vw;height:60vw;max-width:900px;max-height:900px;left:-20vw;top:-20vw;border-radius:50%;background:radial-gradient(circle,rgba(233,162,59,.10),transparent 60%);filter:blur(40px);animation:drift 26s ease-in-out infinite alternate;pointer-events:none}
-.band.alt::after{content:"";position:absolute;width:50vw;height:50vw;max-width:760px;max-height:760px;right:-18vw;bottom:-18vw;border-radius:50%;background:radial-gradient(circle,rgba(246,195,90,.07),transparent 60%);filter:blur(40px);animation:drift 32s ease-in-out infinite alternate-reverse;pointer-events:none}
+.band.alt::before{content:"";position:absolute;width:60vw;height:60vw;max-width:900px;max-height:900px;left:-20vw;top:-20vw;border-radius:50%;background:radial-gradient(circle,rgba(233,162,59,.11) 0%,rgba(233,162,59,.06) 28%,rgba(233,162,59,.02) 52%,transparent 70%);animation:drift 26s ease-in-out infinite alternate;animation-play-state:paused;pointer-events:none}
+.band.alt::after{content:"";position:absolute;width:50vw;height:50vw;max-width:760px;max-height:760px;right:-18vw;bottom:-18vw;border-radius:50%;background:radial-gradient(circle,rgba(246,195,90,.08) 0%,rgba(246,195,90,.04) 28%,rgba(246,195,90,.015) 52%,transparent 70%);animation:drift 32s ease-in-out infinite alternate-reverse;animation-play-state:paused;pointer-events:none}
 .band.alt>.wrap{position:relative;z-index:1}
 @keyframes drift{from{transform:translate(0,0)}to{transform:translate(12vw,8vw)}}
+.band.alt.vis::before,.band.alt.vis::after{animation-play-state:running} /* v40: 화면에 보일 때만 이동 */
 
 /* 타일 */
 .tile{transition:transform .35s var(--ease),box-shadow .35s}
@@ -596,7 +607,7 @@ body.drawer-open{overflow:hidden}
   .neo .stick{display:none}
   .neo-m{display:flex;flex-direction:column;gap:34px;max-width:720px;margin:0 auto}
   .nm{display:flex;flex-direction:column;gap:18px}
-  .nm .card{position:relative;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08)}
+  .nm .card{position:relative;left:auto;right:auto;top:auto;transform:none;will-change:auto;max-height:none;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08)}
   .nm .card .lbl{font-size:clamp(26px,8vw,40px);left:18px;bottom:14px}
   .nm .card .tag{right:16px;top:14px}
   .nm-tx small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--mute);text-transform:uppercase;margin-bottom:8px}
@@ -696,7 +707,6 @@ footer .cols b{color:var(--fg);font-weight:600}
 /* 포트폴리오 필터 */
 .filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
 .filters+.filters{margin-bottom:48px}
-.empty{padding:48px 24px;text-align:center;border-radius:24px;background:var(--bg2);color:var(--mute);font-size:16.5px;max-width:720px;margin:28px auto 0}
 
 /* 모달 */
 .modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.9);display:none;overflow-y:auto}
@@ -768,11 +778,12 @@ footer .cols b{color:var(--fg);font-weight:600}
 .float.hide{display:none}
 
 .page{display:none}.page.show{display:block}
-.reveal{opacity:0;transform:translateY(70px) scale(.92);filter:blur(6px);transition:opacity 1s var(--ease),transform 1.1s var(--ease),filter 1s var(--ease)}
+.reveal{opacity:0;transform:translateY(70px) scale(.92);filter:blur(6px);transition:opacity .85s var(--ease),transform .95s var(--ease),filter .85s var(--ease)}
 .team.reveal,.flow.reveal,.behind.reveal,.tiles{opacity:1;transform:none;filter:none}
 .reveal.in{opacity:1;transform:none;filter:blur(0)}
-.tiles .tile.reveal,.behind.reveal .lb,.reveal .fs,.reveal .cmp .col,.reveal .chat,.rcards .rc,.cast-tiles .tile{filter:none;transform:translate3d(0,100%,0);transition:opacity .7s ease-out,transform .7s ease-out}
+.tiles .tile.reveal,.behind.reveal .lb,.reveal .fs,.reveal .cmp .col,.reveal .chat{filter:none;transform:translate3d(0,100%,0);transition:opacity .7s ease-out,transform .7s ease-out}
 .tiles .tile.reveal.in{transform:none}
+.tiles .tile.reveal .media img{transition:clip-path .7s ease-out;transition-delay:inherit} /* 사진 와이프를 타일 등장과 같은 타이밍·길이로 */
 .tiles .tile.reveal.in:hover{transform:scale(1.03)}
 .reveal .fs,.reveal .cmp .col,.reveal .chat,.behind.reveal .lb{opacity:0}
 .reveal.in .fs,.reveal.in .cmp .col,.reveal.in .chat,.behind.reveal.in .lb{opacity:1;transform:none}
@@ -780,10 +791,10 @@ footer .cols b{color:var(--fg);font-weight:600}
 .behind.reveal.in .lb:nth-child(2){transition-delay:.15s}.behind.reveal.in .lb:nth-child(3){transition-delay:.3s}.behind.reveal.in .lb:nth-child(4){transition-delay:.45s}
 .reveal .lb img,.reveal .media img,.reveal .pop img{clip-path:inset(0 100% 0 0 round 16px);transition:clip-path 1.2s var(--ease) .15s,transform .7s var(--ease)}
 .reveal.in .lb img,.reveal.in .media img,.reveal.in .pop img{clip-path:inset(0 0 0 0 round 16px)}
-.sh::after{content:"";position:absolute;left:50%;top:48%;width:min(70vw,760px);height:150px;margin-left:calc(min(70vw,760px)/-2);border-radius:50%;background:radial-gradient(ellipse at center,rgba(246,195,90,.55),rgba(233,162,59,.22) 45%,transparent 72%);filter:blur(26px);opacity:0;transform:translate(-60vw,-50%) scaleX(.5);pointer-events:none;z-index:-1}
-.sh.in::after{animation:sweep 6.5s ease-in-out .05s infinite}
+.sh::after{content:"";position:absolute;left:50%;top:48%;width:min(70vw,760px);height:150px;margin-left:calc(min(70vw,760px)/-2);border-radius:50%;background:radial-gradient(ellipse at center,rgba(246,195,90,.5) 0%,rgba(246,195,90,.3) 22%,rgba(233,162,59,.14) 48%,rgba(233,162,59,.04) 68%,transparent 82%);opacity:0;transform:translate(-60vw,-50%) scaleX(.5);pointer-events:none;z-index:-1}
+.sh.in::after{animation:sweep 2.6s ease-in-out .25s 1 forwards} /* v40: 등장 시 1회, 글자 글로우와 동기 */
 @keyframes sweep{0%{opacity:0;transform:translate(-60vw,-50%) scaleX(.6)}12%{opacity:.9}48%{opacity:.9}62%{opacity:0;transform:translate(60vw,-50%) scaleX(.6)}100%{opacity:0;transform:translate(60vw,-50%) scaleX(.6)}}
-.words.in .w{animation:flash 2.4s var(--ease) calc(var(--i)*.07s + 2.1s) forwards}
+.words.in .w{animation:flash 2s var(--ease) calc(var(--i)*.03s + 1.1s) forwards} /* 빛줄기가 제목 중앙을 지나는 시점(약 1.1~1.2s)에 거의 동시에 점등 */
 @keyframes flash{0%{text-shadow:0 0 0 rgba(246,195,90,0)}25%{text-shadow:0 0 28px rgba(246,195,90,.9),0 0 60px rgba(233,162,59,.5)}100%{text-shadow:0 0 18px rgba(246,195,90,.55),0 0 48px rgba(233,162,59,.3)}}
 .stat.reveal{transform:translateY(40px) scale(.7)}
 .bubble{transform:translateY(30px) rotate(-2deg);opacity:0;transition:transform .9s var(--ease),opacity .9s var(--ease)}
@@ -810,7 +821,6 @@ footer .cols b{color:var(--fg);font-weight:600}
 /* 모바일 반응형 */
 @media (max-width:600px){
   .br-pc{display:none}
-  .br-mo{display:inline}
   .band{padding-block:72px}.band.tight{padding-block:52px}.lit-band{padding-block:84px 64px}
   .band.alt{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .sh{margin-bottom:36px;gap:12px}
@@ -824,7 +834,6 @@ footer .cols b{color:var(--fg);font-weight:600}
   .lit{font-size:clamp(23px,6.5vw,32px);line-height:1.3}
   .cta-final{padding-block:96px}
   .cta-final h2{font-size:clamp(30px,8.2vw,42px);line-height:1.16}
-  .empty{padding:36px 22px;text-align:left;font-size:16px}
   .rstep{padding-block:44px;gap:28px}
   .tile{padding-top:32px;min-height:0}.tile .tx{padding:0 18px}.tile .media{padding:24px 16px 16px}
   .tile h3{font-size:24px}
@@ -992,7 +1001,7 @@ footer .cols b{color:var(--fg);font-weight:600}
 <body>
 
 <div id="sbar"></div>
-<div class="proto-bar">시안 v8.1 — 삼성 인터넷·크롬 강제 다크 모드의 색 변환 차단 선언 추가 (v38 기준)</div>
+<div class="proto-bar">시안 v8.2 — 성능 패스: 태그 블러·그레인 혼합·대형 블러 제거, 스크롤 핸들러 재구성, 릴 16편 단위·화면 밖 정지, 히어로 지연 삽입, OG·접근성 (v39 기준)</div>
 
 <header class="nav">
   <div class="wrap">
@@ -1036,7 +1045,7 @@ footer .cols b{color:var(--fg);font-weight:600}
     <a href="#about" data-dnav="about"><span class="k">05</span>회사소개</a>
     <a href="#contact" class="dcta" data-dnav="contact"><span class="k">06</span>견적문의</a>
   </nav>
-  <div class="dfoot"><b>000-0000-0000</b> <span class="todo">연락처</span><br>hello@cineglow.kr <span class="todo">이메일</span><br>평일 10:00–18:00 · 카카오톡 채널 <span class="todo">링크</span><br><a href="cineglow-company-profile.pdf" download style="color:var(--accent);font-weight:500">회사소개서 다운로드 ↓</a> <span class="todo">PDF</span></div>
+  <div class="dfoot"><b>000-0000-0000</b> <span class="todo">연락처</span><br>lovelysunnyway@gmail.com <span class="todo">시연용</span><br>평일 10:00–18:00 · <a data-kakao href="#" style="color:inherit">카카오톡 1:1 상담</a><br><a data-pdf href="#" style="color:var(--accent);font-weight:500">회사소개서 다운로드 ↓</a> <span class="todo">빈 파일</span></div>
 </aside>
 
 <!-- ========== 홈 ========== -->
@@ -1174,7 +1183,7 @@ footer .cols b{color:var(--fg);font-weight:600}
     </div>
   </section>
 
-  <section class="cta-final"><div class="wrap reveal"><span class="slug">Ready to roll</span><h2 class="words" style="margin-top:14px">당신의 다음 장면.<br>지금 시작하세요.</h2><p>영상의 장르와 필요한 범위만 선택하세요.<br class="br-pc"> 가장 빠르고 정확한 제작 로드맵을 제안해 드립니다.</p><div class="row"><a class="pill" href="#contact">실시간 견적 계산하기</a><a class="pill ghost" href="#contact">카카오톡 간편 상담</a></div></div></section>
+  <section class="cta-final"><div class="wrap reveal"><span class="slug">Ready to roll</span><h2 class="words" style="margin-top:14px">당신의 다음 장면.<br>지금 시작하세요.</h2><p>영상의 장르와 필요한 범위만 선택하세요.<br class="br-pc"> 가장 빠르고 정확한 제작 로드맵을 제안해 드립니다.</p><div class="row"><a class="pill" href="#contact">실시간 견적 계산하기</a><a class="pill ghost" data-kakao href="#">카카오톡 간편 상담</a></div></div></section>
 </main>
 
 <!-- ========== 제작 범위 안내 ========== -->
@@ -1279,7 +1288,7 @@ footer .cols b{color:var(--fg);font-weight:600}
             <label>성함 또는 기업명<input id="f-name" type="text"></label><label>연락처<input id="f-phone" type="tel"></label><label class="full">이메일<input id="f-email" type="email"></label>
             <label class="full" style="flex-direction:row;align-items:center;gap:10px;font-size:15px;color:var(--fg)"><input id="f-agree" type="checkbox" style="accent-color:var(--accent)"> 개인정보 수집 및 이용에 동의합니다 <span class="todo">동의문</span></label>
           </div>
-          <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center"><button class="pill" type="submit">견적서 요청하기</button><a class="pill ghost" href="#contact">카카오톡으로 바로 문의</a><span style="font-size:13px;color:var(--mute)">제목 <b style="color:var(--fg)">[영상 견적]</b>으로 그레이필름 공식 메일에 즉시 접수됩니다 <span class="todo">그레이필름 메일 주소</span></span></div></div>
+          <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center"><button class="pill" type="submit">견적서 요청하기</button><a class="pill ghost" data-kakao href="#">카카오톡으로 바로 문의</a><span style="font-size:13px;color:var(--mute)">제목 <b style="color:var(--fg)">[영상 견적]</b>으로 그레이필름 공식 메일에 즉시 접수됩니다 <span class="todo">그레이필름 메일 주소</span></span></div></div>
         </form>
         <aside class="aside">
           <span class="slug" style="color:var(--mute)">견적 요약</span>
@@ -1301,13 +1310,13 @@ footer .cols b{color:var(--fg);font-weight:600}
     <div class="cols">
       <div><b>제작 분야</b><a href="#field-youtube">브이로그·유튜브</a><a href="#field-commerce">쇼핑몰·커머스</a><a href="#field-webdrama">웹드라마</a><a href="#field-ad">광고</a><a href="#field-promo">홍보영상</a><a href="#field-edu">정보·교육</a></div>
       <div><b>메뉴</b><a href="#range">제작 범위 안내</a><a href="#casting">섭외</a><a href="#portfolio">포트폴리오</a><a href="#about">회사소개</a><a href="#contact">견적문의</a></div>
-      <div><b>연락</b><span>000-0000-0000 <span class="todo">연락처</span></span><span>hello@cineglow.kr <span class="todo">이메일</span></span><a href="https://www.youtube.com/@bbigpt" target="_blank" rel="noopener">유튜브 채널 ↗</a></div>
+      <div><b>연락</b><span>000-0000-0000 <span class="todo">연락처</span></span><span>lovelysunnyway@gmail.com <span class="todo">시연용</span></span><a href="https://www.youtube.com/@bbigpt" target="_blank" rel="noopener">유튜브 채널 ↗</a></div>
     </div>
   </div>
   <div class="wrap" style="margin-top:28px;font-size:12px">© 2026 CINEGLOW · 사진은 Pexels 무료 스톡(참고용), 영상은 유튜브 @bbigpt 채널 임베드. 본작업 시 사진 전부 교체.</div>
 </footer>
 
-<div class="float" id="float"><a class="pill ghost" href="cineglow-company-profile.pdf" download title="회사소개서 PDF — 파일 확정 필요">회사소개서 다운 ↓</a><a class="pill ghost" href="#contact">카카오톡</a><a class="pill" href="#contact">견적문의</a></div>
+<div class="float" id="float"><a class="pill ghost" data-pdf href="#">회사소개서 다운 ↓</a><a class="pill ghost" data-kakao href="#">카카오톡</a><a class="pill" href="#contact">견적문의</a></div>
 <div class="modal" id="modal"><div class="inner"><button class="close" id="modalClose" aria-label="닫기">✕</button><div id="modalBody"></div></div></div>
 <div class="toast" id="toast"></div>
 
@@ -1346,9 +1355,9 @@ const VIDEOS=[
  ...SHORTS.map(s=>({...s,kind:'short',sub:/쿠키/.test(s.ep)?'cookie':'short',type:'webdrama',title:`${SERIES} ${s.ep}`,c:CH.name,ind:'웹드라마 · 쇼츠',done:['촬영','편집'],aim:'임팩트 있는 호흡으로 재구성한 세로형 숏폼'}))
 ];
 const ytThumb=(id,vert)=>vert?`https://i.ytimg.com/vi/${id}/oar2.jpg`:`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
-const ytImg=(v)=>`<img src="${ytThumb(v.id,v.kind==='short')}" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'">`;
+const ytImg=(v)=>`<img src="${ytThumb(v.id,v.kind==='short')}" alt="${(v.title||'').replace(/"/g,'&quot;')}" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'">`;
 const ytWatch=id=>`https://www.youtube.com/watch?v=${id}`;
-const ytEmbed=(id,bg)=>`https://www.youtube-nocookie.com/embed/${id}?${bg?`autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&iv_load_policy=3`:'autoplay=1&iv_load_policy=3'}&rel=0&modestbranding=1&playsinline=1`;
+const ytEmbed=(id,bg)=>`https://www.youtube-nocookie.com/embed/${id}?${bg?`autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&iv_load_policy=3`:'autoplay=1&iv_load_policy=3'}&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
 const vbox=(v,extra)=>`<div class="lb ${v.kind==='short'?'v916':'v16'}" data-host="${v.id}">${ytImg(v)}<div class="play"><span>▶</span></div><span class="len">${v.len}</span>${extra||''}</div>`;
 
 const RANGE=['① 촬영','② 촬영+편집','③ 대본+촬영+편집','④ 기획+촬영+편집','⑤ 올인원 프로덕션'];
@@ -1360,8 +1369,6 @@ const RSTEPS=[
  {k:'04',t:'기획 + 촬영 + 편집',inc:'타깃 분석 기반의 컨셉 기획부터 구성·촬영·편집 일체',prep:'비즈니스 목표와 가용 예산',out:'크리에이티브 기획안 + 마스터 완성본',dur:'약 2~3주 소요',price:'프로젝트 맞춤 견적 <span class="todo">기획↔대본 관계</span>',pm:'견적',img:4561940,on:['plan','shoot','edit'],ask:['script']},
  {k:'05',t:'올인원 프로덕션',inc:'기획·대본·촬영·편집 전 과정 통합 디렉팅. 채널 운영 포함 여부 <span class="todo">확정 필요</span>',prep:'오직 브랜드의 목표만',out:'정기 시리즈 또는 브랜드 캠페인 마스터피스',dur:'월 단위 정기 구독',price:'정기 구독(PREMIUM) 또는 캠페인 견적',pm:'견적',img:38059001,on:['plan','script','shoot','edit'],ask:['ops']}
 ];
-const TRACKS=[['plan','기획',0,18],['script','대본',18,34],['shoot','촬영',34,62],['edit','편집',62,86],['ops','운영',86,100]];
-const RANGE_END={1:62,2:86,3:86,4:86,5:100};
 
 /* 분야별 데이터 — 불필요한 .nw 제거하여 자연스러운 글자 간격 유지 */
 const FIELDS={
@@ -1579,15 +1586,23 @@ function rfFrame(v,idx,labelOverride){
  </div>`;
 }
 
+const REEL_PAGE=16; /* 한 릴에 동시에 올리는 최대 편수 — 초과분은 페이지로 나눠 교체 */
 function reelStripHTML(list,idSuffix,opts={}){
  if(!list.length)return '';
- let base=[...list];
- while(base.length<10)base=[...base,...list];
+ const page=opts.page||0,pages=Math.ceil(list.length/REEL_PAGE);
+ const slice=list.slice(page*REEL_PAGE,(page+1)*REEL_PAGE);
+ let base=[...slice];
+ while(base.length<10)base=[...base,...slice];
  const looped=[...base,...base];
- const spd=opts.spd||Math.max(55,base.length*(list[0].kind==='short'?3.2:5.2));
- const items=looped.map((v,idx)=>rfFrame(v,idx%list.length,opts.label)).join('');
- return `<div class="reel ${opts.rev?'rev':''}" id="reel-${idSuffix}" style="--spd:${spd}s"><div class="trk">${items}</div></div>`;
+ const spd=opts.spd||Math.max(55,base.length*(slice[0].kind==='short'?3.2:5.2));
+ const items=looped.map((v,idx)=>rfFrame(v,page*REEL_PAGE+idx%slice.length,opts.label)).join('');
+ return `<div class="reel ${opts.rev?'rev':''}" id="reel-${idSuffix}" data-page="${page}" data-pages="${pages}" style="--spd:${spd}s"><div class="trk">${items}</div></div>`;
 }
+/* 화면 밖 릴은 애니메이션 정지 — 보일 때만 흐름 */
+const bandIO=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(en=>en.target.classList.toggle('vis',en.isIntersecting)),{rootMargin:'80px 0px'}):null;
+function watchBands(){document.querySelectorAll('.band.alt:not([data-io])').forEach(b=>{b.dataset.io=1;if(bandIO)bandIO.observe(b);else b.classList.add('vis')})}
+const reelIO=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(en=>en.target.classList.toggle('off',!en.isIntersecting)),{rootMargin:'120px 0px'}):null;
+function watchReels(root=document){root.querySelectorAll('.reel:not([data-io])').forEach(r=>{r.dataset.io=1;reelIO&&reelIO.observe(r)})}
 
 function reelSectionHTML(title,sub,list,idSuffix,opts={}){
  if(!list.length)return '';
@@ -1596,6 +1611,7 @@ function reelSectionHTML(title,sub,list,idSuffix,opts={}){
    <div class="reel-head">
     <div class="lh"><h3>${title}</h3><small>${sub}</small></div>
     <div class="ctl">
+     ${list.length>REEL_PAGE?`<span class="rpages" data-rpages="reel-${idSuffix}">${Array.from({length:Math.ceil(list.length/REEL_PAGE)},(_,i)=>`<button type="button" class="${i===(opts.page||0)?'on':''}" data-rpage="${i}" aria-label="${i+1}번째 묶음">${pad(i+1)}</button>`).join('')}</span>`:''}
      <button type="button" data-rscroll="reel-${idSuffix}" data-dir="-1" aria-label="이전 컷">‹</button>
      <button type="button" data-rscroll="reel-${idSuffix}" data-dir="1" aria-label="다음 컷">›</button>
     </div>
@@ -1618,7 +1634,8 @@ function pickerRender(p){const sub=p.dataset.sub||'ep',gen=p.dataset.gen||'all';
  const body=p.querySelector('.pick-body');
  body.innerHTML=list.length?reelSectionHTML(genName+title,`${list.length} ${sub==='ep'?'EPISODES · 16:9':sub==='short'?'SHORTS · 9:16':'CLIPS'} · 35MM REEL`,list,p.id+'-r',{spd:sub==='ep'?68:110})
   :`<div class="reel-sec"><div class="wrap"><div class="reel-head"><div class="lh"><h3>${genName}${title}</h3><small>COMING SOON · 35MM REEL</small></div></div></div>${phReelHTML(p.id+'-ph')}</div>`;
- body.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'))}
+ body.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+ const r=body.querySelector('.reel');if(r){r._list=list;r._opts={spd:sub==='ep'?68:110}}watchReels(body)}
 document.addEventListener('click',e=>{const b=e.target.closest('.picker button[data-sub],.picker button[data-gen]');if(!b)return;const p=b.closest('.picker');const grp=b.parentElement;grp.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
  if(b.dataset.sub)p.dataset.sub=b.dataset.sub;if(b.dataset.gen)p.dataset.gen=b.dataset.gen;pickerRender(p)});
 function mountPicker(host,list,opts){host.innerHTML=pickerHTML(host.id+'-pk',list,opts);const p=host.querySelector('.picker');p._list=list;pickerRender(p)}
@@ -1640,6 +1657,11 @@ function phReelHTML(idSuffix){
  return `<div class="reel" id="reel-${idSuffix}" style="--spd:80s"><div class="trk">${items}</div></div>`;
 }
 
+/* 릴 묶음(페이지) 교체 — 띠만 다시 그림 */
+document.addEventListener('click',e=>{const b=e.target.closest('.rpages button[data-rpage]');if(!b)return;const wrap=b.closest('.rpages');const reel=document.getElementById(wrap.dataset.rpages);if(!reel||!reel._list)return;
+ wrap.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));const page=+b.dataset.rpage;
+ const nu=document.createElement('div');nu.innerHTML=reelStripHTML(reel._list,reel.id.replace(/^reel-/,''),{...reel._opts,page});const fresh=nu.firstElementChild;fresh._list=reel._list;fresh._opts=reel._opts;
+ reel.replaceWith(fresh);watchReels(fresh.parentElement);observe()});
 /* 필름 릴 좌우 수동 컨트롤 버튼 이벤트 */
 document.addEventListener('click',e=>{
  const b=e.target.closest('button[data-rscroll]');
@@ -1655,6 +1677,10 @@ document.addEventListener('click',e=>{
  trk.style.transform=`translateX(${Math.min(0,cur+step)}px)`;
 });
 
+/* ---------- 유튜브 iframe 화면 밖 일시정지 (postMessage, enablejsapi=1 필요) ---------- */
+const ytCmd=(f,func)=>{try{f.contentWindow.postMessage(JSON.stringify({event:'command',func,args:''}),'*')}catch(e){}};
+const ytIO=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(en=>{const f=en.target;if(en.isIntersecting){if(f._paused){f._paused=false;ytCmd(f,'playVideo')}}else{f._paused=true;ytCmd(f,'pauseVideo')}}),{threshold:0}):null;
+function watchYT(f){if(!ytIO||!f)return;f.addEventListener('load',()=>{ytCmd(f,'addEventListener')},{once:true});ytIO.observe(f)}
 /* ---------- 와이드 인라인 플레이어 ---------- */
 function closePlayer(p){if(!p)return;p.classList.remove('open');const reel=p.parentElement.querySelector(':scope>.reel');if(reel)reel.classList.remove('hold');setTimeout(()=>{if(!p.classList.contains('open'))p.innerHTML=''},720)}
 function closePlayers(){document.querySelectorAll('.rplayer.open').forEach(closePlayer);document.querySelectorAll('.lb.playing').forEach(h=>{h.querySelector('iframe')?.remove();h.classList.remove('playing')})}
@@ -1663,11 +1689,11 @@ function play(id,host,vert){const v=VIDEOS.find(x=>x.id===id);if(!v)return;
  const ifr=`<iframe src="${ytEmbed(id,false)}" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; picture-in-picture; fullscreen; encrypted-media" allowfullscreen title="${v.title}"></iframe>`;
  const reel=host.closest('.reel');
  closePlayers();
- if(!reel){host.classList.add('playing');host.insertAdjacentHTML('beforeend',ifr);return}
+ if(!reel){host.classList.add('playing');host.insertAdjacentHTML('beforeend',ifr);watchYT(host.querySelector('iframe'));return}
  const sec=reel.parentElement;let p=sec.querySelector(':scope>.rplayer');
  if(!p){p=document.createElement('div');p.className='rplayer';sec.insertBefore(p,reel)}
  p.innerHTML=`<div class="rp-bar"><span class="rp-now">NOW PLAYING</span><b>${v.title}</b><a href="${ytWatch(id)}" target="_blank" rel="noopener">유튜브 ↗</a><button type="button" class="rp-close">✕ 닫기</button></div><div class="rp-in ${vert?'v916':'v16'}">${ifr}</div>`;
- reel.classList.add('hold');
+ reel.classList.add('hold');watchYT(p.querySelector('iframe'));
  requestAnimationFrame(()=>{p.classList.add('open');setTimeout(()=>p.scrollIntoView({behavior:'smooth',block:'start'}),120)})}
 document.addEventListener('click',e=>{const b=e.target.closest('.rp-close');if(b)closePlayer(b.closest('.rplayer'))});
 
@@ -1691,14 +1717,16 @@ document.addEventListener('click',e=>{
 const LOCAL=location.protocol==='file:';
 if(LOCAL){const pb=document.querySelector('.proto-bar');pb.innerHTML+=' · <b>로컬 파일 미리보기</b>: 유튜브 임베드가 막혀(153) 영상은 새 창에서 열립니다. 동봉한 <b>preview.bat</b>로 열면 페이지 안에서 재생됩니다'}
 (function(){const m=document.getElementById('heroMedia');const hv=EPS[0];
- m.insertAdjacentHTML('afterbegin',`<img src="${ytThumb(hv.id)}" alt="" onerror="this.src='https://i.ytimg.com/vi/${hv.id}/hqdefault.jpg'">`);
- if(!LOCAL){const f=document.createElement('iframe');f.src=ytEmbed(hv.id,true);f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; encrypted-media';f.title='';m.insertBefore(f,m.querySelector('.tags'))}
+ m.insertAdjacentHTML('afterbegin',`<img src="${ytThumb(hv.id)}" alt="${SERIES} ${hv.ep} — ${hv.t}" onerror="this.src='https://i.ytimg.com/vi/${hv.id}/hqdefault.jpg'">`);
+ /* v40: 유튜브 임베드는 페이지 로드 완료 후 지연 삽입 — 첫 화면은 썸네일로 즉시 표시 */
+ if(!LOCAL){const mount=()=>{if(m.querySelector('iframe'))return;const f=document.createElement('iframe');f.src=ytEmbed(hv.id,true);f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; encrypted-media';f.title='';m.insertBefore(f,m.querySelector('.tags'));watchYT(f)};
+  if(document.readyState==='complete')setTimeout(mount,1200);else addEventListener('load',()=>setTimeout(mount,1200),{once:true})}
  m.insertAdjacentHTML('beforeend',`<a class="yt" href="${ytWatch(hv.id)}" target="_blank" rel="noopener">${SERIES} ${hv.ep} · 유튜브에서 감상하기</a>`)})();
 
 /* 글자·단어 분할 (단어 사이 공백 유실 방지 패치 완료) */
-function splitChars(el){let i=0;const words=el.textContent.split(/(\s+)/);el.innerHTML=words.map(w=>/^\s+$/.test(w)?' ':`<span class="w">${[...w].map(c=>`<span class="c" style="--i:${i++}">${c}</span>`).join('')}</span>`).join('');requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')))}
+function splitChars(el){let i=0;el.setAttribute('aria-label',el.textContent.trim());const words=el.textContent.split(/(\s+)/);el.innerHTML=words.map(w=>/^\s+$/.test(w)?' ':`<span class="w" aria-hidden="true">${[...w].map(c=>`<span class="c" style="--i:${i++}">${c}</span>`).join('')}</span>`).join('');requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')))}
 function splitWords(el){
- let i=0;
+ let i=0;if(!el.hasAttribute('aria-label'))el.setAttribute('aria-label',el.textContent.replace(/\s+/g,' ').trim());
  [...el.childNodes].forEach(n=>{
   if(n.nodeType===3){
    const frag=document.createDocumentFragment();
@@ -1706,7 +1734,7 @@ function splitWords(el){
     if(!w)return;
     if(/^\s+$/.test(w)){frag.appendChild(document.createTextNode(' '));return}
     const s=document.createElement('span');
-    s.className='w';
+    s.className='w';s.setAttribute('aria-hidden','true');
     s.style.setProperty('--i',i++);
     s.textContent=w;
     frag.appendChild(s);
@@ -1714,7 +1742,7 @@ function splitWords(el){
    n.replaceWith(frag);
   }else if(n.nodeType===1&&n.tagName!=='BR'){
    const s=n;
-   s.classList.add('w');
+   s.classList.add('w');s.setAttribute('aria-hidden','true');
    s.style.setProperty('--i',i++);
    if(s.tagName==='EM'){s.classList.add('ac');s.style.fontStyle='normal'}
   }
@@ -1724,15 +1752,31 @@ splitChars(document.getElementById('heroH1'));
 document.querySelectorAll('.lit').forEach(splitWords);
 
 /* 스크롤 연동 */
-const litEls=[...document.querySelectorAll('.lit')];
-function onScroll(){const y=scrollY,vh=innerHeight;document.getElementById('sbar').style.width=(y/Math.max(1,document.documentElement.scrollHeight-vh)*100)+'%';
+/* ---------- 스크롤 핸들러 — 요소 목록 캐시 + 보이는 것만 계산 + 읽기/쓰기 분리 ---------- */
+const SC={lit:[],proc:[],imgs:[],vis:new Set(),io:null};
+function scCollect(){
+ SC.lit=[...document.querySelectorAll('.lit')].map(el=>({el,ws:[...el.querySelectorAll('.w')]}));
+ SC.proc=[...document.querySelectorAll('.proc')].map(el=>({el,line:el.querySelector('.line i'),lis:[...el.querySelectorAll('li')]}));
+ SC.imgs=[...document.querySelectorAll('.tile .media img')];
+ SC.vis.clear();
+ if(SC.io)SC.io.disconnect();
+ if('IntersectionObserver' in window){SC.io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)SC.vis.add(en.target);else SC.vis.delete(en.target)});requestAnimationFrame(onScroll)},{rootMargin:'160px 0px'}); /* 가시 집합이 바뀌면 한 프레임 재계산 — 점프 스크롤 대비 */
+  SC.lit.forEach(x=>SC.io.observe(x.el));SC.proc.forEach(x=>SC.io.observe(x.el));SC.imgs.forEach(x=>SC.io.observe(x));const neo=document.getElementById('neo');if(neo)SC.io.observe(neo)}
+}
+const isVis=el=>SC.io?SC.vis.has(el):true;
+function onScroll(){const y=scrollY,vh=innerHeight;
+ /* --- 읽기 단계 --- */
+ const W=[];
+ W.push(()=>{document.getElementById('sbar').style.width=(y/Math.max(1,document.documentElement.scrollHeight-vh)*100)+'%'});
  const ht=document.getElementById('heroText'),hm=document.getElementById('heroMedia');
- if(ht&&ht.offsetParent!==null){const p=Math.min(1,y/(vh*.55));ht.style.opacity=1-p*.9;ht.style.transform=`translateY(${-p*48}px)`;const s=.92+.08*Math.min(1,y/300);hm.style.transform=`scale(${s})`}
- litEls.forEach(el=>{const ws=el.querySelectorAll('.w');if(!ws.length||el.offsetParent===null)return;const r=el.getBoundingClientRect();const p=Math.max(0,Math.min(1,(vh*.78-r.top)/(r.height+vh*.25)));const n=Math.round(p*ws.length);ws.forEach((w,i)=>w.classList.toggle('on',i<n))});
- document.querySelectorAll('.proc').forEach(pr=>{if(pr.offsetParent===null)return;const r=pr.getBoundingClientRect();const p=Math.max(0,Math.min(1,(vh*.72-r.top)/(r.height*.9)));const line=pr.querySelector('.line i');if(line)line.style.width=(p*100)+'%';const lis=pr.querySelectorAll('li');lis.forEach((li,i)=>li.classList.toggle('on',i<Math.ceil(p*lis.length)))});
- neoSync();
- document.querySelectorAll('.tile .media img').forEach(img=>{if(img.offsetParent===null)return;const r=img.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;const d=(r.top+r.height/2-vh/2)/vh;img.style.objectPosition=`50% ${Math.max(28,Math.min(72,50+d*22))}%`})}
-let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{onScroll();ticking=false})}},{passive:true});addEventListener('resize',onScroll);
+ if(ht&&y<vh*1.2&&ht.offsetParent!==null){const p=Math.min(1,y/(vh*.55)),s=.92+.08*Math.min(1,y/300);W.push(()=>{ht.style.opacity=1-p*.9;ht.style.transform=`translateY(${-p*48}px)`;hm.style.transform=`scale(${s})`})}
+ SC.lit.forEach(x=>{if(!x.ws.length||!isVis(x.el))return;const r=x.el.getBoundingClientRect();const p=Math.max(0,Math.min(1,(vh*.78-r.top)/(r.height+vh*.25)));const n=Math.round(p*x.ws.length);if(x.n===n)return;x.n=n;W.push(()=>x.ws.forEach((w,i)=>w.classList.toggle('on',i<n)))});
+ SC.proc.forEach(x=>{if(!isVis(x.el))return;const r=x.el.getBoundingClientRect();const p=Math.max(0,Math.min(1,(vh*.72-r.top)/(r.height*.9)));const n=Math.ceil(p*x.lis.length);W.push(()=>{if(x.line)x.line.style.width=(p*100)+'%';if(x.n!==n){x.n=n;x.lis.forEach((li,i)=>li.classList.toggle('on',i<n))}})});
+ SC.imgs.forEach(img=>{if(!isVis(img))return;const r=img.getBoundingClientRect();const d=(r.top+r.height/2-vh/2)/vh;const v=Math.max(28,Math.min(72,50+d*22)).toFixed(1);if(img._op===v)return;img._op=v;W.push(()=>{img.style.objectPosition=`50% ${v}%`})});
+ const neo=document.getElementById('neo');const neoW=(neo&&isVis(neo))?neoRead():null;
+ /* --- 쓰기 단계 --- */
+ W.forEach(f=>f());if(neoW)neoW();}
+let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{onScroll();ticking=false})}},{passive:true});addEventListener('resize',onScroll);scCollect();
 
 /* 상단 히어로 아래 필름 스트립 — 한 컷(.strip-cell) 구조로 함께 흐름 */
 (function(){const ids=[37952639,28808360,38059003,3062535,7513459,2925328,4561940,38059005,3935027,6559472];const caps=['INT. 스튜디오','EXT. 블루아워','SET. 광고 촬영','EXT. 로케이션','INT. 현장','SET. 인터뷰','INT. 모니터','SET. 2캠','INT. 조명','INT. 편집실'];
@@ -1747,7 +1791,6 @@ document.addEventListener('click',e=>{const r=e.target.closest('.rangebar .r[dat
 
 /* 홈 화면 포트폴리오 & 섭외 페이지 사례 */
 const epList=VIDEOS.filter(v=>v.kind==='ep');
-const shortList=VIDEOS.filter(v=>v.kind==='short');
 mountPicker(document.getElementById('homeReels'),VIDEOS,{});
 
 document.getElementById('castCases').innerHTML=
@@ -1770,12 +1813,13 @@ document.getElementById('castCases').innerHTML=
  new IntersectionObserver(es=>es.forEach(en=>{if(en.intersectionRatio>=.35)playChat();else if(en.intersectionRatio===0){run++;items.forEach(x=>x.classList.remove('shown'));log.querySelectorAll('.typing').forEach(x=>x.remove())}}),{threshold:[0,.35]}).observe(chat)})();
 
 /* 타일 기울기·스포트라이트 */
-document.addEventListener('mousemove',e=>{const t=e.target.closest('.tile');if(!t||!matchMedia('(hover:hover)').matches)return;const r=t.getBoundingClientRect();t.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');t.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')});
+document.addEventListener('mouseover',e=>{const t=e.target.closest('.tile');if(t)t._rect=t.getBoundingClientRect()},{passive:true});
+document.addEventListener('mousemove',e=>{const t=e.target.closest('.tile');if(!t||!matchMedia('(hover:hover)').matches)return;const r=t._rect||(t._rect=t.getBoundingClientRect());t.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');t.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')},{passive:true});
 /* 상황 타일 */
 document.getElementById('situations').innerHTML=SITUATIONS.map((s,i)=>`<div class="tile reveal ${s.hot?'hot':''}"><div class="tx">${s.hot?'<span class="rec-tag">RECOMMENDED · 정기 구독</span>':''}<h3>${s.h}</h3><p>${s.p}${s.todo?` <span class="todo">${s.todo}</span>`:''}</p><div class="links"><a class="lnk" href="#contact" data-sit="${i}">이 조건으로 시작하기</a></div></div><div class="media">${im(s.img,1200)}</div></div>`).join('');
 
 /* 범위 선택 */
-let curType='youtube',curRange=2;
+let curRange=2;
 const priceMode=(k,i)=>(k==='youtube'&&i===2)?'패키지 STANDARD · DELUXE':(k==='youtube'&&i===5)?'패키지 PREMIUM':RSTEPS[i-1].pm;
 const STAGES=[['plan','기획'],['script','대본'],['shoot','촬영'],['edit','편집'],['ops','운영']];
 function renderSeg(){
@@ -1828,15 +1872,18 @@ document.getElementById('neoStage').innerHTML=SPECS.map((s,i)=>`<div class="card
 document.getElementById('neoM').innerHTML=SPECS.map((s,i)=>`<div class="nm reveal"><div class="card" style="--c:${s.c}"><div class="pop">${im(s.img,1000)}</div><span class="tag">${s.k}</span><span class="lbl">${s.lbl}</span></div><div class="nm-tx"><small>${s.k} · ${i+1} / ${SPECS.length}</small><b style="color:${s.c}">${s.lead}</b><p>${s.h}. ${s.p}</p></div></div>`).join('');
 let neoIdx=-1;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-function neoSync(){const sec=document.getElementById('neo');if(!sec||sec.offsetParent===null||innerWidth<=980)return;const r=sec.getBoundingClientRect();const total=r.height-innerHeight;const p=clamp(-r.top/total,0,1);const N=SPECS.length;
+const NEO={f:-1};
+function neoSync(){NEO.f=-1;const w=neoRead();if(w)w()}
+function neoRead(){const sec=document.getElementById('neo');if(!sec||sec.offsetParent===null||innerWidth<=980)return null;const r=sec.getBoundingClientRect();const total=r.height-innerHeight;const p=clamp(-r.top/total,0,1);const N=SPECS.length;
  /* 각 카드가 자기 구간의 약 65%를 머문 뒤 나머지 35% 동안 다음 카드로 전환 */
  const raw=clamp(p*N,0,N-1e-6),i=Math.floor(raw),t=raw-i,HOLD=.65;const e=t<HOLD?0:(t-HOLD)/(1-HOLD);const es=e*e*(3-2*e);const f=clamp(i+es,0,N-1);
- document.querySelectorAll('#neoStage .card').forEach((c,i)=>{const d=i-f;
+ if(NEO.f===f)return null;NEO.f=f;
+ return()=>{(NEO.cards||(NEO.cards=[...document.querySelectorAll('#neoStage .card')])).forEach((c,i)=>{const d=i-f;
   if(d<0){const g=clamp(-d,0,1);c.style.transform=`translateY(${-130*g}%) rotate(${7*g}deg) scale(${1-.05*g})`;c.style.opacity=1-g;c.style.zIndex=20-i}
   else{c.style.transform=`translateY(${d*7}%) scale(${1-d*.06}) rotate(${-2.5*d}deg)`;c.style.opacity=1;c.style.zIndex=20-i}
   const front=Math.abs(d)<.5;c.querySelector('.lbl').style.opacity=front?1:.25;c.querySelector('.tag').style.opacity=front?1:.25});
- document.querySelectorAll('#neoTxt .t').forEach((t,i)=>{const o=clamp(1-Math.max(0,Math.abs(i-f)-.22)*2.6,0,1);t.style.opacity=o;t.style.transform=`translateY(${(i-f)*22}px)`;t.style.pointerEvents=o>.5?'auto':'none'});
- const idx=Math.round(f);if(idx!==neoIdx){neoIdx=idx;document.getElementById('neoStage').style.setProperty('--glowc',SPECS[idx].c+'55');document.querySelectorAll('#neoTxt .dots i').forEach((d,i)=>d.classList.toggle('on',i===idx))}}
+ (NEO.txt||(NEO.txt=[...document.querySelectorAll('#neoTxt .t')])).forEach((t,i)=>{const o=clamp(1-Math.max(0,Math.abs(i-f)-.22)*2.6,0,1);t.style.opacity=o;t.style.transform=`translateY(${(i-f)*22}px)`;t.style.pointerEvents=o>.5?'auto':'none'});
+ const idx=Math.round(f);if(idx!==neoIdx){neoIdx=idx;document.getElementById('neoStage').style.setProperty('--glowc',SPECS[idx].c+'55');(NEO.dots||(NEO.dots=[...document.querySelectorAll('#neoTxt .dots i')])).forEach((d,i)=>d.classList.toggle('on',i===idx))}}}
 
 /* 회사소개 */
 document.getElementById('aboutBehind').innerHTML=[3935026,38059005,7239946,18366238].map(id=>`<div class="lb">${im(id,800)}</div>`).join('');
@@ -1869,7 +1916,7 @@ function renderField(k){const f=FIELDS[k]||FIELDS.youtube;const bar=RANGE.map((r
  };
  document.getElementById('page-field').innerHTML=`<section class="phero"><div class="wrap"><span class="slug">${f.en}</span><h1 style="margin-top:14px">${f.head}</h1><p class="sub">${f.sub}</p><div class="links"><a class="lnk" href="#contact" data-pre-type="${k}">이 장르로 견적 계산하기</a><a class="lnk" href="#portfolio">레퍼런스 살펴보기</a></div></div><div class="lb frame">${im(f.img,1920)}</div></section>`
   +f.order.map(key=>S[key]).join('')
-  +`<section class="cta-final"><div class="wrap reveal"><h2>${f.name} 제작,<br>가장 확실하게 시작하세요.</h2><p>버튼을 누르면 견적 계산기에 '${f.name}' 장르가 자동으로 세팅됩니다.</p><div class="row"><a class="pill" href="#contact" data-pre-type="${k}">이 장르로 견적문의</a><a class="pill ghost" href="#contact">카카오톡 간편 상담</a></div></div></section>`;
+  +`<section class="cta-final"><div class="wrap reveal"><h2>${f.name} 제작,<br>가장 확실하게 시작하세요.</h2><p>버튼을 누르면 견적 계산기에 '${f.name}' 장르가 자동으로 세팅됩니다.</p><div class="row"><a class="pill" href="#contact" data-pre-type="${k}">이 장르로 견적문의</a><a class="pill ghost" data-kakao href="#">카카오톡 간편 상담</a></div></div></section>`;
  mountPicker(document.getElementById('fieldReels-'+k),VIDEOS,{genres:false});
  observe()}
 
@@ -1920,7 +1967,19 @@ document.getElementById('c-min').addEventListener('input',e=>{CALC.min=+e.target
 document.getElementById('c-region').addEventListener('change',e=>{CALC.region=e.target.value;renderEst()});
 
 /* ---------- 견적 폼 ---------- */
-const QUOTE_MAIL='quote@greyfilm.kr';
+/* ---------- 연락처 설정 (시연용: 개인 계정) — 본작업 시 이 블록만 교체 ---------- */
+const CONTACT={
+ mail:'lovelysunnyway@gmail.com',          /* 견적문의 수신 메일 */
+ kakaoMail:'my-teddy@nate.com',             /* 카카오톡 버튼 — 오픈채팅 링크 확정 전까지 메일로 대체 수신 */
+ kakaoUrl:'https://open.kakao.com/o/s0Ro0qTi', /* 1:1 오픈채팅 — 버튼을 누르면 고객별 개별 대화방이 열림 */
+ pdf:'시네글로우_회사소개서_빈파일.pdf'      /* 회사소개서 파일명 — 정식 파일로 교체 시 같은 이름으로 올리거나 여기만 수정 */
+};
+const QUOTE_MAIL=CONTACT.mail;
+function kakaoHref(){return CONTACT.kakaoUrl||`mailto:${CONTACT.kakaoMail}?subject=${encodeURIComponent('[카카오톡 상담 요청] 시네글로우 홈페이지')}&body=${encodeURIComponent('카카오톡으로 상담을 원합니다.\n\n성함/기업명: \n카카오톡 ID 또는 연락처: \n문의 내용: ')}`}
+function wireContacts(){
+ document.querySelectorAll('a[data-kakao]').forEach(a=>{a.href=kakaoHref();if(!CONTACT.kakaoUrl){a.title='오픈채팅 링크 확정 전 — 지금은 메일로 접수됩니다'}else{a.target='_blank';a.rel='noopener'}});
+ document.querySelectorAll('a[data-pdf]').forEach(a=>{a.href=encodeURI(CONTACT.pdf);a.setAttribute('download',CONTACT.pdf)})}
+wireContacts();
 document.getElementById('optType').innerHTML=FIELD_ORDER.map((k,i)=>`<label><input type="radio" name="type" value="${k}" ${i===0?'checked':''}>${FIELDS[k].name}</label>`).join('');
 const form=document.getElementById('quoteForm');
 function toast(msg,ms){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),ms||3600)}
@@ -1933,7 +1992,7 @@ form.addEventListener('submit',e=>{e.preventDefault();
  const subject=`[영상 견적] ${type} · ${range} · ${name}`;
  const body=[`■ 영상 장르: ${type}`,`■ 제작 범위: ${range}`,`■ 섭외 옵션: ${cs.join(', ')||'-'}`,'',`■ 실시간 예상 금액(상담 후 확정): ${won(total)} (VAT 별도)`,...lines.map(l=>`  - ${l[0]}: ${won(l[1])}`),`  - 세부 조건: 카메라 ${CALC.cams}대 · 감독 ${CALC.dirs}명 · 러닝타임 ${CALC.min}분 · 지역 ${RATES.regionName[CALC.region]} · 숏폼 ${CALC.shorts}편`,'',`■ 희망 촬영 시기: ${document.getElementById('f-when').value||'-'}`,`■ 가용 예산: ${document.getElementById('f-budget').value}`,`■ 레퍼런스: ${document.getElementById('f-ref').value||'-'}`,`■ 상세 내용:`,document.getElementById('f-msg').value||'-','',`■ 성함·기업명: ${name}`,`■ 연락처: ${phone}`,`■ 이메일: ${document.getElementById('f-email').value||'-'}`,'',`— CINEGLOW 공식 홈페이지 견적 시스템에서 발송됨`].join('\n');
  location.href=`mailto:${QUOTE_MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
- toast('기본 메일 앱이 실행됩니다 — 제목 [영상 견적]으로 그레이필름에 즉시 전달 (본작업 시 다이렉트 서버 발송으로 연동)',5000)});
+ toast('기본 메일 앱이 실행됩니다 — 제목 [영상 견적]으로 시네글로우에 즉시 전달 (본작업 시 서버 발송으로 연동)',5000)});
 document.getElementById('optCast').addEventListener('change',e=>{const cs=[...document.querySelectorAll('input[name="cast"]')];const none=cs.find(c=>c.value==='none');
  if(e.target===none&&none.checked)cs.forEach(c=>{if(c!==none)c.checked=false});else if(e.target.checked)none.checked=false;
  if(!cs.some(c=>c.checked))none.checked=true;summary()});
@@ -1960,11 +2019,13 @@ function showPrebar(){const bar=document.getElementById('prebar');const p=pendin
 /* 라우터 */
 const pages=['home','range','field','casting','portfolio','about','contact'];
 function route(){let h=(location.hash||'#home').slice(1);let page=h.startsWith('field-')?'field':h;if(!pages.includes(page))page='home';
- if(page==='field')renderField(h.slice(6));
+ if(page==='field')renderField(h.slice(6));wireContacts();
  pages.forEach(p=>document.getElementById('page-'+p).classList.toggle('show',p===page));
+ /* v40: 비활성 페이지의 이미지는 src를 보류했다가 페이지가 열릴 때 주입 — 브라우저별 lazy 처리 차이에 대한 안전장치 */
+ document.querySelectorAll('#page-'+page+' img[data-src]').forEach(i=>{i.src=i.dataset.src;i.removeAttribute('data-src')});
  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===page||(page==='field'&&a.dataset.nav==='range')));
  document.getElementById('float').classList.toggle('hide',page==='contact');
- closePlayers();closeModal();closeDrawer();window.scrollTo({top:0,behavior:'instant'});observe();neoIdx=-1;onScroll();
+ closePlayers();closeModal();closeDrawer();window.scrollTo({top:0,behavior:'instant'});observe();watchReels();watchBands();scCollect();neoIdx=-1;NEO.f=-1;NEO.cards=NEO.txt=NEO.dots=null;onScroll();
  if(page==='contact'){summary();showPrebar()}}
 window.addEventListener('hashchange',route);
 /* 사이드 메뉴 */
@@ -1993,11 +2054,21 @@ function countUp(el){const to=+el.dataset.count,dec=+(el.dataset.dec||0),t0=perf
 function observe(){document.querySelectorAll('.words:not([data-split])').forEach(h=>{h.dataset.split=1;splitWords(h)});
  if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal,.words,.reveal-row').forEach(el=>el.classList.add('in'));document.querySelectorAll('[data-count]').forEach(countUp);return}
  io=io||new IntersectionObserver(es=>es.forEach(en=>{const el=en.target;
-  if(en.intersectionRatio>=.12){el.classList.add('in');el.querySelectorAll('.words').forEach(w=>w.classList.add('in'));el.querySelectorAll('[data-count]:not([data-done])').forEach(c=>{c.dataset.done=1;countUp(c)})}
-  else if(en.intersectionRatio===0&&!en.isIntersecting){el.classList.remove('in');el.querySelectorAll('.words').forEach(w=>w.classList.remove('in'));el.querySelectorAll('[data-count]').forEach(c=>{delete c.dataset.done;c.textContent='0'})}}),{threshold:[0,.12]});
+  if(en.intersectionRatio>=.04){el.classList.add('in');el.querySelectorAll('.words').forEach(w=>w.classList.add('in'));el.querySelectorAll('[data-count]:not([data-done])').forEach(c=>{c.dataset.done=1;countUp(c)})}
+  else if(en.intersectionRatio===0&&!en.isIntersecting){el.classList.remove('in');el.querySelectorAll('.words').forEach(w=>w.classList.remove('in'));el.querySelectorAll('[data-count]').forEach(c=>{delete c.dataset.done;c.textContent='0'})}}),{threshold:[0,.04],rootMargin:'0px 0px 160px 0px'}); /* v40: 화면 아래 160px 앞서 등장 시작 */
  document.querySelectorAll('.reveal-row:not([data-obs])').forEach(el=>{el.dataset.obs=1;io.observe(el)});
- document.querySelectorAll('.reveal:not([data-obs])').forEach(el=>{el.dataset.obs=1;const sib=[...el.parentElement.children].filter(x=>x.classList.contains('reveal'));const idx=sib.indexOf(el);el.style.transitionDelay=(Math.min(idx,7)*70)+'ms';io.observe(el)});
- document.querySelectorAll('.words:not([data-obs])').forEach(el=>{el.dataset.obs=1;if(!el.closest('.reveal'))io.observe(el)})}
+ /* v40: 순차 지연을 '줄 단위'로 — 같은 줄(같은 세로 위치)에 나란한 요소는 동시에, 다음 줄은 +90ms */
+ document.querySelectorAll('.reveal:not([data-obs])').forEach(el=>{el.dataset.obs=1;io.observe(el)});
+ document.querySelectorAll('.words:not([data-obs])').forEach(el=>{el.dataset.obs=1;if(!el.closest('.reveal'))io.observe(el)});
+ revealStagger()}
+function revealStagger(){const groups=new Map();
+ document.querySelectorAll('.reveal[data-obs]').forEach(el=>{const p=el.parentElement;if(!groups.has(p))groups.set(p,[]);groups.get(p).push(el)});
+ groups.forEach(list=>{if(list.length<2){list[0].style.transitionDelay='0ms';return}
+  const rows=[];list.forEach(el=>{const t=Math.round(el.offsetTop/8);let r=rows.findIndex(x=>Math.abs(x-t)<=1);if(r<0){rows.push(t);r=rows.length-1}el._row=r});
+  const order=[...rows].map((v,i)=>i).sort((a,b)=>rows[a]-rows[b]);
+  list.forEach(el=>{const rank=order.indexOf(el._row);el.style.transitionDelay=(Math.min(rank,6)*90)+'ms'})})}
+addEventListener('resize',()=>{clearTimeout(revealStagger._t);revealStagger._t=setTimeout(revealStagger,150)});
+document.querySelectorAll('.page img[loading="lazy"][src]').forEach(i=>{i.dataset.src=i.src;i.removeAttribute('src')});
 renderEst();route();
 </script>
 </body>
