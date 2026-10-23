@@ -1937,10 +1937,89 @@ html{overflow-x:clip} /* 카드 빛무리·탭이 오른쪽으로 삐져나와 �
 }
 
 /* ===== v160: 말풍선 크기 고정 → 앰버 판 크기 장마다 동일 ===== */
-.bubble{height:262px;box-sizing:border-box}
-.bubble .tx{-webkit-line-clamp:6;flex:none}
+.bubble{height:262px;box-sizing:border-box;overflow:visible}
+.bubble .tx{-webkit-line-clamp:5;flex:none;max-height:120px}
+.bubble .who{flex:none}
 .bubble .who{margin-top:auto}
 #page-home .bubbles{grid-auto-rows:262px}
+
+/* ===== v161: 모바일 홈 — 한 번 스와이프 = 한 화면 (980px 이하에만 적용, PC 변화 없음) ===== */
+.mcell{display:contents}
+@media (min-width:981px){#page-home .scr>.mcell>*{width:100%}}
+@media (max-width:980px){
+ :root{--mh:calc(100svh - var(--nav))}
+ html:has(body.snap){scroll-snap-type:y mandatory;scroll-padding-top:var(--nav)}
+ body.snap footer{scroll-snap-align:end}
+ #page-home .scr,#page-home .hero{min-height:0;padding-block:40px 24px;overflow:visible} /* overflow:hidden이면 그 칸이 자체 스크롤 영역이 되어 안쪽 스냅이 문서 스크롤에 안 걸림 */
+ /* 화면 한 칸: 스냅 지점 + 최소 한 화면 높이 + 내용 세로 가운데, 아래 떠 있는 버튼 띠(76px)만큼 여유 */
+ .mcell,#page-home .scr>.wrap>.sh,#sec-cast>.wrap,#sec-why>.wrap,#sec-proc>.wrap,#page-home .tiles>.tile,#page-home .cmp .col,#page-home .chat,#page-home .bubble:nth-child(odd){scroll-snap-align:start;scroll-snap-stop:always}
+ #page-home #sec-proc>.wrap>.sh{scroll-snap-align:none}
+ .mcell,#sec-cast>.wrap,#sec-why>.wrap,#sec-proc>.wrap,#page-home .tiles>.tile,#page-home .cmp .col,#page-home .chat{box-sizing:border-box;min-height:var(--mh);display:flex;flex-direction:column;justify-content:center;padding-bottom:84px}
+ #page-home .scr>.wrap>.sh{scroll-margin-top:12px}
+ #page-home .hero.scr{padding:0}
+ .hero .mcell:first-of-type{padding-top:16px}
+ .hero .mcell .cam-wrap{margin-top:14px}
+ .hero .mcell:last-of-type .hero-stats{margin:0 0 10px}
+ .hero .mcell:last-of-type .stats{grid-template-columns:repeat(3,1fr);gap:8px}
+ .hero .mcell:last-of-type .stat .n{font-size:26px}
+ .hero .mcell:last-of-type .stat .l{font-size:11px}
+ .hero .mcell:last-of-type .strip{margin-top:14px;zoom:.6}
+ .hero .mcell:last-of-type .lit{font-size:20px;padding:0 16px}
+ #page-home .scr>.wrap .sh{margin-bottom:22px}
+ /* 카드: 한 장 = 한 화면(첫 장은 제목과 같은 화면), 분야 카드는 두 장씩 */
+ #page-home .tiles,#page-home .tiles.c4,#page-home .tiles.c7{grid-template-columns:1fr;gap:18px}
+ #page-home .tiles.c7 .tile{min-height:calc(var(--mh)/2 - 20px);padding-bottom:0}
+ #page-home .tiles.c7 .tile:nth-child(even){scroll-snap-align:none}
+ #page-home .tile .media img{max-height:38svh;object-fit:cover}
+ /* 정기 제작: 비교 → 추천 → 대화방(버튼 포함) */
+ #page-home .team{display:block}
+ #page-home .cmp{display:block}
+ #page-home .cmp .col{margin-bottom:18px;min-height:calc(var(--mh) - 20px)}
+ #page-home .chat{min-height:calc(var(--mh) - 90px);padding-bottom:0}
+ #page-home .chat .log{height:min(52svh,420px)}
+ #page-home .sub-acts{margin-top:18px;padding-bottom:84px}
+ /* 섭외: 2×2 그대로 한 화면 */
+ #castPhotos{grid-template-columns:1fr 1fr;gap:10px}
+ /* 제작 사례: 칸 전체가 한 화면 */
+ #sec-reels{scroll-snap-align:start;scroll-snap-stop:always;box-sizing:border-box;min-height:var(--mh);display:flex;flex-direction:column;justify-content:center;padding-bottom:84px}
+ #page-home #sec-reels>.wrap{scroll-snap-align:none;min-height:0;display:block;padding-bottom:0}
+ #page-home #sec-reels .reel-foot{margin-top:10px}
+ #reel-home{zoom:.62}
+ /* 후기: 두 개씩 */
+ #page-home .bubbles{grid-template-columns:1fr;gap:14px}
+ .bubble{height:auto;min-height:calc(var(--mh)/2 - 40px)}
+ .bubble .tx{-webkit-line-clamp:8}
+ /* 제작 과정: 두 단계씩, 문의 카드는 한 화면 */
+ /* 제작 과정 + 문의: 한 화면에 — 단계는 아이콘 왼쪽·글 오른쪽의 압축 목록, 문의 카드는 축소 */
+ #page-home .proc ol{grid-template-columns:1fr;gap:8px}
+ #page-home .proc li{min-height:0;display:grid;grid-template-columns:44px 1fr;column-gap:12px;align-items:center;text-align:left;opacity:1;transform:none}
+ #page-home .proc li .ic{width:44px;height:44px;margin:0;grid-row:1/4;border-radius:12px}
+ #page-home .proc li .ic svg{width:20px;height:20px}
+ #page-home .proc li .ic b{display:none}
+ #page-home .proc li .k{font-size:10px}
+ #page-home .proc li h3{font-size:16px;margin-top:2px}
+ #page-home .proc li p{display:none}
+ #page-home .proc li{padding:4px 0}
+ #page-home .proc li .k{margin:0}
+ #sec-proc .sh{margin-bottom:14px}
+ #sec-proc .sh p{display:none}
+ #page-home .proc-stage{gap:0}
+ #page-home .cta-card{margin-top:16px;padding:16px 16px 14px;text-align:left;min-height:0}
+ #page-home .cta-card h2{font-size:17px;margin-top:4px}
+ #page-home .cta-card h2 br{display:none}
+ #page-home .cta-card p{display:none}
+ #page-home .cta-card .row{margin-top:10px;justify-content:flex-start;gap:8px}
+ #page-home .cta-card .pill{font-size:13px;padding:9px 12px}
+ /* 일하는 방식·제작 범위: 제목과 함께 한 칸(내용이 길면 그 안에서 스크롤) */
+ #page-home .tl{scroll-snap-align:start;scroll-snap-stop:always;box-sizing:border-box;min-height:var(--mh);display:flex;flex-direction:column;justify-content:center;padding:16px 14px 90px;margin-top:0}
+ #page-home .tl .panel{padding:16px}
+ #page-home .why.board{padding:18px 14px}
+ #page-home .why.board .rows{gap:12px}
+ #page-home .why.board .row{grid-template-columns:1fr;gap:8px}
+ #page-home .why.board .lab{justify-self:start;padding:10px 16px;font-size:15px;transform:none;opacity:1}
+ #page-home .why.board .card{padding:12px 16px;font-size:14px;line-height:1.55;transform:none;opacity:1}
+ #sec-why>.wrap{justify-content:flex-start;padding-top:10px}
+}
 
 .todo{display:none!important}.proto-bar{display:none!important}
 </style>
@@ -1948,7 +2027,7 @@ html{overflow-x:clip} /* 카드 빛무리·탭이 오른쪽으로 삐져나와 �
 <body>
 
 <div id="sbar"></div>
-<div class="proto-bar" style="display:none">v160 — 함께한 이야기 말풍선 높이 고정(262px, 본문 6줄까지) → 장이 바뀌어도 앰버 판 크기 동일 / v159 — 후기 배치: 같은 작성자의 글이 한 장에 겹치지 않게(긴 글 순 유지) / v158 — 레일 꺾쇠 선 굵기 3.2→7 / v157 — 후기를 길고 성의 있는 글부터 순서대로 · 문구에서 플랫폼 이름 제거 / v156 — 제작 과정 레일 무늬를 빗금에서 꺾쇠(>>>)로 / v155 — 함께한 이야기에 크몽 실제 리뷰 24건(28건 중 선별, 한 장 6개 × 4장) · 닉네임·업종·재구매·작성 연월·별점 표시 / v154 — 홈 영상을 엑셀 목록(22편)으로 교체: 첫 화면 액정 기본 영상 = 아이돌 인력 사무소 EP.1, 홈 필름 릴도 같은 목록 · 포트폴리오·분야 페이지 목록은 그대로 / v153 — 제작 범위 아래 안내문(전문가 상담으로 결정하기…)도 칸 내용이 다 나온 뒤 맨 마지막에 / v152 — 일하는 방식 흰 카드 간격 확대 · 정기 제작 비교 칸·대화방에 진회색 테두리 상자 / v151 — 제작 과정 레일 양끝 대칭(1번 왼쪽 여유만큼 5번 오른쪽에도, 마지막 점등 시 끝까지 채움) / v150 — 일하는 방식의 작은 링크 삭제 · 아래 링크·버튼의 "맨 마지막 등장"이 줄 단위 지연 계산에 덮여 안 되던 문제 수정 · INDEX 글자 방향 수정 · 가로 스크롤 제거 / v149 — 함께한 이야기 "후기 수집 후 교체" 메모 삭제·말풍선 위아래 간격 확대 · 일하는 방식을 다른 칸과 같은 구성(위 제목 + 앰버 네모 판 안에 네 줄)으로 / v148 — 금액 수정: STANDARD 590,000 · DELUXE 890,000 · PREMIUM 3,500,000(월 5회 기준) · 기획 옵션 1,500,000(월 5회 기준) · 카메라 기본 2대, +1대 15만 · +1명 25만 · 숏폼 +1편 6만 · +1분 4만 · 지역 할증 9개 지역(제주 협의) / v147 — "추가 예정" 채움 박스 완전 제거(내용은 세로 가운데 정렬만) / v146 — 인덱스 탭을 번호·아이콘 없이 세로 INDEX 글자만으로 / v145 — 인덱스를 화면 오른쪽 가장자리 세로 앰버 탭으로(현재 칸 번호 표시), 목차 상자는 탭 왼쪽으로 열림 / v144 — 정기 제작 겉 검은 상자 제거 · 사진은 카드와 함께 올라오고, 아래 버튼·링크(정기 제작 상담하기·섭외 보기·전체 보기·문의 카드)는 맨 마지막에 · 오른쪽 목차는 "인덱스" 단추(커서를 올리거나 누르면 목차 상자가 열림) / v143 — 커서 빛무리가 카드 경계·이웃 카드에 잘리지 않게 · 카드 속 푸티지는 글이 다 올라온 뒤 맨 마지막에 등장 · 첫 화면 위아래 여백 동일 / v142 — 평점 표기 4.9 → 4.9 / 5.0 · 함께한 이야기: 말풍선이 모두 올라온 뒤에만 다음 장으로 넘어감(등장 시작 후 6초), 다음 장도 처음부터 하나씩 등장 / v141 — 필름 릴 재생시간 표기를 작게(11px) 오른쪽 아래(제목 띠 위)로 / v140 — 오른쪽 목차 위치 고정(점은 같은 자리, 글은 점 오른쪽으로 좌측 정렬) / v139 — 함께한 이야기: 대기 상태에서는 말풍선이 전혀 안 보이다가 하나씩 올라오며 모양이 생김(안의 글줄은 한 박자 뒤) / v138 — 사진 왼쪽부터 와이프되는 효과 제거(모든 등장은 아래에서 위로 통일) · 일하는 방식 4번째 줄 문구 교체 · 함께한 이야기 말풍선이 판 밖으로 보이지 않게 · 메뉴 홈은 목차 없이 첫 화면 이동만 / v137 — 첫 화면 카메라 2배 확대(상하 여백 5%까지 허용)·필름 띠 속 사진 축소 · 제작 범위는 제목→단계 선택→바→패널→안내문 순으로 등장 · 분야 카드 위아래 같은 높이(사진 잘라 채움) · 타일 묶음 순차 등장을 모든 페이지에 적용 · 함께한 이야기 배열 수정 · 제작 과정 글·아이콘·레일 타이밍 일치 / v136 — 첫 화면: 설명 한 줄·카메라 축소·링크 제거·통계 카운팅 복귀·글씨 흐려짐 제거·맨 아래 한 줄 축소 · 분야 카드 사진을 더 잘라 하단 여백 · 일하는 방식 네 번째 줄(장비 추천·투입) · 섭외 사진 축소 · 등장 효과를 "하나씩 차례로(0.5초 간격)"로 통일(타일·말풍선·과정·일하는 방식) / v135 — 4K 비례 확대(1920×1080 기준 화면이 크면 전체를 같은 비율로 확대) · 첫 화면과 소개를 한 칸으로(글 → 카메라 → 필름 띠 → 한 줄, 통계 3개는 홈에서 제외) · 제목과 설명 사이 간격 확대 · 일하는 방식은 원래 디자인 비율로(채움 박스 없음) · 섭외 사진 5:4 두 줄 · 제작 사례는 위에 영상 칸 + 아래 필름 릴 · 함께한 이야기 한 장에 두 줄 / v134 — 홈 각 칸의 위·아래 여백을 15% 이하로(내용이 세로 72% 미만이면 최대 1.1배 확대, 그래도 모자라면 "추가 예정" 점선 박스로 채움) / v133 — 홈을 한 화면 = 한 주제 구조로(데스크톱: 스크롤 스냅, 화면 높이 기준 10칸 + 첫 화면) · 통계·띠·한 줄을 "소개" 한 칸으로 · 시작 상황 4장 한 줄, 분야 7장 한 줄 · 제작 과정 + 문의 한 칸(목차 항목은 둘 다 유지) · 넘치는 칸은 자동 축소 / v132 — 홈 제작 사례를 섭외 아래로 · 제작 범위 선택기를 v100(5단계 버튼 + 단계 바 + 패널)으로 롤백 · 카메라 아래 통계 3개(누적 프로젝트·고객 만족도·평점) + 한 줄 소개(후기 띠에서는 제거) · 견적 페이지 상단 두 갈래 삭제, 그 자리에 패키지/상세 견적 탭(명칭 변경) · 오른쪽 목차를 모든 페이지에 / v131 — 홈 "이렇게 만들었습니다"는 필름 릴 대신 썸네일이 천천히 지나가는 띠(필름 구멍·선택기 없음, 커서를 올리면 멈춤, 누르면 그 자리 위에서 재생) / v130 — 선택기 타임라인을 굵은 바(선택 구간 채움)로 · 사이트 전체 섹션 간 여백 축소(섹션 80→56px, 제목 아래 44→28px, 마지막 문의 160→96px, 안내 띠·범위 카드·선반 간격 축소) / v129 — 홈 제작 범위 선택기를 가로 5칸 선택(번호·단계명·한 줄 설명·체크) + 아래 얇은 타임라인(선택 구간만 앰버 연결) + 결과 영역(제목·맡는 일·제공 결과물 | 버튼)으로 재구성. 바깥 큰 박스·세로 구분선·시간 눈금·구성 막대 제거 / v128 — 홈 순서 재배치(첫 화면 → 제작 사례 → 시작 상황 → 제작 범위 → 분야 → 일하는 방식 → 정기 제작 → 섭외 → 후기 → 제작 과정 → 상담) · 상담 입구를 견적과 대등하게(견적 페이지 상단 두 갈래 선택, 홈 마지막·분야 마지막에 버튼 나란히) / v127 — 문구 전면 수정(검토안 3번 "cineglow_v126_copy_review" 그대로 적용): 홈·범위·분야 7개·섭외·포트폴리오·회사소개·FAQ·견적·안내 메시지·메타태그. 가격·수치·TODO 태그는 유지, 미확정 항목은 TODO로 표시 / v126 — 카드(타일)의 진회색 바깥 박스 제거: 글과 사진만 남기고 배경·그림자 없음(추천 앰버 카드만 유지) · 홈 "제작 범위 안내"·구성표 "세부 내용 보기"는 제작 범위 페이지의 해당 단계 카드로 바로 이동(#range-N) · 범위 바로 이동한 카드는 보고 있는 동안 금색 테두리로 강조 유지(다른 단계 선택 시 전환) · 상담 모드 폼을 카드 하나로 재배치: 제목·한 줄 설명·성함/연락처/동의 한 줄씩·전체 폭 접수 버튼 / v125 — 제작 범위 바 클릭 이동 시 해당 카드가 화면 세로 정가운데 · 상담 모드 안내문을 "원하는 바를 듣고 함께 정한다"로 교체 · 상담 모드에서 브라우저 뒤로 가기를 누르면 원래 견적 페이지로 복귀(오른쪽 상자도 돌아가기 버튼으로 전환) / v124 — 분야 페이지 제작 흐름·제작 과정의 가로 레일을 홈과 같은 굵은 셰브런 레일(화살촉·점등)로 · 홈 구성표 간결화: 단계별 한 줄 훅만 크게, 맡는 일·고객 준비·결과물 표 삭제, 견적 기준은 한 줄, 버튼은 "세부 내용 보기"와 "이 구성으로 견적 계산" / v123 — 구성표(SCOPE SHEET)를 판매 목록 대신 "이 구성이 바꾸는 것" 감정선 문장 중심으로 재구성 · 분야 제작 흐름을 홈 다섯 단계와 완전히 같은 디자인(아이콘·번호 배지·STEP 라벨)으로 · QnA 차례 등장 효과 삭제 · 견적 요약 아래 "결정이 어려우면 상담으로" 버튼(성함·연락처·동의만 입력, 나머지는 상담 후 결정으로 자동 기입, 필수 표시) / v122 — 제작 범위 페이지의 범위 바는 누르면 요약 대신 아래 해당 단계 카드로 자동 이동(카드 잠깐 강조) · 타일 호버 빛무리가 카드 밖으로도 잘리지 않고 둥글게 퍼지도록 수정 / v121 — 홈 제작 범위 선택을 편집 타임라인 디자인으로: 트랙 5줄 위에 단계 클립이 시간순으로 놓이고, 클릭하면 클립이 금색으로 선택(흰 선택 테두리·핸들), 안 고른 단계는 빗금 CLIENT 클립, 눈금자·플레이헤드(마지막 선택 클립 끝으로 이동) / v120 — QnA 분야 구분 없이 한 줄 목록 · 마케팅 견적에서 영상 문구 제거(라벨·안내 분기) · 확대 카드를 뺀 자리에 상세 링크 복귀(상황 타일·분야 카드·정기 구독 비교·3가지 이유·섭외·디테일·견적) · 단계 설명(분야 제작 흐름·제작 과정)은 홈 다섯 단계 레일 디자인으로 통일 · 범위 바는 순서 고정, 선택만 살짝 넓어지고 색 강조 · 회사소개 사진 그리드 5×5 단일, 크기 절반 / v119 — 제작 범위 자유 구성: 기획·대본·촬영·편집·운영 어떤 조합이든 오른쪽에 맞춤 구성표(포함 내역·고객 준비·결과물·견적 기준)가 나옴, 체크박스·주황 블록 대신 스펙 시트 형식으로 재디자인 / v118 — 홈 제작 범위를 거꾸로: 왼쪽 세로 박스에서 기획·대본·촬영·편집·운영을 고르면 오른쪽 세로 박스가 맞는 패키지(①~⑤)를 골라 보여줌. 선택 외 포함 항목·상담 안내 표시, 기본 선택은 촬영+편집 / v117 — 효과는 v79 그대로(제목·등장·릴·단톡방·후기·장비·서랍·빨리 감기 전부 유지), 카드 호버 확대(v83~v112)만 제거. 내용은 v116까지 전부: 편집 모드·마케팅/QnA 페이지·패키지/세부 견적·총괄기획 옵션·영상/마케팅/영상+마케팅 3갈래·포트폴리오 선반·선결제 100%·모델명 삭제·회사명 시네글로우·FHD 글자 치수 / v112 — 카드 확대 요약을 카드형 섹션 전부로(분야 페이지 디테일·섭외 타일 / 제작 흐름 카드 / 맞춤 견적 카드 / 제작 범위 페이지 타일 2 / 홈 정기 구독 비교 카드 / 3가지 이유 / 회사소개 팀) · 사진 없는 카드는 한 단 구성 · 회사소개서는 내려받기 대신 새 탭에서 열기 / v111 — 포트폴리오를 필름 릴 대신 유튜브 홈 방식 선반으로(장르 선택 → 세부 분야별 가로 한 줄, 쇼츠는 세로 카드 줄, 필름 효과 없음) · 영상 목록에 '세부 분야' 열 추가(#admin 시트 양식 포함) · 사례 없는 장르는 세부 분야 이름으로 준비 중 선반 · 홈·분야·섭외 릴은 그대로 / v110 — 간단 견적에 총괄기획 옵션 카드 복귀(항상 표시 · PREMIUM에 더하는 토글, 다른 패키지에선 흐리게 두고 누르면 PREMIUM으로 전환) · 견적 요약·접수 대장 금액에 옵션 합산 / v109 — 검토 종합 반영: 결정 7건(구독 포함 범위·④ 대본 포함·기간 7일 1차본·편집 단독 상담·⑤ 전체 제작·견적 기준 한정·홍보영상 흐름) + 홍보·마케팅=더블유플래닛 마케팅 전반 + 통일성 수정 20건 / v108 — 제작 범위 패널 내용 위 정렬 · 분야 페이지 제작 과정에 단계별 설명 표시 / v107 — 3가지 이유 구조·강조 통일(문제 → 해결, 핵심 구절 강조 3개 모두) / v106 — 분야 페이지 디테일·섭외 타일 정리(짧은 줄 나열, 문장 제거) / v105 — 정렬·서체 통일(플로팅 버튼 3개 동일 크기, 릴 배지 동일 스타일, 중복 화살표 제거) / v104 — 카드 설명을 개조식으로(제작 과정·분야 흐름·섭외·범위 포함 내역) / v103 — 어색한 표현 손질(번역투·압축체 → 자연스러운 한국어) / v102 — 등장 애니메이션 진동 수정(위로 지나간 타일이 숨김→표시를 반복하던 문제) / v101 — 설명문 마침표 단위 줄바꿈, 설명문 폭을 FHD 한 문장 기준(64ch)으로 / v100 — 사이트 문구 전반 간결화(섹션 설명·분야·상황·과정·섭외·장비·FAQ) / v99 — 단계 바 글자를 단계 이름만으로(고객 준비·시네글로우 꼬리표 제거) / v98 — 홈 제작 범위 단계 바를 위 카드와 같은 5열·간격으로 정렬 / v97 — 간단 견적 가독성: 패키지 카드는 이름·가격·사양 3~4줄, 요약 상자는 가격 중심 / v96 — 페이지 히어로 사진을 좌우 가득 배경(채도↓·블러·어둡게)으로 / v95 — 제작 범위 모듈 글자 확대(15→20~24px, 번호 14px) / v94 — 제작 과정 레일을 아이콘 세로 중앙에(홈 굵은 레일·분야 페이지 가는 레일 모두) / v93 — 빈 여백 정리: 한 화면 할당은 내용이 화면 60% 이상인 섹션에만 / v92 — 한 화면 할당을 주제 섹션에만 적용(범위 바·표 등 딸린 섹션은 내용 높이) / v91 — 한글 라벨 서체 통일(모노·자간은 영문 라벨에만, 한글 라벨은 Pretendard 세미볼드) / v90 — 홈 제작 범위 패널 높이 고정(선택과 무관) · 확대 카드 목록 불렛 제거(왼쪽 금색 선으로 구분), 제목/설명 줄 분리 점검 / v89 — 확대 카드 구성 통일(목록 제목+설명 → 순서·범위 칩 → 버튼), 홈 제작 범위 패널도 같은 목록 형식 / v88 — 확대 카드 오른쪽 칸을 글자·여백으로 채움(제목 42~60px, 본문 22~28px, 항목 간격 확대, 세로 균등 배치) / v87 — 확대 카드 대상(상황·분야·섭외·범위)의 작은 카드에선 링크 제거 · 섹션마다 한 화면(100vh) 채움·제목/설명 확대, 확대 카드 calc(92 * var(--vw1))×82vh·글자 전부 확대 / v86 — 요약 카드 1.5배(최대 1200px)·3단 구성, 버튼은 확대 카드에만(비교 링크 제외), 원래 상황 타일의 시작하기 링크 제거 / v84 — 본문 글자 확대(기본 17→18px, 작은 글자 +3px, 오른쪽 목차 16px) · 호버 요약 카드(견적 패키지 제외) · 현장 사진 그리드 3종 한 페이지(회사소개) · 홍보·마케팅 상단 메뉴 독립 / v83 — 호버 포커스: 화면 정중앙 이동·1.8배 폭·세부 요약 포함·나머지 전체 블러 / v82 — 아이콘 로고(파비콘·앱 아이콘, 로고 앞부분만 분리) / v81 — 로고·메뉴(QnA·홈 목차·견적문의 위치)·호버 포커스·정사각 그리드 3종·5단계 가독성·범위 바·제작 과정·간단 견적·홍보마케팅 분야 + 메뉴 바 비침 수정 / v80 — 편집 모드(#admin: 화면 클릭 편집 · 단가/연락처/사진/표시 패널 · index.html 내려받기) / v79 — 콘텐츠 분리(글·가격·연락처·사진·목록을 SITE 블록으로, 겉보기 변화 없음) / v78 — 히어로 연출 빨리 감기(스크롤을 빠르게 내리면 최대 6배속, 멈추면 1배속) / v77 — 광고 키 commercial→ad · 세로형 와이드 플레이어 · 모달 재생 상태 · 접수 안내 문구 / v76 — 모바일 히어로 확대 보정(보이는 폭 기준 배율·가장자리 페이드·조작 바 크기) · 시안 v8.2 — 성능 패스: 태그 블러·그레인 혼합·대형 블러 제거, 스크롤 핸들러 재구성, 릴 16편 단위·화면 밖 정지, 히어로 지연 삽입, OG·접근성 (v39 기준)</div>
+<div class="proto-bar" style="display:none">v161 — 모바일 홈(980px 이하): 한 번 스와이프 = 한 화면 — 첫 화면 2칸(제목·카메라 / 통계·띠·한 줄), 카드 1장 = 1화면(첫 장은 제목과 함께), 분야 2장씩, 정기 제작 3칸, 후기 2개씩, 과정 2단계씩 + 문의 카드 · 모바일은 후기 자동 넘김 끔 · PC 변화 없음 / v160 — 함께한 이야기 말풍선 높이 고정(262px, 본문 6줄까지) → 장이 바뀌어도 앰버 판 크기 동일 / v159 — 후기 배치: 같은 작성자의 글이 한 장에 겹치지 않게(긴 글 순 유지) / v158 — 레일 꺾쇠 선 굵기 3.2→7 / v157 — 후기를 길고 성의 있는 글부터 순서대로 · 문구에서 플랫폼 이름 제거 / v156 — 제작 과정 레일 무늬를 빗금에서 꺾쇠(>>>)로 / v155 — 함께한 이야기에 크몽 실제 리뷰 24건(28건 중 선별, 한 장 6개 × 4장) · 닉네임·업종·재구매·작성 연월·별점 표시 / v154 — 홈 영상을 엑셀 목록(22편)으로 교체: 첫 화면 액정 기본 영상 = 아이돌 인력 사무소 EP.1, 홈 필름 릴도 같은 목록 · 포트폴리오·분야 페이지 목록은 그대로 / v153 — 제작 범위 아래 안내문(전문가 상담으로 결정하기…)도 칸 내용이 다 나온 뒤 맨 마지막에 / v152 — 일하는 방식 흰 카드 간격 확대 · 정기 제작 비교 칸·대화방에 진회색 테두리 상자 / v151 — 제작 과정 레일 양끝 대칭(1번 왼쪽 여유만큼 5번 오른쪽에도, 마지막 점등 시 끝까지 채움) / v150 — 일하는 방식의 작은 링크 삭제 · 아래 링크·버튼의 "맨 마지막 등장"이 줄 단위 지연 계산에 덮여 안 되던 문제 수정 · INDEX 글자 방향 수정 · 가로 스크롤 제거 / v149 — 함께한 이야기 "후기 수집 후 교체" 메모 삭제·말풍선 위아래 간격 확대 · 일하는 방식을 다른 칸과 같은 구성(위 제목 + 앰버 네모 판 안에 네 줄)으로 / v148 — 금액 수정: STANDARD 590,000 · DELUXE 890,000 · PREMIUM 3,500,000(월 5회 기준) · 기획 옵션 1,500,000(월 5회 기준) · 카메라 기본 2대, +1대 15만 · +1명 25만 · 숏폼 +1편 6만 · +1분 4만 · 지역 할증 9개 지역(제주 협의) / v147 — "추가 예정" 채움 박스 완전 제거(내용은 세로 가운데 정렬만) / v146 — 인덱스 탭을 번호·아이콘 없이 세로 INDEX 글자만으로 / v145 — 인덱스를 화면 오른쪽 가장자리 세로 앰버 탭으로(현재 칸 번호 표시), 목차 상자는 탭 왼쪽으로 열림 / v144 — 정기 제작 겉 검은 상자 제거 · 사진은 카드와 함께 올라오고, 아래 버튼·링크(정기 제작 상담하기·섭외 보기·전체 보기·문의 카드)는 맨 마지막에 · 오른쪽 목차는 "인덱스" 단추(커서를 올리거나 누르면 목차 상자가 열림) / v143 — 커서 빛무리가 카드 경계·이웃 카드에 잘리지 않게 · 카드 속 푸티지는 글이 다 올라온 뒤 맨 마지막에 등장 · 첫 화면 위아래 여백 동일 / v142 — 평점 표기 4.9 → 4.9 / 5.0 · 함께한 이야기: 말풍선이 모두 올라온 뒤에만 다음 장으로 넘어감(등장 시작 후 6초), 다음 장도 처음부터 하나씩 등장 / v141 — 필름 릴 재생시간 표기를 작게(11px) 오른쪽 아래(제목 띠 위)로 / v140 — 오른쪽 목차 위치 고정(점은 같은 자리, 글은 점 오른쪽으로 좌측 정렬) / v139 — 함께한 이야기: 대기 상태에서는 말풍선이 전혀 안 보이다가 하나씩 올라오며 모양이 생김(안의 글줄은 한 박자 뒤) / v138 — 사진 왼쪽부터 와이프되는 효과 제거(모든 등장은 아래에서 위로 통일) · 일하는 방식 4번째 줄 문구 교체 · 함께한 이야기 말풍선이 판 밖으로 보이지 않게 · 메뉴 홈은 목차 없이 첫 화면 이동만 / v137 — 첫 화면 카메라 2배 확대(상하 여백 5%까지 허용)·필름 띠 속 사진 축소 · 제작 범위는 제목→단계 선택→바→패널→안내문 순으로 등장 · 분야 카드 위아래 같은 높이(사진 잘라 채움) · 타일 묶음 순차 등장을 모든 페이지에 적용 · 함께한 이야기 배열 수정 · 제작 과정 글·아이콘·레일 타이밍 일치 / v136 — 첫 화면: 설명 한 줄·카메라 축소·링크 제거·통계 카운팅 복귀·글씨 흐려짐 제거·맨 아래 한 줄 축소 · 분야 카드 사진을 더 잘라 하단 여백 · 일하는 방식 네 번째 줄(장비 추천·투입) · 섭외 사진 축소 · 등장 효과를 "하나씩 차례로(0.5초 간격)"로 통일(타일·말풍선·과정·일하는 방식) / v135 — 4K 비례 확대(1920×1080 기준 화면이 크면 전체를 같은 비율로 확대) · 첫 화면과 소개를 한 칸으로(글 → 카메라 → 필름 띠 → 한 줄, 통계 3개는 홈에서 제외) · 제목과 설명 사이 간격 확대 · 일하는 방식은 원래 디자인 비율로(채움 박스 없음) · 섭외 사진 5:4 두 줄 · 제작 사례는 위에 영상 칸 + 아래 필름 릴 · 함께한 이야기 한 장에 두 줄 / v134 — 홈 각 칸의 위·아래 여백을 15% 이하로(내용이 세로 72% 미만이면 최대 1.1배 확대, 그래도 모자라면 "추가 예정" 점선 박스로 채움) / v133 — 홈을 한 화면 = 한 주제 구조로(데스크톱: 스크롤 스냅, 화면 높이 기준 10칸 + 첫 화면) · 통계·띠·한 줄을 "소개" 한 칸으로 · 시작 상황 4장 한 줄, 분야 7장 한 줄 · 제작 과정 + 문의 한 칸(목차 항목은 둘 다 유지) · 넘치는 칸은 자동 축소 / v132 — 홈 제작 사례를 섭외 아래로 · 제작 범위 선택기를 v100(5단계 버튼 + 단계 바 + 패널)으로 롤백 · 카메라 아래 통계 3개(누적 프로젝트·고객 만족도·평점) + 한 줄 소개(후기 띠에서는 제거) · 견적 페이지 상단 두 갈래 삭제, 그 자리에 패키지/상세 견적 탭(명칭 변경) · 오른쪽 목차를 모든 페이지에 / v131 — 홈 "이렇게 만들었습니다"는 필름 릴 대신 썸네일이 천천히 지나가는 띠(필름 구멍·선택기 없음, 커서를 올리면 멈춤, 누르면 그 자리 위에서 재생) / v130 — 선택기 타임라인을 굵은 바(선택 구간 채움)로 · 사이트 전체 섹션 간 여백 축소(섹션 80→56px, 제목 아래 44→28px, 마지막 문의 160→96px, 안내 띠·범위 카드·선반 간격 축소) / v129 — 홈 제작 범위 선택기를 가로 5칸 선택(번호·단계명·한 줄 설명·체크) + 아래 얇은 타임라인(선택 구간만 앰버 연결) + 결과 영역(제목·맡는 일·제공 결과물 | 버튼)으로 재구성. 바깥 큰 박스·세로 구분선·시간 눈금·구성 막대 제거 / v128 — 홈 순서 재배치(첫 화면 → 제작 사례 → 시작 상황 → 제작 범위 → 분야 → 일하는 방식 → 정기 제작 → 섭외 → 후기 → 제작 과정 → 상담) · 상담 입구를 견적과 대등하게(견적 페이지 상단 두 갈래 선택, 홈 마지막·분야 마지막에 버튼 나란히) / v127 — 문구 전면 수정(검토안 3번 "cineglow_v126_copy_review" 그대로 적용): 홈·범위·분야 7개·섭외·포트폴리오·회사소개·FAQ·견적·안내 메시지·메타태그. 가격·수치·TODO 태그는 유지, 미확정 항목은 TODO로 표시 / v126 — 카드(타일)의 진회색 바깥 박스 제거: 글과 사진만 남기고 배경·그림자 없음(추천 앰버 카드만 유지) · 홈 "제작 범위 안내"·구성표 "세부 내용 보기"는 제작 범위 페이지의 해당 단계 카드로 바로 이동(#range-N) · 범위 바로 이동한 카드는 보고 있는 동안 금색 테두리로 강조 유지(다른 단계 선택 시 전환) · 상담 모드 폼을 카드 하나로 재배치: 제목·한 줄 설명·성함/연락처/동의 한 줄씩·전체 폭 접수 버튼 / v125 — 제작 범위 바 클릭 이동 시 해당 카드가 화면 세로 정가운데 · 상담 모드 안내문을 "원하는 바를 듣고 함께 정한다"로 교체 · 상담 모드에서 브라우저 뒤로 가기를 누르면 원래 견적 페이지로 복귀(오른쪽 상자도 돌아가기 버튼으로 전환) / v124 — 분야 페이지 제작 흐름·제작 과정의 가로 레일을 홈과 같은 굵은 셰브런 레일(화살촉·점등)로 · 홈 구성표 간결화: 단계별 한 줄 훅만 크게, 맡는 일·고객 준비·결과물 표 삭제, 견적 기준은 한 줄, 버튼은 "세부 내용 보기"와 "이 구성으로 견적 계산" / v123 — 구성표(SCOPE SHEET)를 판매 목록 대신 "이 구성이 바꾸는 것" 감정선 문장 중심으로 재구성 · 분야 제작 흐름을 홈 다섯 단계와 완전히 같은 디자인(아이콘·번호 배지·STEP 라벨)으로 · QnA 차례 등장 효과 삭제 · 견적 요약 아래 "결정이 어려우면 상담으로" 버튼(성함·연락처·동의만 입력, 나머지는 상담 후 결정으로 자동 기입, 필수 표시) / v122 — 제작 범위 페이지의 범위 바는 누르면 요약 대신 아래 해당 단계 카드로 자동 이동(카드 잠깐 강조) · 타일 호버 빛무리가 카드 밖으로도 잘리지 않고 둥글게 퍼지도록 수정 / v121 — 홈 제작 범위 선택을 편집 타임라인 디자인으로: 트랙 5줄 위에 단계 클립이 시간순으로 놓이고, 클릭하면 클립이 금색으로 선택(흰 선택 테두리·핸들), 안 고른 단계는 빗금 CLIENT 클립, 눈금자·플레이헤드(마지막 선택 클립 끝으로 이동) / v120 — QnA 분야 구분 없이 한 줄 목록 · 마케팅 견적에서 영상 문구 제거(라벨·안내 분기) · 확대 카드를 뺀 자리에 상세 링크 복귀(상황 타일·분야 카드·정기 구독 비교·3가지 이유·섭외·디테일·견적) · 단계 설명(분야 제작 흐름·제작 과정)은 홈 다섯 단계 레일 디자인으로 통일 · 범위 바는 순서 고정, 선택만 살짝 넓어지고 색 강조 · 회사소개 사진 그리드 5×5 단일, 크기 절반 / v119 — 제작 범위 자유 구성: 기획·대본·촬영·편집·운영 어떤 조합이든 오른쪽에 맞춤 구성표(포함 내역·고객 준비·결과물·견적 기준)가 나옴, 체크박스·주황 블록 대신 스펙 시트 형식으로 재디자인 / v118 — 홈 제작 범위를 거꾸로: 왼쪽 세로 박스에서 기획·대본·촬영·편집·운영을 고르면 오른쪽 세로 박스가 맞는 패키지(①~⑤)를 골라 보여줌. 선택 외 포함 항목·상담 안내 표시, 기본 선택은 촬영+편집 / v117 — 효과는 v79 그대로(제목·등장·릴·단톡방·후기·장비·서랍·빨리 감기 전부 유지), 카드 호버 확대(v83~v112)만 제거. 내용은 v116까지 전부: 편집 모드·마케팅/QnA 페이지·패키지/세부 견적·총괄기획 옵션·영상/마케팅/영상+마케팅 3갈래·포트폴리오 선반·선결제 100%·모델명 삭제·회사명 시네글로우·FHD 글자 치수 / v112 — 카드 확대 요약을 카드형 섹션 전부로(분야 페이지 디테일·섭외 타일 / 제작 흐름 카드 / 맞춤 견적 카드 / 제작 범위 페이지 타일 2 / 홈 정기 구독 비교 카드 / 3가지 이유 / 회사소개 팀) · 사진 없는 카드는 한 단 구성 · 회사소개서는 내려받기 대신 새 탭에서 열기 / v111 — 포트폴리오를 필름 릴 대신 유튜브 홈 방식 선반으로(장르 선택 → 세부 분야별 가로 한 줄, 쇼츠는 세로 카드 줄, 필름 효과 없음) · 영상 목록에 '세부 분야' 열 추가(#admin 시트 양식 포함) · 사례 없는 장르는 세부 분야 이름으로 준비 중 선반 · 홈·분야·섭외 릴은 그대로 / v110 — 간단 견적에 총괄기획 옵션 카드 복귀(항상 표시 · PREMIUM에 더하는 토글, 다른 패키지에선 흐리게 두고 누르면 PREMIUM으로 전환) · 견적 요약·접수 대장 금액에 옵션 합산 / v109 — 검토 종합 반영: 결정 7건(구독 포함 범위·④ 대본 포함·기간 7일 1차본·편집 단독 상담·⑤ 전체 제작·견적 기준 한정·홍보영상 흐름) + 홍보·마케팅=더블유플래닛 마케팅 전반 + 통일성 수정 20건 / v108 — 제작 범위 패널 내용 위 정렬 · 분야 페이지 제작 과정에 단계별 설명 표시 / v107 — 3가지 이유 구조·강조 통일(문제 → 해결, 핵심 구절 강조 3개 모두) / v106 — 분야 페이지 디테일·섭외 타일 정리(짧은 줄 나열, 문장 제거) / v105 — 정렬·서체 통일(플로팅 버튼 3개 동일 크기, 릴 배지 동일 스타일, 중복 화살표 제거) / v104 — 카드 설명을 개조식으로(제작 과정·분야 흐름·섭외·범위 포함 내역) / v103 — 어색한 표현 손질(번역투·압축체 → 자연스러운 한국어) / v102 — 등장 애니메이션 진동 수정(위로 지나간 타일이 숨김→표시를 반복하던 문제) / v101 — 설명문 마침표 단위 줄바꿈, 설명문 폭을 FHD 한 문장 기준(64ch)으로 / v100 — 사이트 문구 전반 간결화(섹션 설명·분야·상황·과정·섭외·장비·FAQ) / v99 — 단계 바 글자를 단계 이름만으로(고객 준비·시네글로우 꼬리표 제거) / v98 — 홈 제작 범위 단계 바를 위 카드와 같은 5열·간격으로 정렬 / v97 — 간단 견적 가독성: 패키지 카드는 이름·가격·사양 3~4줄, 요약 상자는 가격 중심 / v96 — 페이지 히어로 사진을 좌우 가득 배경(채도↓·블러·어둡게)으로 / v95 — 제작 범위 모듈 글자 확대(15→20~24px, 번호 14px) / v94 — 제작 과정 레일을 아이콘 세로 중앙에(홈 굵은 레일·분야 페이지 가는 레일 모두) / v93 — 빈 여백 정리: 한 화면 할당은 내용이 화면 60% 이상인 섹션에만 / v92 — 한 화면 할당을 주제 섹션에만 적용(범위 바·표 등 딸린 섹션은 내용 높이) / v91 — 한글 라벨 서체 통일(모노·자간은 영문 라벨에만, 한글 라벨은 Pretendard 세미볼드) / v90 — 홈 제작 범위 패널 높이 고정(선택과 무관) · 확대 카드 목록 불렛 제거(왼쪽 금색 선으로 구분), 제목/설명 줄 분리 점검 / v89 — 확대 카드 구성 통일(목록 제목+설명 → 순서·범위 칩 → 버튼), 홈 제작 범위 패널도 같은 목록 형식 / v88 — 확대 카드 오른쪽 칸을 글자·여백으로 채움(제목 42~60px, 본문 22~28px, 항목 간격 확대, 세로 균등 배치) / v87 — 확대 카드 대상(상황·분야·섭외·범위)의 작은 카드에선 링크 제거 · 섹션마다 한 화면(100vh) 채움·제목/설명 확대, 확대 카드 calc(92 * var(--vw1))×82vh·글자 전부 확대 / v86 — 요약 카드 1.5배(최대 1200px)·3단 구성, 버튼은 확대 카드에만(비교 링크 제외), 원래 상황 타일의 시작하기 링크 제거 / v84 — 본문 글자 확대(기본 17→18px, 작은 글자 +3px, 오른쪽 목차 16px) · 호버 요약 카드(견적 패키지 제외) · 현장 사진 그리드 3종 한 페이지(회사소개) · 홍보·마케팅 상단 메뉴 독립 / v83 — 호버 포커스: 화면 정중앙 이동·1.8배 폭·세부 요약 포함·나머지 전체 블러 / v82 — 아이콘 로고(파비콘·앱 아이콘, 로고 앞부분만 분리) / v81 — 로고·메뉴(QnA·홈 목차·견적문의 위치)·호버 포커스·정사각 그리드 3종·5단계 가독성·범위 바·제작 과정·간단 견적·홍보마케팅 분야 + 메뉴 바 비침 수정 / v80 — 편집 모드(#admin: 화면 클릭 편집 · 단가/연락처/사진/표시 패널 · index.html 내려받기) / v79 — 콘텐츠 분리(글·가격·연락처·사진·목록을 SITE 블록으로, 겉보기 변화 없음) / v78 — 히어로 연출 빨리 감기(스크롤을 빠르게 내리면 최대 6배속, 멈추면 1배속) / v77 — 광고 키 commercial→ad · 세로형 와이드 플레이어 · 모달 재생 상태 · 접수 안내 문구 / v76 — 모바일 히어로 확대 보정(보이는 폭 기준 배율·가장자리 페이드·조작 바 크기) · 시안 v8.2 — 성능 패스: 태그 블러·그레인 혼합·대형 블러 제거, 스크롤 핸들러 재구성, 릴 16편 단위·화면 밖 정지, 히어로 지연 삽입, OG·접근성 (v39 기준)</div>
 
 <header class="nav">
   <div class="wrap">
@@ -2003,7 +2082,7 @@ html{overflow-x:clip} /* 카드 빛무리·탭이 오른쪽으로 삐져나와 �
 <!-- ========== 홈 ========== -->
 <main id="page-home" class="page">
   <section class="hero scr" id="hero" data-nofill>
-    <div class="wrap" id="heroText">
+    <div class="mcell"><div class="wrap" id="heroText">
       <h1 class="split" id="heroH1" data-t="home.s1.1"></h1>
       <p class="sub" data-t="home.s1.2"></p>
       <div class="links"><a class="lnk" href="#contact" data-t="home.s1.3"></a><a class="lnk" href="#portfolio" data-t="home.s1.4"></a></div>
@@ -2025,11 +2104,11 @@ html{overflow-x:clip} /* 카드 빛무리·탭이 오른쪽으로 삐져나와 �
         <div class="cam-mask" id="camMask"></div>
       </div>
       <div class="cam-tags"><span data-t="home.s1.10"></span><span data-t="home.s1.11"></span><span data-t="home.s1.12"></span><span data-t="home.s1.13"></span><span data-t="home.s1.14"></span><span data-t="home.s1.15"></span><span data-t="home.s1.16"></span></div>
-    </div>
-    <div class="wrap hero-stats"><div class="stats reveal" data-stats></div></div>
+    </div></div>
+    <div class="mcell"><div class="wrap hero-stats"><div class="stats reveal" data-stats></div></div>
     <!-- v135: 첨부 이미지대로 첫 화면에 필름 띠 + 한 줄을 함께 -->
     <div class="strip"><div class="track" id="strip"></div></div>
-    <div class="lit-band"><p class="lit" id="lit1" data-t="home.s2.1"></p></div>
+    <div class="lit-band"><p class="lit" id="lit1" data-t="home.s2.1"></p></div></div>
   </section>
 
   <section class="scr band alt" id="sec-sit">
@@ -3502,7 +3581,7 @@ document.getElementById('castBehind').innerHTML=SITE.castBehind.map((id,i)=>`<di
   setTimeout(()=>{a.classList.remove('cur','flip-up','flip-down');b.classList.remove('next');b.classList.add('cur');cur=nx;busy=false;host.querySelectorAll('.dots i').forEach((x,i)=>x.classList.toggle('on',i===cur))},1000)}
  host.addEventListener('click',e=>{const b=e.target.closest('button[data-flip]');if(b){go(+b.dataset.flip);restart()}});
  /* v142: 현재 장의 말풍선이 모두 올라온 뒤(등장 시작 + 6초)에만 다음 장으로 */
- function restart(){clearInterval(timer);timer=setInterval(()=>{const r=host.getBoundingClientRect();const vis=r.bottom>0&&r.top<innerHeight&&host.offsetParent!==null;if(!vis||host.matches(':hover')||document.hidden)return;
+ function restart(){clearInterval(timer);if(innerWidth<981)return;timer=setInterval(()=>{const r=host.getBoundingClientRect();const vis=r.bottom>0&&r.top<innerHeight&&host.offsetParent!==null;if(!vis||host.matches(':hover')||document.hidden)return;
   const bb=pgs[cur].querySelector('.bubbles');if(bb){if(!bb.classList.contains('in')){bb._t=0;return}if(!bb._t){bb._t=Date.now();return}if(Date.now()-bb._t<6000)return}go(1)},500)}restart()})();
 
 /* 제작 과정 */
@@ -3835,7 +3914,7 @@ addEventListener('resize',()=>{clearTimeout(window._fbT);window._fbT=setTimeout(
 function rootZoom(){const Z=innerWidth>=981?Math.max(1,Math.min(innerWidth/1920,innerHeight/1080)):1;window.Z=Z;const h=document.documentElement;if(Z>1.01){h.style.zoom=Z.toFixed(3);h.style.setProperty('--z',Z.toFixed(3))}else{h.style.zoom='';h.style.setProperty('--z',1)}}
 rootZoom();
 function fitPages(){rootZoom();const pgs=document.querySelectorAll('#page-home.show .scr');if(!pgs.length)return;const Z=window.Z||1,nav=64*Z,ah=innerHeight-nav,minC=ah*.72,maxC=ah*.88;
- const span=pg=>{const kids=[...pg.children].filter(k=>!k.classList.contains('fillbox'));return kids.length?kids[kids.length-1].getBoundingClientRect().bottom-kids[0].getBoundingClientRect().top:0};
+ const span=pg=>{const kids=[...pg.children].flatMap(k=>k.classList.contains('mcell')?[...k.children]:[k]).filter(k=>!k.classList.contains('fillbox'));return kids.length?kids[kids.length-1].getBoundingClientRect().bottom-kids[0].getBoundingClientRect().top:0};
  pgs.forEach(pg=>{let fb=pg.querySelector(':scope>.fillbox');if(fb)fb.style.display='none';pg.style.setProperty('--fit',1);
   if(pg.id==='hero'){/* 첫 화면: 글·띠는 그대로, 카메라 크기만 조절해 72~88%에 맞춤 */
    const cw=pg.querySelector('.cam-wrap');if(!cw)return;cw.style.zoom=1;const total=span(pg),ch=cw.getBoundingClientRect().height;let z=1;
