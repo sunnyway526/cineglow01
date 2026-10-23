@@ -1806,14 +1806,143 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
 .rf .len{top:auto;bottom:74px;right:10px;font-size:11px;font-weight:500;letter-spacing:.06em;padding:3px 6px;border-radius:6px;background:rgba(0,0,0,.75);line-height:1.3}
 .rf.v916 .len{bottom:74px}
 
-/* 배포본: 노란 메모(TODO)·버전 띠 숨김 */
+/* ===== v143 ===== */
+.tile{overflow:visible}
+.tile:hover{z-index:3}
+.tile .media img{border-radius:var(--r-md)}
+.tiles.c7 .tile .media{overflow:hidden;border-radius:var(--r-md) 0 0 var(--r-md)}
+.tiles.c7 .tile .media img{border-radius:0}
+.tile.hot{border-radius:var(--r)}
+.tiles.reveal.seq .tile .media{opacity:0;transform:translateY(40px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.tiles.reveal.seq.in .tile .media{opacity:1;transform:none;transition-delay:calc(.3s + var(--n,4)*.5s + var(--i,0)*.12s)}
+#page-home .hero.scr{padding-block:calc(3.2 * var(--vh1))}
+
+/* ===== v144 ===== */
+/* 정기 제작: 겉 검은 상자 제거(추천 카드만 유지) */
+.cmp .col{background:transparent;padding:16px 10px}
+.cmp .col.us{padding:40px 26px 28px}
+.chat{background:transparent;padding:0 0 0 20px;overflow:visible;border-left:1px solid var(--line);border-radius:0}
+.chat .log{mask-image:none;-webkit-mask-image:none}
+/* 사진은 카드와 함께 올라옴(되돌림) */
+.tiles.reveal.seq .tile .media{opacity:1;transform:none;transition:none}
+.tiles.reveal.seq.in .tile .media{transition-delay:0s}
+/* 아래 버튼·링크 묶음은 맨 마지막에 */
+.reveal.foot{transform:translateY(26px);filter:none}
+#sec-sub .reveal.foot{transition-delay:1.9s}
+#sec-cast .reveal.foot{transition-delay:2.3s}
+#sec-reels .reveal.foot{transition-delay:1.2s}
+#sec-proc .reveal.foot{transition-delay:3.6s}
+/* 오른쪽 목차: 인덱스 단추 → 열리는 상자 */
+.toc{width:auto;padding:0;border:0;background:transparent!important;box-shadow:none!important;align-items:flex-end;transform:none;top:auto;bottom:30%;gap:8px}
+.toc:hover{padding:0;border:0}
+.toc-btn{font:inherit;font-size:13px;font-weight:600;letter-spacing:.04em;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(20,19,22,.92);color:rgba(245,242,236,.8);cursor:pointer;transition:color .2s,border-color .2s;order:2}
+.toc-btn i{width:14px;height:10px;background:repeating-linear-gradient(180deg,currentColor 0 2px,transparent 2px 4px);border-radius:1px}
+.toc-btn:hover,.toc.open .toc-btn{color:var(--glow);border-color:rgba(246,195,90,.5)}
+.toc-list{display:none;flex-direction:column;gap:2px;width:200px;background:rgba(20,19,22,.95);border:1px solid var(--line);border-radius:18px;padding:8px 6px;box-shadow:0 20px 50px rgba(0,0,0,.5);order:1}
+.toc:hover .toc-list,.toc.open .toc-list{display:flex}
+.toc a span{max-width:none;opacity:1}
+
+/* ===== v145: 인덱스 세로 탭 ===== */
+.toc{bottom:auto;top:50%;transform:translateY(-50%);flex-direction:row;align-items:center;gap:12px;right:0}
+.toc-btn{order:2;flex-direction:column;justify-content:center;gap:14px;width:46px;padding:18px 0 16px;border-radius:14px 0 0 14px;border:1px solid rgba(246,195,90,.45);border-right:0;background:linear-gradient(180deg,#F0B45A,#D98B2B);color:#1A1206;box-shadow:-10px 0 30px rgba(233,162,59,.25),0 10px 30px rgba(0,0,0,.4);letter-spacing:.18em;transition:transform .25s var(--ease),box-shadow .25s}
+.toc-btn:hover,.toc.open .toc-btn{color:#1A1206;border-color:var(--glow);transform:translateX(-4px);box-shadow:-14px 0 40px rgba(246,195,90,.4),0 10px 30px rgba(0,0,0,.4)}
+.toc-btn .tb-num{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;background:#1A1206;color:var(--glow);border-radius:999px;padding:3px 7px}
+.toc-btn .tb-tx{writing-mode:vertical-rl;font-size:14px;font-weight:700;letter-spacing:.3em;padding-top:.3em}
+.toc-btn .tb-ic{display:flex;flex-direction:column;gap:3px;align-items:center}
+.toc-btn .tb-ic i{display:block;height:2px;border-radius:2px;background:#1A1206;opacity:.8;width:16px}.toc-btn .tb-ic i:nth-child(2){width:11px}.toc-btn .tb-ic i:nth-child(3){width:14px}
+.toc-list{order:1;width:220px;background:rgba(16,15,18,.96);border:1px solid rgba(246,195,90,.28);border-radius:18px;padding:12px 8px;box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4);backdrop-filter:blur(14px)}
+.toc-list a{padding:8px 12px;font-size:15px;counter-increment:tocn}
+.toc-list a i{width:7px;height:7px}
+.toc-list a.on{background:rgba(246,195,90,.1)}
+.toc-list a.on i{transform:scale(1.5)}
+
+/* v146: INDEX 세로 글자만 */
+.toc-btn{width:40px;padding:22px 0;gap:0}
+.toc-btn .tb-tx{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.34em;padding:0}
+
+/* v147: 채움 박스 제거 */
+.fillbox{display:none!important}
+
+/* ===== v149 ===== */
+/* 함께한 이야기: 말풍선 위아래 간격 */
+#page-home .bubbles{gap:30px 18px}
+/* 일하는 방식: 다른 칸과 같은 제목 + 앰버 판(함께한 이야기와 같은 상자) */
+#page-home .why.board{padding:34px 40px 36px;display:block;background:var(--accent);border-radius:var(--r-card);max-width:1180px;margin:0 auto;box-shadow:0 24px 60px rgba(0,0,0,.35);position:relative;color:#1A1206}
+#page-home .why.board>.wrap{display:block}
+#page-home .why.board .rows{margin:0;gap:22px;flex:none;padding:0;max-width:none}
+#page-home .why.board .row{grid-template-columns:300px 1fr}
+#page-home .why.board .lab{padding:18px 26px}
+#page-home .why.board .card{padding:22px 32px}
+#page-home .why.board .why-lnk{color:#1A1206}
+#page-home #sec-why .sh h2 em{font-style:normal;color:var(--glow)}
+#page-home .why.board{padding:26px 34px 28px}
+#page-home .why.board .rows{gap:12px}
+#page-home .why.board .lab{padding:14px 22px;font-size:clamp(17px,calc(1.2 * var(--vw1)),20px)}
+#page-home .why.board .card{padding:16px 28px;font-size:clamp(15px,calc(1.1 * var(--vw1)),18px);line-height:1.6}
+#page-home .why.board .why-lnk{font-size:14px;margin-top:-4px}
+/* INDEX 글자를 아래→위로(270도) */
+.toc-btn .tb-tx{transform:rotate(180deg)}
+
+/* ===== v150 ===== */
+html{overflow-x:clip} /* 카드 빛무리·탭이 오른쪽으로 삐져나와 생기던 가로 스크롤 제거 */
+.toc-btn .tb-tx{display:block;writing-mode:vertical-rl;transform:rotate(180deg)}
+.reveal.foot.in{transition-delay:inherit}
+#sec-sub .reveal.foot,#sec-sub .reveal.foot.in{transition-delay:1.9s}
+#sec-cast .reveal.foot,#sec-cast .reveal.foot.in{transition-delay:2.4s}
+#sec-reels .reveal.foot,#sec-reels .reveal.foot.in{transition-delay:1.2s}
+#sec-proc .reveal.foot,#sec-proc .reveal.foot.in{transition-delay:3.6s}
+#sec-range .unsure.reveal,#sec-range .unsure.reveal.in{transition-delay:1.7s}
+#page-home .why.board .row{grid-template-columns:300px 1fr;row-gap:0}
+#page-home .why.board .rows{gap:16px}
+
+/* ===== v152 ===== */
+/* 일하는 방식: 흰 카드 줄 간격 확대 */
+#page-home .why.board .rows{gap:24px}
+#page-home .why.board{padding:30px 34px 32px}
+/* 정기 제작: 왼쪽 비교 칸·대화방에 진회색 상자 테두리 */
+.cmp .col{background:transparent;border:1px solid rgba(245,242,236,.14);border-radius:var(--r-card);padding:24px 22px}
+.chat{background:transparent;border:1px solid rgba(245,242,236,.14);border-radius:var(--r-card);padding:20px 22px;overflow:hidden}
+
+/* ===== v153: 제작 범위 안내문도 '맨 마지막' 규칙으로(제목→선택→바→패널 다음) ===== */
+#sec-range .unsure.reveal,#sec-range .unsure.reveal.in{transition-delay:2.2s}
+
+/* v154 */
+.rf .len:empty,.vc-th .len:empty,.lb .len:empty{display:none}
+
+/* ===== v155: 실제 리뷰 말풍선 ===== */
+.bubble{min-height:0;padding:26px 26px 22px;gap:12px}
+.bubble .q{height:12px;font-size:44px}
+.bubble .tx{margin:0;font-size:15px;line-height:1.6;color:#2a2420;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;word-break:keep-all}
+.bubble .who{padding-top:10px;gap:10px}
+.bubble .who i{width:34px;height:34px;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:14px;color:#1A1206;background:rgba(26,18,6,.14)}
+.bubble .who b{height:auto;width:auto;background:none;font-size:14px;font-weight:700;color:#1A1206;letter-spacing:.02em}
+.bubble .who small{height:auto;width:auto;background:none;margin-top:3px;font-size:12px;color:rgba(26,18,6,.6);display:block}
+.bubble .who .star{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:700;color:#B8762A;letter-spacing:.04em}
+.bubbles.reveal.seq .bubble .tx{opacity:0;transition:opacity .4s var(--ease)}
+.bubbles.reveal.seq.in .bubble .tx{opacity:1;transition-delay:calc(.5s + var(--i,0)*.5s)}
+#page-home .flipbook{max-width:1240px}
+
+/* ===== v156: 제작 과정 레일 무늬 /// → >>> ===== */
+@media (min-width:981px){
+ .proc-pin .line{background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2228%22%20height%3D%2222%22%20viewBox%3D%220%200%2028%2022%22%3E%3Cpath%20d%3D%22M4%202%20L14%2011%20L4%2020%22%20fill%3D%22none%22%20stroke%3D%22rgba%28245%2C242%2C236%2C0.10%29%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") repeat-x 0 50% / 28px 22px, linear-gradient(180deg,rgba(245,242,236,.07),rgba(245,242,236,.03))}
+ .proc-pin .line i{background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2228%22%20height%3D%2222%22%20viewBox%3D%220%200%2028%2022%22%3E%3Cpath%20d%3D%22M4%202%20L14%2011%20L4%2020%22%20fill%3D%22none%22%20stroke%3D%22rgba%28255%2C255%2C255%2C0.42%29%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") repeat-x 0 50% / 28px 22px, linear-gradient(90deg,#B8762A,var(--accent) 60%,var(--glow));background-size:28px 22px,100% 100%}
+ @keyframes chev{from{background-position:0 50%,0 0}to{background-position:28px 50%,0 0}}
+}
+
+/* ===== v158: 꺾쇠 굵게 ===== */
+@media (min-width:981px){
+ .proc-pin .line{background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2222%22%20viewBox%3D%220%200%2030%2022%22%3E%3Cpath%20d%3D%22M6%203%20L16%2011%20L6%2019%22%20fill%3D%22none%22%20stroke%3D%22rgba%28245%2C242%2C236%2C0.10%29%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") repeat-x 0 50% / 30px 22px, linear-gradient(180deg,rgba(245,242,236,.07),rgba(245,242,236,.03))}
+ .proc-pin .line i{background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2230%22%20height%3D%2222%22%20viewBox%3D%220%200%2030%2022%22%3E%3Cpath%20d%3D%22M6%203%20L16%2011%20L6%2019%22%20fill%3D%22none%22%20stroke%3D%22rgba%28255%2C255%2C255%2C0.45%29%22%20stroke-width%3D%227%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") repeat-x 0 50% / 30px 22px, linear-gradient(90deg,#B8762A,var(--accent) 60%,var(--glow));background-size:30px 22px,100% 100%}
+ @keyframes chev{from{background-position:0 50%,0 0}to{background-position:30px 50%,0 0}}
+}
+
 .todo{display:none!important}.proto-bar{display:none!important}
 </style>
 </head>
 <body>
 
 <div id="sbar"></div>
-<div class="proto-bar" style="display:none">v142 — 평점 표기 4.9 → 4.9 / 5.0 · 함께한 이야기: 말풍선이 모두 올라온 뒤에만 다음 장으로 넘어감(등장 시작 후 6초), 다음 장도 처음부터 하나씩 등장 / v141 — 필름 릴 재생시간 표기를 작게(11px) 오른쪽 아래(제목 띠 위)로 / v140 — 오른쪽 목차 위치 고정(점은 같은 자리, 글은 점 오른쪽으로 좌측 정렬) / v139 — 함께한 이야기: 대기 상태에서는 말풍선이 전혀 안 보이다가 하나씩 올라오며 모양이 생김(안의 글줄은 한 박자 뒤) / v138 — 사진 왼쪽부터 와이프되는 효과 제거(모든 등장은 아래에서 위로 통일) · 일하는 방식 4번째 줄 문구 교체 · 함께한 이야기 말풍선이 판 밖으로 보이지 않게 · 메뉴 홈은 목차 없이 첫 화면 이동만 / v137 — 첫 화면 카메라 2배 확대(상하 여백 5%까지 허용)·필름 띠 속 사진 축소 · 제작 범위는 제목→단계 선택→바→패널→안내문 순으로 등장 · 분야 카드 위아래 같은 높이(사진 잘라 채움) · 타일 묶음 순차 등장을 모든 페이지에 적용 · 함께한 이야기 배열 수정 · 제작 과정 글·아이콘·레일 타이밍 일치 / v136 — 첫 화면: 설명 한 줄·카메라 축소·링크 제거·통계 카운팅 복귀·글씨 흐려짐 제거·맨 아래 한 줄 축소 · 분야 카드 사진을 더 잘라 하단 여백 · 일하는 방식 네 번째 줄(장비 추천·투입) · 섭외 사진 축소 · 등장 효과를 "하나씩 차례로(0.5초 간격)"로 통일(타일·말풍선·과정·일하는 방식) / v135 — 4K 비례 확대(1920×1080 기준 화면이 크면 전체를 같은 비율로 확대) · 첫 화면과 소개를 한 칸으로(글 → 카메라 → 필름 띠 → 한 줄, 통계 3개는 홈에서 제외) · 제목과 설명 사이 간격 확대 · 일하는 방식은 원래 디자인 비율로(채움 박스 없음) · 섭외 사진 5:4 두 줄 · 제작 사례는 위에 영상 칸 + 아래 필름 릴 · 함께한 이야기 한 장에 두 줄 / v134 — 홈 각 칸의 위·아래 여백을 15% 이하로(내용이 세로 72% 미만이면 최대 1.1배 확대, 그래도 모자라면 "추가 예정" 점선 박스로 채움) / v133 — 홈을 한 화면 = 한 주제 구조로(데스크톱: 스크롤 스냅, 화면 높이 기준 10칸 + 첫 화면) · 통계·띠·한 줄을 "소개" 한 칸으로 · 시작 상황 4장 한 줄, 분야 7장 한 줄 · 제작 과정 + 문의 한 칸(목차 항목은 둘 다 유지) · 넘치는 칸은 자동 축소 / v132 — 홈 제작 사례를 섭외 아래로 · 제작 범위 선택기를 v100(5단계 버튼 + 단계 바 + 패널)으로 롤백 · 카메라 아래 통계 3개(누적 프로젝트·고객 만족도·평점) + 한 줄 소개(후기 띠에서는 제거) · 견적 페이지 상단 두 갈래 삭제, 그 자리에 패키지/상세 견적 탭(명칭 변경) · 오른쪽 목차를 모든 페이지에 / v131 — 홈 "이렇게 만들었습니다"는 필름 릴 대신 썸네일이 천천히 지나가는 띠(필름 구멍·선택기 없음, 커서를 올리면 멈춤, 누르면 그 자리 위에서 재생) / v130 — 선택기 타임라인을 굵은 바(선택 구간 채움)로 · 사이트 전체 섹션 간 여백 축소(섹션 80→56px, 제목 아래 44→28px, 마지막 문의 160→96px, 안내 띠·범위 카드·선반 간격 축소) / v129 — 홈 제작 범위 선택기를 가로 5칸 선택(번호·단계명·한 줄 설명·체크) + 아래 얇은 타임라인(선택 구간만 앰버 연결) + 결과 영역(제목·맡는 일·제공 결과물 | 버튼)으로 재구성. 바깥 큰 박스·세로 구분선·시간 눈금·구성 막대 제거 / v128 — 홈 순서 재배치(첫 화면 → 제작 사례 → 시작 상황 → 제작 범위 → 분야 → 일하는 방식 → 정기 제작 → 섭외 → 후기 → 제작 과정 → 상담) · 상담 입구를 견적과 대등하게(견적 페이지 상단 두 갈래 선택, 홈 마지막·분야 마지막에 버튼 나란히) / v127 — 문구 전면 수정(검토안 3번 "cineglow_v126_copy_review" 그대로 적용): 홈·범위·분야 7개·섭외·포트폴리오·회사소개·FAQ·견적·안내 메시지·메타태그. 가격·수치·TODO 태그는 유지, 미확정 항목은 TODO로 표시 / v126 — 카드(타일)의 진회색 바깥 박스 제거: 글과 사진만 남기고 배경·그림자 없음(추천 앰버 카드만 유지) · 홈 "제작 범위 안내"·구성표 "세부 내용 보기"는 제작 범위 페이지의 해당 단계 카드로 바로 이동(#range-N) · 범위 바로 이동한 카드는 보고 있는 동안 금색 테두리로 강조 유지(다른 단계 선택 시 전환) · 상담 모드 폼을 카드 하나로 재배치: 제목·한 줄 설명·성함/연락처/동의 한 줄씩·전체 폭 접수 버튼 / v125 — 제작 범위 바 클릭 이동 시 해당 카드가 화면 세로 정가운데 · 상담 모드 안내문을 "원하는 바를 듣고 함께 정한다"로 교체 · 상담 모드에서 브라우저 뒤로 가기를 누르면 원래 견적 페이지로 복귀(오른쪽 상자도 돌아가기 버튼으로 전환) / v124 — 분야 페이지 제작 흐름·제작 과정의 가로 레일을 홈과 같은 굵은 셰브런 레일(화살촉·점등)로 · 홈 구성표 간결화: 단계별 한 줄 훅만 크게, 맡는 일·고객 준비·결과물 표 삭제, 견적 기준은 한 줄, 버튼은 "세부 내용 보기"와 "이 구성으로 견적 계산" / v123 — 구성표(SCOPE SHEET)를 판매 목록 대신 "이 구성이 바꾸는 것" 감정선 문장 중심으로 재구성 · 분야 제작 흐름을 홈 다섯 단계와 완전히 같은 디자인(아이콘·번호 배지·STEP 라벨)으로 · QnA 차례 등장 효과 삭제 · 견적 요약 아래 "결정이 어려우면 상담으로" 버튼(성함·연락처·동의만 입력, 나머지는 상담 후 결정으로 자동 기입, 필수 표시) / v122 — 제작 범위 페이지의 범위 바는 누르면 요약 대신 아래 해당 단계 카드로 자동 이동(카드 잠깐 강조) · 타일 호버 빛무리가 카드 밖으로도 잘리지 않고 둥글게 퍼지도록 수정 / v121 — 홈 제작 범위 선택을 편집 타임라인 디자인으로: 트랙 5줄 위에 단계 클립이 시간순으로 놓이고, 클릭하면 클립이 금색으로 선택(흰 선택 테두리·핸들), 안 고른 단계는 빗금 CLIENT 클립, 눈금자·플레이헤드(마지막 선택 클립 끝으로 이동) / v120 — QnA 분야 구분 없이 한 줄 목록 · 마케팅 견적에서 영상 문구 제거(라벨·안내 분기) · 확대 카드를 뺀 자리에 상세 링크 복귀(상황 타일·분야 카드·정기 구독 비교·3가지 이유·섭외·디테일·견적) · 단계 설명(분야 제작 흐름·제작 과정)은 홈 다섯 단계 레일 디자인으로 통일 · 범위 바는 순서 고정, 선택만 살짝 넓어지고 색 강조 · 회사소개 사진 그리드 5×5 단일, 크기 절반 / v119 — 제작 범위 자유 구성: 기획·대본·촬영·편집·운영 어떤 조합이든 오른쪽에 맞춤 구성표(포함 내역·고객 준비·결과물·견적 기준)가 나옴, 체크박스·주황 블록 대신 스펙 시트 형식으로 재디자인 / v118 — 홈 제작 범위를 거꾸로: 왼쪽 세로 박스에서 기획·대본·촬영·편집·운영을 고르면 오른쪽 세로 박스가 맞는 패키지(①~⑤)를 골라 보여줌. 선택 외 포함 항목·상담 안내 표시, 기본 선택은 촬영+편집 / v117 — 효과는 v79 그대로(제목·등장·릴·단톡방·후기·장비·서랍·빨리 감기 전부 유지), 카드 호버 확대(v83~v112)만 제거. 내용은 v116까지 전부: 편집 모드·마케팅/QnA 페이지·패키지/세부 견적·총괄기획 옵션·영상/마케팅/영상+마케팅 3갈래·포트폴리오 선반·선결제 100%·모델명 삭제·회사명 시네글로우·FHD 글자 치수 / v112 — 카드 확대 요약을 카드형 섹션 전부로(분야 페이지 디테일·섭외 타일 / 제작 흐름 카드 / 맞춤 견적 카드 / 제작 범위 페이지 타일 2 / 홈 정기 구독 비교 카드 / 3가지 이유 / 회사소개 팀) · 사진 없는 카드는 한 단 구성 · 회사소개서는 내려받기 대신 새 탭에서 열기 / v111 — 포트폴리오를 필름 릴 대신 유튜브 홈 방식 선반으로(장르 선택 → 세부 분야별 가로 한 줄, 쇼츠는 세로 카드 줄, 필름 효과 없음) · 영상 목록에 '세부 분야' 열 추가(#admin 시트 양식 포함) · 사례 없는 장르는 세부 분야 이름으로 준비 중 선반 · 홈·분야·섭외 릴은 그대로 / v110 — 간단 견적에 총괄기획 옵션 카드 복귀(항상 표시 · PREMIUM에 더하는 토글, 다른 패키지에선 흐리게 두고 누르면 PREMIUM으로 전환) · 견적 요약·접수 대장 금액에 옵션 합산 / v109 — 검토 종합 반영: 결정 7건(구독 포함 범위·④ 대본 포함·기간 7일 1차본·편집 단독 상담·⑤ 전체 제작·견적 기준 한정·홍보영상 흐름) + 홍보·마케팅=더블유플래닛 마케팅 전반 + 통일성 수정 20건 / v108 — 제작 범위 패널 내용 위 정렬 · 분야 페이지 제작 과정에 단계별 설명 표시 / v107 — 3가지 이유 구조·강조 통일(문제 → 해결, 핵심 구절 강조 3개 모두) / v106 — 분야 페이지 디테일·섭외 타일 정리(짧은 줄 나열, 문장 제거) / v105 — 정렬·서체 통일(플로팅 버튼 3개 동일 크기, 릴 배지 동일 스타일, 중복 화살표 제거) / v104 — 카드 설명을 개조식으로(제작 과정·분야 흐름·섭외·범위 포함 내역) / v103 — 어색한 표현 손질(번역투·압축체 → 자연스러운 한국어) / v102 — 등장 애니메이션 진동 수정(위로 지나간 타일이 숨김→표시를 반복하던 문제) / v101 — 설명문 마침표 단위 줄바꿈, 설명문 폭을 FHD 한 문장 기준(64ch)으로 / v100 — 사이트 문구 전반 간결화(섹션 설명·분야·상황·과정·섭외·장비·FAQ) / v99 — 단계 바 글자를 단계 이름만으로(고객 준비·시네글로우 꼬리표 제거) / v98 — 홈 제작 범위 단계 바를 위 카드와 같은 5열·간격으로 정렬 / v97 — 간단 견적 가독성: 패키지 카드는 이름·가격·사양 3~4줄, 요약 상자는 가격 중심 / v96 — 페이지 히어로 사진을 좌우 가득 배경(채도↓·블러·어둡게)으로 / v95 — 제작 범위 모듈 글자 확대(15→20~24px, 번호 14px) / v94 — 제작 과정 레일을 아이콘 세로 중앙에(홈 굵은 레일·분야 페이지 가는 레일 모두) / v93 — 빈 여백 정리: 한 화면 할당은 내용이 화면 60% 이상인 섹션에만 / v92 — 한 화면 할당을 주제 섹션에만 적용(범위 바·표 등 딸린 섹션은 내용 높이) / v91 — 한글 라벨 서체 통일(모노·자간은 영문 라벨에만, 한글 라벨은 Pretendard 세미볼드) / v90 — 홈 제작 범위 패널 높이 고정(선택과 무관) · 확대 카드 목록 불렛 제거(왼쪽 금색 선으로 구분), 제목/설명 줄 분리 점검 / v89 — 확대 카드 구성 통일(목록 제목+설명 → 순서·범위 칩 → 버튼), 홈 제작 범위 패널도 같은 목록 형식 / v88 — 확대 카드 오른쪽 칸을 글자·여백으로 채움(제목 42~60px, 본문 22~28px, 항목 간격 확대, 세로 균등 배치) / v87 — 확대 카드 대상(상황·분야·섭외·범위)의 작은 카드에선 링크 제거 · 섹션마다 한 화면(100vh) 채움·제목/설명 확대, 확대 카드 calc(92 * var(--vw1))×82vh·글자 전부 확대 / v86 — 요약 카드 1.5배(최대 1200px)·3단 구성, 버튼은 확대 카드에만(비교 링크 제외), 원래 상황 타일의 시작하기 링크 제거 / v84 — 본문 글자 확대(기본 17→18px, 작은 글자 +3px, 오른쪽 목차 16px) · 호버 요약 카드(견적 패키지 제외) · 현장 사진 그리드 3종 한 페이지(회사소개) · 홍보·마케팅 상단 메뉴 독립 / v83 — 호버 포커스: 화면 정중앙 이동·1.8배 폭·세부 요약 포함·나머지 전체 블러 / v82 — 아이콘 로고(파비콘·앱 아이콘, 로고 앞부분만 분리) / v81 — 로고·메뉴(QnA·홈 목차·견적문의 위치)·호버 포커스·정사각 그리드 3종·5단계 가독성·범위 바·제작 과정·간단 견적·홍보마케팅 분야 + 메뉴 바 비침 수정 / v80 — 편집 모드(#admin: 화면 클릭 편집 · 단가/연락처/사진/표시 패널 · index.html 내려받기) / v79 — 콘텐츠 분리(글·가격·연락처·사진·목록을 SITE 블록으로, 겉보기 변화 없음) / v78 — 히어로 연출 빨리 감기(스크롤을 빠르게 내리면 최대 6배속, 멈추면 1배속) / v77 — 광고 키 commercial→ad · 세로형 와이드 플레이어 · 모달 재생 상태 · 접수 안내 문구 / v76 — 모바일 히어로 확대 보정(보이는 폭 기준 배율·가장자리 페이드·조작 바 크기) · 시안 v8.2 — 성능 패스: 태그 블러·그레인 혼합·대형 블러 제거, 스크롤 핸들러 재구성, 릴 16편 단위·화면 밖 정지, 히어로 지연 삽입, OG·접근성 (v39 기준)</div>
+<div class="proto-bar" style="display:none">v159 — 후기 배치: 같은 작성자의 글이 한 장에 겹치지 않게(긴 글 순 유지) / v158 — 레일 꺾쇠 선 굵기 3.2→7 / v157 — 후기를 길고 성의 있는 글부터 순서대로 · 문구에서 플랫폼 이름 제거 / v156 — 제작 과정 레일 무늬를 빗금에서 꺾쇠(>>>)로 / v155 — 함께한 이야기에 크몽 실제 리뷰 24건(28건 중 선별, 한 장 6개 × 4장) · 닉네임·업종·재구매·작성 연월·별점 표시 / v154 — 홈 영상을 엑셀 목록(22편)으로 교체: 첫 화면 액정 기본 영상 = 아이돌 인력 사무소 EP.1, 홈 필름 릴도 같은 목록 · 포트폴리오·분야 페이지 목록은 그대로 / v153 — 제작 범위 아래 안내문(전문가 상담으로 결정하기…)도 칸 내용이 다 나온 뒤 맨 마지막에 / v152 — 일하는 방식 흰 카드 간격 확대 · 정기 제작 비교 칸·대화방에 진회색 테두리 상자 / v151 — 제작 과정 레일 양끝 대칭(1번 왼쪽 여유만큼 5번 오른쪽에도, 마지막 점등 시 끝까지 채움) / v150 — 일하는 방식의 작은 링크 삭제 · 아래 링크·버튼의 "맨 마지막 등장"이 줄 단위 지연 계산에 덮여 안 되던 문제 수정 · INDEX 글자 방향 수정 · 가로 스크롤 제거 / v149 — 함께한 이야기 "후기 수집 후 교체" 메모 삭제·말풍선 위아래 간격 확대 · 일하는 방식을 다른 칸과 같은 구성(위 제목 + 앰버 네모 판 안에 네 줄)으로 / v148 — 금액 수정: STANDARD 590,000 · DELUXE 890,000 · PREMIUM 3,500,000(월 5회 기준) · 기획 옵션 1,500,000(월 5회 기준) · 카메라 기본 2대, +1대 15만 · +1명 25만 · 숏폼 +1편 6만 · +1분 4만 · 지역 할증 9개 지역(제주 협의) / v147 — "추가 예정" 채움 박스 완전 제거(내용은 세로 가운데 정렬만) / v146 — 인덱스 탭을 번호·아이콘 없이 세로 INDEX 글자만으로 / v145 — 인덱스를 화면 오른쪽 가장자리 세로 앰버 탭으로(현재 칸 번호 표시), 목차 상자는 탭 왼쪽으로 열림 / v144 — 정기 제작 겉 검은 상자 제거 · 사진은 카드와 함께 올라오고, 아래 버튼·링크(정기 제작 상담하기·섭외 보기·전체 보기·문의 카드)는 맨 마지막에 · 오른쪽 목차는 "인덱스" 단추(커서를 올리거나 누르면 목차 상자가 열림) / v143 — 커서 빛무리가 카드 경계·이웃 카드에 잘리지 않게 · 카드 속 푸티지는 글이 다 올라온 뒤 맨 마지막에 등장 · 첫 화면 위아래 여백 동일 / v142 — 평점 표기 4.9 → 4.9 / 5.0 · 함께한 이야기: 말풍선이 모두 올라온 뒤에만 다음 장으로 넘어감(등장 시작 후 6초), 다음 장도 처음부터 하나씩 등장 / v141 — 필름 릴 재생시간 표기를 작게(11px) 오른쪽 아래(제목 띠 위)로 / v140 — 오른쪽 목차 위치 고정(점은 같은 자리, 글은 점 오른쪽으로 좌측 정렬) / v139 — 함께한 이야기: 대기 상태에서는 말풍선이 전혀 안 보이다가 하나씩 올라오며 모양이 생김(안의 글줄은 한 박자 뒤) / v138 — 사진 왼쪽부터 와이프되는 효과 제거(모든 등장은 아래에서 위로 통일) · 일하는 방식 4번째 줄 문구 교체 · 함께한 이야기 말풍선이 판 밖으로 보이지 않게 · 메뉴 홈은 목차 없이 첫 화면 이동만 / v137 — 첫 화면 카메라 2배 확대(상하 여백 5%까지 허용)·필름 띠 속 사진 축소 · 제작 범위는 제목→단계 선택→바→패널→안내문 순으로 등장 · 분야 카드 위아래 같은 높이(사진 잘라 채움) · 타일 묶음 순차 등장을 모든 페이지에 적용 · 함께한 이야기 배열 수정 · 제작 과정 글·아이콘·레일 타이밍 일치 / v136 — 첫 화면: 설명 한 줄·카메라 축소·링크 제거·통계 카운팅 복귀·글씨 흐려짐 제거·맨 아래 한 줄 축소 · 분야 카드 사진을 더 잘라 하단 여백 · 일하는 방식 네 번째 줄(장비 추천·투입) · 섭외 사진 축소 · 등장 효과를 "하나씩 차례로(0.5초 간격)"로 통일(타일·말풍선·과정·일하는 방식) / v135 — 4K 비례 확대(1920×1080 기준 화면이 크면 전체를 같은 비율로 확대) · 첫 화면과 소개를 한 칸으로(글 → 카메라 → 필름 띠 → 한 줄, 통계 3개는 홈에서 제외) · 제목과 설명 사이 간격 확대 · 일하는 방식은 원래 디자인 비율로(채움 박스 없음) · 섭외 사진 5:4 두 줄 · 제작 사례는 위에 영상 칸 + 아래 필름 릴 · 함께한 이야기 한 장에 두 줄 / v134 — 홈 각 칸의 위·아래 여백을 15% 이하로(내용이 세로 72% 미만이면 최대 1.1배 확대, 그래도 모자라면 "추가 예정" 점선 박스로 채움) / v133 — 홈을 한 화면 = 한 주제 구조로(데스크톱: 스크롤 스냅, 화면 높이 기준 10칸 + 첫 화면) · 통계·띠·한 줄을 "소개" 한 칸으로 · 시작 상황 4장 한 줄, 분야 7장 한 줄 · 제작 과정 + 문의 한 칸(목차 항목은 둘 다 유지) · 넘치는 칸은 자동 축소 / v132 — 홈 제작 사례를 섭외 아래로 · 제작 범위 선택기를 v100(5단계 버튼 + 단계 바 + 패널)으로 롤백 · 카메라 아래 통계 3개(누적 프로젝트·고객 만족도·평점) + 한 줄 소개(후기 띠에서는 제거) · 견적 페이지 상단 두 갈래 삭제, 그 자리에 패키지/상세 견적 탭(명칭 변경) · 오른쪽 목차를 모든 페이지에 / v131 — 홈 "이렇게 만들었습니다"는 필름 릴 대신 썸네일이 천천히 지나가는 띠(필름 구멍·선택기 없음, 커서를 올리면 멈춤, 누르면 그 자리 위에서 재생) / v130 — 선택기 타임라인을 굵은 바(선택 구간 채움)로 · 사이트 전체 섹션 간 여백 축소(섹션 80→56px, 제목 아래 44→28px, 마지막 문의 160→96px, 안내 띠·범위 카드·선반 간격 축소) / v129 — 홈 제작 범위 선택기를 가로 5칸 선택(번호·단계명·한 줄 설명·체크) + 아래 얇은 타임라인(선택 구간만 앰버 연결) + 결과 영역(제목·맡는 일·제공 결과물 | 버튼)으로 재구성. 바깥 큰 박스·세로 구분선·시간 눈금·구성 막대 제거 / v128 — 홈 순서 재배치(첫 화면 → 제작 사례 → 시작 상황 → 제작 범위 → 분야 → 일하는 방식 → 정기 제작 → 섭외 → 후기 → 제작 과정 → 상담) · 상담 입구를 견적과 대등하게(견적 페이지 상단 두 갈래 선택, 홈 마지막·분야 마지막에 버튼 나란히) / v127 — 문구 전면 수정(검토안 3번 "cineglow_v126_copy_review" 그대로 적용): 홈·범위·분야 7개·섭외·포트폴리오·회사소개·FAQ·견적·안내 메시지·메타태그. 가격·수치·TODO 태그는 유지, 미확정 항목은 TODO로 표시 / v126 — 카드(타일)의 진회색 바깥 박스 제거: 글과 사진만 남기고 배경·그림자 없음(추천 앰버 카드만 유지) · 홈 "제작 범위 안내"·구성표 "세부 내용 보기"는 제작 범위 페이지의 해당 단계 카드로 바로 이동(#range-N) · 범위 바로 이동한 카드는 보고 있는 동안 금색 테두리로 강조 유지(다른 단계 선택 시 전환) · 상담 모드 폼을 카드 하나로 재배치: 제목·한 줄 설명·성함/연락처/동의 한 줄씩·전체 폭 접수 버튼 / v125 — 제작 범위 바 클릭 이동 시 해당 카드가 화면 세로 정가운데 · 상담 모드 안내문을 "원하는 바를 듣고 함께 정한다"로 교체 · 상담 모드에서 브라우저 뒤로 가기를 누르면 원래 견적 페이지로 복귀(오른쪽 상자도 돌아가기 버튼으로 전환) / v124 — 분야 페이지 제작 흐름·제작 과정의 가로 레일을 홈과 같은 굵은 셰브런 레일(화살촉·점등)로 · 홈 구성표 간결화: 단계별 한 줄 훅만 크게, 맡는 일·고객 준비·결과물 표 삭제, 견적 기준은 한 줄, 버튼은 "세부 내용 보기"와 "이 구성으로 견적 계산" / v123 — 구성표(SCOPE SHEET)를 판매 목록 대신 "이 구성이 바꾸는 것" 감정선 문장 중심으로 재구성 · 분야 제작 흐름을 홈 다섯 단계와 완전히 같은 디자인(아이콘·번호 배지·STEP 라벨)으로 · QnA 차례 등장 효과 삭제 · 견적 요약 아래 "결정이 어려우면 상담으로" 버튼(성함·연락처·동의만 입력, 나머지는 상담 후 결정으로 자동 기입, 필수 표시) / v122 — 제작 범위 페이지의 범위 바는 누르면 요약 대신 아래 해당 단계 카드로 자동 이동(카드 잠깐 강조) · 타일 호버 빛무리가 카드 밖으로도 잘리지 않고 둥글게 퍼지도록 수정 / v121 — 홈 제작 범위 선택을 편집 타임라인 디자인으로: 트랙 5줄 위에 단계 클립이 시간순으로 놓이고, 클릭하면 클립이 금색으로 선택(흰 선택 테두리·핸들), 안 고른 단계는 빗금 CLIENT 클립, 눈금자·플레이헤드(마지막 선택 클립 끝으로 이동) / v120 — QnA 분야 구분 없이 한 줄 목록 · 마케팅 견적에서 영상 문구 제거(라벨·안내 분기) · 확대 카드를 뺀 자리에 상세 링크 복귀(상황 타일·분야 카드·정기 구독 비교·3가지 이유·섭외·디테일·견적) · 단계 설명(분야 제작 흐름·제작 과정)은 홈 다섯 단계 레일 디자인으로 통일 · 범위 바는 순서 고정, 선택만 살짝 넓어지고 색 강조 · 회사소개 사진 그리드 5×5 단일, 크기 절반 / v119 — 제작 범위 자유 구성: 기획·대본·촬영·편집·운영 어떤 조합이든 오른쪽에 맞춤 구성표(포함 내역·고객 준비·결과물·견적 기준)가 나옴, 체크박스·주황 블록 대신 스펙 시트 형식으로 재디자인 / v118 — 홈 제작 범위를 거꾸로: 왼쪽 세로 박스에서 기획·대본·촬영·편집·운영을 고르면 오른쪽 세로 박스가 맞는 패키지(①~⑤)를 골라 보여줌. 선택 외 포함 항목·상담 안내 표시, 기본 선택은 촬영+편집 / v117 — 효과는 v79 그대로(제목·등장·릴·단톡방·후기·장비·서랍·빨리 감기 전부 유지), 카드 호버 확대(v83~v112)만 제거. 내용은 v116까지 전부: 편집 모드·마케팅/QnA 페이지·패키지/세부 견적·총괄기획 옵션·영상/마케팅/영상+마케팅 3갈래·포트폴리오 선반·선결제 100%·모델명 삭제·회사명 시네글로우·FHD 글자 치수 / v112 — 카드 확대 요약을 카드형 섹션 전부로(분야 페이지 디테일·섭외 타일 / 제작 흐름 카드 / 맞춤 견적 카드 / 제작 범위 페이지 타일 2 / 홈 정기 구독 비교 카드 / 3가지 이유 / 회사소개 팀) · 사진 없는 카드는 한 단 구성 · 회사소개서는 내려받기 대신 새 탭에서 열기 / v111 — 포트폴리오를 필름 릴 대신 유튜브 홈 방식 선반으로(장르 선택 → 세부 분야별 가로 한 줄, 쇼츠는 세로 카드 줄, 필름 효과 없음) · 영상 목록에 '세부 분야' 열 추가(#admin 시트 양식 포함) · 사례 없는 장르는 세부 분야 이름으로 준비 중 선반 · 홈·분야·섭외 릴은 그대로 / v110 — 간단 견적에 총괄기획 옵션 카드 복귀(항상 표시 · PREMIUM에 더하는 토글, 다른 패키지에선 흐리게 두고 누르면 PREMIUM으로 전환) · 견적 요약·접수 대장 금액에 옵션 합산 / v109 — 검토 종합 반영: 결정 7건(구독 포함 범위·④ 대본 포함·기간 7일 1차본·편집 단독 상담·⑤ 전체 제작·견적 기준 한정·홍보영상 흐름) + 홍보·마케팅=더블유플래닛 마케팅 전반 + 통일성 수정 20건 / v108 — 제작 범위 패널 내용 위 정렬 · 분야 페이지 제작 과정에 단계별 설명 표시 / v107 — 3가지 이유 구조·강조 통일(문제 → 해결, 핵심 구절 강조 3개 모두) / v106 — 분야 페이지 디테일·섭외 타일 정리(짧은 줄 나열, 문장 제거) / v105 — 정렬·서체 통일(플로팅 버튼 3개 동일 크기, 릴 배지 동일 스타일, 중복 화살표 제거) / v104 — 카드 설명을 개조식으로(제작 과정·분야 흐름·섭외·범위 포함 내역) / v103 — 어색한 표현 손질(번역투·압축체 → 자연스러운 한국어) / v102 — 등장 애니메이션 진동 수정(위로 지나간 타일이 숨김→표시를 반복하던 문제) / v101 — 설명문 마침표 단위 줄바꿈, 설명문 폭을 FHD 한 문장 기준(64ch)으로 / v100 — 사이트 문구 전반 간결화(섹션 설명·분야·상황·과정·섭외·장비·FAQ) / v99 — 단계 바 글자를 단계 이름만으로(고객 준비·시네글로우 꼬리표 제거) / v98 — 홈 제작 범위 단계 바를 위 카드와 같은 5열·간격으로 정렬 / v97 — 간단 견적 가독성: 패키지 카드는 이름·가격·사양 3~4줄, 요약 상자는 가격 중심 / v96 — 페이지 히어로 사진을 좌우 가득 배경(채도↓·블러·어둡게)으로 / v95 — 제작 범위 모듈 글자 확대(15→20~24px, 번호 14px) / v94 — 제작 과정 레일을 아이콘 세로 중앙에(홈 굵은 레일·분야 페이지 가는 레일 모두) / v93 — 빈 여백 정리: 한 화면 할당은 내용이 화면 60% 이상인 섹션에만 / v92 — 한 화면 할당을 주제 섹션에만 적용(범위 바·표 등 딸린 섹션은 내용 높이) / v91 — 한글 라벨 서체 통일(모노·자간은 영문 라벨에만, 한글 라벨은 Pretendard 세미볼드) / v90 — 홈 제작 범위 패널 높이 고정(선택과 무관) · 확대 카드 목록 불렛 제거(왼쪽 금색 선으로 구분), 제목/설명 줄 분리 점검 / v89 — 확대 카드 구성 통일(목록 제목+설명 → 순서·범위 칩 → 버튼), 홈 제작 범위 패널도 같은 목록 형식 / v88 — 확대 카드 오른쪽 칸을 글자·여백으로 채움(제목 42~60px, 본문 22~28px, 항목 간격 확대, 세로 균등 배치) / v87 — 확대 카드 대상(상황·분야·섭외·범위)의 작은 카드에선 링크 제거 · 섹션마다 한 화면(100vh) 채움·제목/설명 확대, 확대 카드 calc(92 * var(--vw1))×82vh·글자 전부 확대 / v86 — 요약 카드 1.5배(최대 1200px)·3단 구성, 버튼은 확대 카드에만(비교 링크 제외), 원래 상황 타일의 시작하기 링크 제거 / v84 — 본문 글자 확대(기본 17→18px, 작은 글자 +3px, 오른쪽 목차 16px) · 호버 요약 카드(견적 패키지 제외) · 현장 사진 그리드 3종 한 페이지(회사소개) · 홍보·마케팅 상단 메뉴 독립 / v83 — 호버 포커스: 화면 정중앙 이동·1.8배 폭·세부 요약 포함·나머지 전체 블러 / v82 — 아이콘 로고(파비콘·앱 아이콘, 로고 앞부분만 분리) / v81 — 로고·메뉴(QnA·홈 목차·견적문의 위치)·호버 포커스·정사각 그리드 3종·5단계 가독성·범위 바·제작 과정·간단 견적·홍보마케팅 분야 + 메뉴 바 비침 수정 / v80 — 편집 모드(#admin: 화면 클릭 편집 · 단가/연락처/사진/표시 패널 · index.html 내려받기) / v79 — 콘텐츠 분리(글·가격·연락처·사진·목록을 SITE 블록으로, 겉보기 변화 없음) / v78 — 히어로 연출 빨리 감기(스크롤을 빠르게 내리면 최대 6배속, 멈추면 1배속) / v77 — 광고 키 commercial→ad · 세로형 와이드 플레이어 · 모달 재생 상태 · 접수 안내 문구 / v76 — 모바일 히어로 확대 보정(보이는 폭 기준 배율·가장자리 페이드·조작 바 크기) · 시안 v8.2 — 성능 패스: 태그 블러·그레인 혼합·대형 블러 제거, 스크롤 핸들러 재구성, 릴 16편 단위·화면 밖 정지, 히어로 지연 삽입, OG·접근성 (v39 기준)</div>
 
 <header class="nav">
   <div class="wrap">
@@ -1912,7 +2041,7 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
         <div class="bar" id="bar"></div>
         <div class="panel" id="panel"></div>
       </div>
-      <p class="unsure reveal" data-t="home.s7.4"></p>
+      <p class="unsure reveal foot" data-t="home.s7.4"></p>
     </div>
   </section>
 
@@ -1923,13 +2052,16 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
     </div>
   </section>
 
-  <section class="scr why" id="sec-why" data-nofill data-nofit>
-    <div class="wrap"><div class="head"><small data-t="home.s5.1"></small><h2 data-t="home.s5.2"></h2></div>
+  <section class="scr band alt" id="sec-why" data-nofill>
+    <div class="wrap">
+      <div class="sh reveal"><span class="slug" data-t="home.s5.1"></span><h2 class="words" data-t="home.s5.2"></h2></div>
+      <div class="why board">
       <div class="rows focusrow" data-fx="why">
-        <div class="row reveal-row"><div class="lab" data-t="home.s5.3"></div><div class="card" data-t="home.s5.4"></div><a class="lnk why-lnk" href="#contact">예상 견적 계산</a></div>
-        <div class="row reveal-row"><div class="lab" data-t="home.s5.5"></div><div class="card" data-t="home.s5.6"></div><a class="lnk why-lnk" href="#about">장비·팀 보기</a></div>
-        <div class="row reveal-row"><div class="lab" data-t="home.s5.7"></div><div class="card" data-t="home.s5.8"></div><a class="lnk why-lnk" href="#sec-proc" data-toc="sec-proc">제작 과정 보기</a></div>
-        <div class="row reveal-row"><div class="lab" data-t="home.s5.9"></div><div class="card" data-t="home.s5.10"></div><a class="lnk why-lnk" href="#about">장비·팀 보기</a></div>
+        <div class="row reveal-row"><div class="lab" data-t="home.s5.3"></div><div class="card" data-t="home.s5.4"></div></div>
+        <div class="row reveal-row"><div class="lab" data-t="home.s5.5"></div><div class="card" data-t="home.s5.6"></div></div>
+        <div class="row reveal-row"><div class="lab" data-t="home.s5.7"></div><div class="card" data-t="home.s5.8"></div></div>
+        <div class="row reveal-row"><div class="lab" data-t="home.s5.9"></div><div class="card" data-t="home.s5.10"></div></div>
+      </div>
       </div>
     </div>
   </section>
@@ -1959,7 +2091,7 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
           <div class="msg me"><span class="av" data-t="home.s4.44"></span><div class="b" data-t="home.s4.45"></div><span class="t" data-t="home.s4.46"></span></div><button type="button" class="replay" data-t="home.s4.47"></button></div>
         </div>
       </div>
-      <div class="sub-acts"><a class="pill" href="#contact" data-pre-range="5" data-t="home.s4.48"></a><a class="pill ghost" href="#field-youtube" data-t="home.s4.49"></a></div>
+      <div class="sub-acts reveal foot"><a class="pill" href="#contact" data-pre-range="5" data-t="home.s4.48"></a><a class="pill ghost" href="#field-youtube" data-t="home.s4.49"></a></div>
     </div>
   </section>
 
@@ -1967,7 +2099,7 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
     <div class="wrap">
       <div class="sh reveal"><span class="slug" data-t="home.s9.1"></span><h2 class="words" data-t="home.s9.2"></h2><p data-t="home.s9.3"></p></div>
       <div class="behind reveal" id="castPhotos"></div>
-      <div style="text-align:center;margin-top:28px"><a class="lnk" href="#casting" data-t="home.s9.4"></a></div>
+      <div class="reveal foot" style="text-align:center;margin-top:28px"><a class="lnk" href="#casting" data-t="home.s9.4"></a></div>
     </div>
   </section>
 
@@ -1977,7 +2109,7 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
     </div>
     <div id="homeReels"></div>
     <div class="wrap">
-      <div class="reel-foot"><p class="reel-note" data-t="home.s6.4"></p><a class="lnk" href="#portfolio" data-t="home.s6.5"></a></div>
+      <div class="reel-foot reveal foot"><p class="reel-note" data-t="home.s6.4"></p><a class="lnk" href="#portfolio" data-t="home.s6.5"></a></div>
     </div>
   </section>
 
@@ -1995,7 +2127,7 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
       <div class="sh reveal"><span class="slug" data-t="home.s11.1"></span><h2 class="words" data-t="home.s11.2"></h2><p data-t="home.s11.3"></p></div>
       <div class="proc reveal" id="proc"></div>
       </div></div>
-      <div class="cta-card reveal" id="sec-cta"><div class="tx"><span class="slug" data-t="home.s13.1"></span><h2 class="words" data-t="home.s13.2"></h2><p data-t="home.s13.3"></p></div><div class="row"><a class="pill" href="#contact" data-t="home.s13.4"></a><a class="pill" href="#contact-consult" data-t="home.s13.6"></a><a class="pill ghost" data-kakao href="#" data-t="home.s13.5"></a></div></div>
+      <div class="cta-card reveal foot" id="sec-cta"><div class="tx"><span class="slug" data-t="home.s13.1"></span><h2 class="words" data-t="home.s13.2"></h2><p data-t="home.s13.3"></p></div><div class="row"><a class="pill" href="#contact" data-t="home.s13.4"></a><a class="pill" href="#contact-consult" data-t="home.s13.6"></a><a class="pill ghost" data-kakao href="#" data-t="home.s13.5"></a></div></div>
     </div>
   </section>
 </main>
@@ -2108,7 +2240,7 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
             <div class="calc" id="calc">
               <div class="row"><label data-t="contact.s1.22"></label><div class="stp"><button type="button" data-k="cams" data-d="-1" aria-label="줄이기">−</button><output id="o-cams">2</output><button type="button" data-k="cams" data-d="1" aria-label="늘리기">+</button></div></div>
               <div class="row"><label data-t="contact.s1.23"></label><div class="stp"><button type="button" data-k="dirs" data-d="-1" aria-label="줄이기">−</button><output id="o-dirs">1</output><button type="button" data-k="dirs" data-d="1" aria-label="늘리기">+</button></div></div>
-              <div class="row"><label data-t="contact.s1.24"></label><select id="c-region"><option value="seoul" data-t="contact.s1.25"></option><option value="metro" data-t="contact.s1.26"></option><option value="local" data-t="contact.s1.27"></option><option value="island" data-t="contact.s1.28"></option></select></div>
+              <div class="row"><label data-t="contact.s1.24"></label><select id="c-region"></select></div>
               <div class="row"><label data-t="contact.s1.29"></label><div class="stp"><button type="button" data-k="shorts" data-d="-1" aria-label="줄이기">−</button><output id="o-shorts">0</output><button type="button" data-k="shorts" data-d="1" aria-label="늘리기">+</button></div></div>
               <div class="row full"><label><span data-t="contact.s1.30"></span><small data-t="contact.s1.31"></small></label><input type="range" id="c-min" min="1" max="30" value="5" style="width:min(260px,100%)"></div>
             </div>
@@ -2190,7 +2322,7 @@ body.has-toc .toc{opacity:1;pointer-events:auto}
    </div>
   </div>
 </div>
-<nav class="toc" id="homeToc" aria-label="홈 목차"></nav>
+<nav class="toc" id="homeTocWrap" aria-label="목차"><button type="button" class="toc-btn" id="tocBtn"><span class="tb-tx">INDEX</span></button><div class="toc-list" id="homeToc"></div></nav>
 <div class="float" id="float"><a class="pill ghost" data-pdf href="#" data-t="float.1"></a><a class="pill ghost" data-kakao href="#" data-t="float.2"></a><a class="pill" href="#contact" data-t="float.3"></a></div>
 <div class="modal" id="modal"><div class="inner"><button class="close" id="modalClose" aria-label="닫기">✕</button><div id="modalBody"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -2213,15 +2345,16 @@ const SITE={
  sheetUrl:'https://script.google.com/macros/s/AKfycbxeWK9icN0_dd1nHC9_LnNhuSNstuJpn1GOgbfUzMvcdTGcTYI8PU9Rmx3vt8Q088Q5/exec' /* 구글 앱스 스크립트 '웹 앱' 배포 주소(https://script.google.com/macros/s/.../exec) — 비어 있으면 mailto 방식으로 동작 */
 },
  rates:{confirmed:false,
- base:390000,
- cam:100000,
+ base:590000,
+ cam:150000,
  camIncluded:2,
- director:150000,
+ director:250000,
  dirIncluded:1,
- perMin:18000,
+ perMin:40000,
  minIncluded:5,
- region:{seoul:0,metro:50000,local:150000,island:300000},
- regionName:{seoul:'서울',metro:'경기·인천',local:'그 외 지방',island:'제주·도서 산간'},
+ /* v148: 지역 할증 — null은 '협의 후 확정' */
+ region:{seoul:0,gyeonggi:50000,chungbuk:100000,chungnam:100000,jeonbuk:200000,jeonnam:250000,gangwon:200000,gyeongbuk:200000,gyeongnam:250000,jeju:null},
+ regionName:{seoul:'서울',gyeonggi:'경기',chungbuk:'충북',chungnam:'충남',jeonbuk:'전북',jeonnam:'전남',gangwon:'강원',gyeongbuk:'경북',gyeongnam:'경남',jeju:'제주'},
  shorts:60000
 },
  range:['① 촬영','② 촬영 + 편집','③ 대본 + 촬영 + 편집','④ 기획 + 대본 + 촬영 + 편집','⑤ 전체 제작'],
@@ -2452,11 +2585,12 @@ const SITE={
  aboutBehind:[3935026,38059005,7239946,18366238],
  strip:{ids:[37952639,28808360,38059003,3062535,7513459,2925328,4561940,38059005,3935027,6559472],caps:['INT. 스튜디오','EXT. 블루아워','SET. 광고 촬영','EXT. 로케이션','INT. 현장','SET. 인터뷰','INT. 모니터','SET. 2캠','INT. 조명','INT. 편집실']},
  grade:[28808360,37952639],
- voices:[[92,80,86],[78,90,70],[84,72,94]],
+ /* v155: 실제 고객 후기 24건(28건 중 선별, 긴 글 순) — q 본문 · n 닉네임 · ind 업종 · re 재구매 · d 작성 연월 · star 별점 */
+ voices:[{"q": "촬영 콘셉트와 동선을 세심하게 잡아주었고, 병원 특성상 민감할 수 있는 부분들도 충분히 이해하며 촬영 환경을 최대한 배려해 주셨습니다. 현장에서는 신속하면서도 정확한 세팅, 그리고 중간중간 필요한 부분을 바로 캐치해 자연스럽고 완성도 높은 영상이 만들어질 수 있도록 도와주셨어요. 특히 의료 콘텐츠 특유의 어려움이나 전문성을 부담 없이 풀 수 있게 촬영팀이 전체적인 흐름을 잘 리드해준 덕분에 촬영이 편안하고 즐겁게 진행됐습니다. 결과물의 퀄리티는 물론, 작업 과정 전체에서 신뢰감을 느낄 수 있는 훌륭한 업체였습니다. 앞으로도 좋은 콘텐츠를 함께 만들어갈 수 있길 기대합니다!", "n": "사랑**********", "ind": "병의원/제약", "re": true, "d": "2025.12", "star": "5.0"}, {"q": "두 분 대표님께서 직접 상담을 진행해 주셔서 더욱 신뢰가 갔고, 전반적으로 매우 친절하게 응대해 주셨습니다. 단순한 설명이 아니라 현실적으로 고민해야 할 부분들까지 구체적으로 짚어주셔서 큰 도움이 되었습니다. 특히 제 입장에서 가능한 것과 어려운 부분을 명확하게 구분해 주신 점이 인상 깊었고, 덕분에 방향을 잡는 데 많은 도움이 되었습니다. 영상 제작을 고민하고 계신 분들이라면 꼭 한 번 상담 받아보시길 강력히 추천드립니다!!", "n": "엄청********", "ind": "도소매/제조업", "re": false, "d": "2026.03", "star": "5.0"}, {"q": "굉장히 친절하시고 촬영할 때 긴장하지 않도록 분위기를 좋게 유도해주십니다. 또한 편집할 때 전문 팀이 있어서 수정사항이 자잘자잘하게 많았는데 그것들도 다 해주시고 정말 좋은 퀄리티의 영상을 처음부터 끝까지 책임져주셔서 감사합니다. 썸네일에 대한 언급도 하지 않았는데 알아서 잘 만들어주시고 이것저것 요구사항이 많았는데 다 들어주시고 바로바로 피드백해주셨습니다. 정말 감사합니다! 추천드립니다!", "n": "윤건*", "ind": "학원/교육", "re": false, "d": "2025.12", "star": "5.0"}, {"q": "영상촬영 경험이 없어서 걱정이 참 많았는데 문의사항에도 신속하게 답변해주시고, 친절하셔서 어려움없이 의사소통 되어 항상 감사드립니다. 촬영도 감독님께서 잘 가이드 해주시고 상황에 맞게 배려해주셔서 무탈히 작업 진행하고 있습니다. 많이 고민해서 결정한 곳인데 기대했던것만큼 결과물도 잘 나오고 있어서 만족해요! 앞으로도 좋은 작품 만들어주세요 :)", "n": "듬직*******", "ind": "", "re": false, "d": "2025.12", "star": "5.0"}, {"q": "이 정도 가격에 이 정도의 퀄리티로 편집해주시는 업체 처음 봤습니다 ! 저만 알아서 맡기고 싶은 업체네요. 편집 센스도 있으시고 촬영할 때도 편안한 분위기에서 촬영할 수 있도록 해주시고 최고입니다. 몇 차례 수정 요청 드려도 반영해주시고 항상 고객 관점에서 생각하려고 하시는게 느껴져서 너무 좋았습니다. 저는 또 맡기려고 하네요 !", "n": "다정********", "ind": "병의원/제약", "re": false, "d": "2025.12", "star": "5.0"}, {"q": "백종원님이 연돈 사장님 돈까스 먹어보고 맛이랑 퀄리티고 최상인데 가격까지 생각하면 미쳤다고 표현했잖아요. 여기가 딱 그렇습니다. 작업물 퀄리티 미쳤구요. 가격까지 생각하면 더더욱 미쳤습니다. 너무 구구절절 칭찬만하면 댓글 알바로 보일까봐 절제하겠습니다. 감사한 마음 이렇게라도 표현하고 싶네요. 앞으로도 쭉 같이 작업했으면 좋겠네요", "n": "유능********", "ind": "", "re": false, "d": "2023.11", "star": "5.0"}, {"q": "촬영 당일 갑작스러운 일정 변경으로 촬영이 다소 지연되었으나, 이를 흔쾌히 조정해주셔서 무사히 촬영을 마칠 수 있었습니다. 작업물의 경우, 보통 자막의 맞춤법이나 오타 수정에 시간이 소요되기 마련인데, 여기는 사전 작업을 꼼꼼히 해주시어 별도의 추가 검토 없이 바로 진행할 수 있었고, 덕분에 시간도 절약할 수 있었습니다. 또한, 수정 반영이나 피드백 속도가 매우 빨라 전체 작업이 원활하게 진행되었습니다. 앞으로도 계속 이용하고 싶습니다. 감사합니다:)", "n": "사랑**********", "ind": "병의원/제약", "re": true, "d": "2025.05", "star": "5.0"}, {"q": "급하게 일정이 잡혀 유튜브 관련 영상 의뢰하였는데 촬영 및 편집 결과물 모두 만족스럽게 나왔습니다~ 주말에도 빠르게 작업 및 응대해주셔서 앞으로도 계속 의뢰드릴 예정입니다~ 항상 친절하고 신속하게 처리해주셔서 감사합니다~ 또 연락드리도록 하겠습니다! 좋은 하루 되세요^^", "n": "푸른********", "ind": "식품/음료", "re": false, "d": "2024.05", "star": "5.0"}, {"q": "처음 촬영인데도 피디님이 편안하게 안내해주셔서 편한마음으로 촬영할수 있었습니다! 편집영상도 마음에 들고 만족스러워서 앞으로 꾸준하게 계속 촬영 이어나가보려고 합니다. 처음이라 걱정되시는분들에게 추천드립니다", "n": "배고*******", "ind": "병의원/제약", "re": false, "d": "2026.09", "star": "5.0"}, {"q": "결과물 대만족입니다. 촬영뿐만 아니라 편집까지 프로페셔널하게 만족스럽게 진행해주셨습니다. 첫 진행이라 원하는 구도나 편집느낌이 나올지 걱정했는데, 그런 걱정이 불필요할만큼 편집본까지 너무 좋습니다!!", "n": "K4*********", "ind": "", "re": false, "d": "2024.10", "star": "5.0"}, {"q": "최고의 영상 제작 회사입니다! 촬영, 편집 내공 짱짱! 고민하지 말고 진행하시기를! 앞으로 너무 바빠지실까봐 다른분께 안 알려 드리고 싶은데 ㅎㅎ 찐텐 회사입니다. 홍보 아니고 내돈내산입니다 ~", "n": "K1********", "ind": "", "re": false, "d": "2024.10", "star": "5.0"}, {"q": "대표님 너무 친절하시고 작업물 만족도 최상입니다.. 그 이상을 받은 것 같아요. 열정도 넘치시고 영상촬영이랑 편집 퀼리티 대박입니다. 원하던 컨셉 이상으로 나왔어요.!! 넘넘 감사합니다!!", "n": "검정********", "ind": "", "re": false, "d": "2024.01", "star": "5.0"}, {"q": "수정 요청 여러 번 있었는데도 빠르고 친절하게 반응해주셔서 감사했습니다. 영상 제작에 대해 잘 모르는 편이었는데도 전문적으로 촬영 리드해주셔서 좋은 결과물 얻을 수 있었습니다 :)", "n": "모든*****", "ind": "학원/교육", "re": false, "d": "2024.01", "star": "5.0"}, {"q": "촬영부터 편집까지 신속하게 대응해주셔서 정말 편하게 작업했습니다! 대표님께서 현장에서 직접 디렉팅 해주시고 친절하셔서 기분 좋게 협업했습니다 :) 좋은 협력업체를 만났네요 ㅎㅎ", "n": "K9*********", "ind": "IT 솔루션", "re": true, "d": "2025.04", "star": "5.0"}, {"q": "부족한 현장에서 엄청 능동적으로 먼저 처리해주셔서 정말 든든했습니다~!! 다양한 구도로 촬영해주셔서 소스도 다양하게 사용이 가능할 것 같아요 :) 최고입니다!!!!", "n": "규니***", "ind": "", "re": false, "d": "2025.08", "star": "5.0"}, {"q": "꼼꼼하게 촬영 해주시고 빠른 편집 피드백도 넘 좋습니다. 요청사항 최대한 반영해주시려고 하고 결과물도 만족스러워서 또 이용할 예정이예요^^", "n": "환한******", "ind": "", "re": false, "d": "2024.02", "star": "5.0"}, {"q": "친절하고 응대도 빠르며 무엇보다 퀄리티가 높습니다. 다른 곳과 여러번 작업해봤는데 이곳으로 정착하려고합니다.", "n": "바디******", "ind": "기업", "re": false, "d": "2025.04", "star": "5.0"}, {"q": "신속하고, 친절히 진행해 주셔서 감사합니다! 장비들도 전문적으로 잘 갖추셔서 좋은 결과가 있었네요.", "n": "꽃을***", "ind": "", "re": false, "d": "2025.11", "star": "4.7"}, {"q": "촬영도 편안하게 해주셔서 즐겁게 했고 작업물도 너무 만족스럽게 만들어주셔 감사합니다!", "n": "유능*******", "ind": "", "re": false, "d": "2025.02", "star": "5.0"}, {"q": "마음에 쏙 듭니다. 퀄리티도 너무 좋고 빠른 대응해주셔서 감사합니다!!", "n": "le*********", "ind": "", "re": false, "d": "2024.07", "star": "5.0"}, {"q": "영상 퀄리티도 편집도 넘 맘에 들어요! 담주 또 촬영 요청했습니당!!", "n": "커다*******", "ind": "", "re": false, "d": "2024.03", "star": "5.0"}, {"q": "퀄리티 좋고, 배려 잘 해주시고 너무 만족스럽습니다. 감사합니다.", "n": "조용*******", "ind": "", "re": false, "d": "2024.06", "star": "5.0"}, {"q": "일정이 촉박했는데 빠르고 깔끔하게 작업해주셔서 감사합니다!", "n": "IN*", "ind": "기업", "re": false, "d": "2026.03", "star": "5.0"}, {"q": "촬영,편집 모두 만족스럽습니다! 강력하게 추천 합니다!!!", "n": "야성********", "ind": "", "re": false, "d": "2024.04", "star": "5.0"}],
  stats:[{n:5200,unit:'건+',label:'누적 프로젝트 <span class="todo">집계 기준</span>'},{n:98,unit:'%',label:'고객 만족도 <span class="todo">조사 기준</span>'},{n:4.9,dec:1,unit:'/ 5.0',label:'프로덕션 평점'}],
  images:{'logo':'cineglow-logo.png','home.cam':'cineglow-cam.jpg','range.hero':8389883,'range.tile1':7634784,'range.tile2':32610376,'casting.hero':3062540,'about.hero':7513459},
  flags:{todo:true,protoBar:true}, /* 표시 설정: TODO 태그 · 상단 시안 바 */
- price:{rows:[{"name": "STANDARD", "price": "390,000원", "desc": "촬영 90분 · 4K 카메라 2대 · 촬영감독 1명 · 5분 영상 편집 · 썸네일 (4K 촬영 후 원하시는 해상도로 전달)", "hot": false}, {"name": "DELUXE", "price": "690,000원", "desc": "STANDARD에서 촬영 인원 1명·카메라 1대 추가 · 총 촬영 120분 · 카메라 3대", "hot": false}, {"name": "PREMIUM", "price": "2,400,000원", "desc": "월 5편 제작 · 회차 구성 제안 · 편당 5~8분 · 월 촬영 총 300분", "hot": true}, {"name": "채널 전략·대본 기획 추가", "price": "650,000원", "desc": "PREMIUM 추가 옵션 · 채널 전략 수립 · 신규 대본 집필 <span class=\"todo\">단독 판매 여부<\/span>", "hot": false, "addon": true}],note:"촬영 후 7일 이내에 첫 편집본을 전달하며, 기본 2회 수정합니다. 카메라 추가는 1대당 10만 원(총 3대 이상), 영상 길이 추가는 1분당 18,000원, 촬영 연장은 시간당 10만 원입니다. 제작비는 전액 선결제입니다. <span class=\"todo\">가격 확정<\/span>"},
+ price:{rows:[{"name": "STANDARD", "price": "590,000원", "desc": "촬영 90분 · 4K 카메라 2대 · 촬영감독 1명 · 5분 영상 편집 · 썸네일 (4K 촬영 후 원하시는 해상도로 전달)", "hot": false}, {"name": "DELUXE", "price": "890,000원", "desc": "STANDARD에서 촬영 인원 1명·카메라 1대 추가 · 총 촬영 120분 · 카메라 3대", "hot": false}, {"name": "PREMIUM", "price": "3,500,000원", "desc": "월 5회 기준 · 월 5편 제작 · 회차 구성 제안 · 편당 5~8분 · 월 촬영 총 300분", "hot": true}, {"name": "채널 전략·대본 기획 추가", "price": "1,500,000원", "desc": "PREMIUM 추가 옵션 · 월 5회 기준 · 채널 전략 수립 · 신규 대본 집필 <span class=\"todo\">단독 판매 여부<\/span>", "hot": false, "addon": true}],note:"촬영 후 7일 이내에 첫 편집본을 전달하며, 기본 2회 수정합니다. 카메라는 기본 2대이며 추가는 1대당 15만 원, 촬영 인원 추가는 1명당 25만 원, 영상 길이 추가는 1분당 4만 원, 세로형 숏폼 추가는 1편당 6만 원입니다. 지역 할증은 경기 5만 원, 충북·충남 10만 원, 전북·강원·경북 20만 원, 전남·경남 25만 원이며 제주는 협의 후 확정합니다. 제작비는 전액 선결제입니다. <span class=\"todo\">가격 확정<\/span>"},
  text:{
  "nav.qna": "자주 묻는 질문",
  "drawer.qna": "<span class=\"k\">07<\/span>자주 묻는 질문",
@@ -2540,7 +2674,7 @@ const SITE={
  "home.s4.8": "제작량과 별도로 발생하는 인건비·장비 비용",
  "home.s4.9": "기획·촬영·편집의 역할 배분과 일정 관리",
  "home.s4.10": "시네글로우와 정기 제작을 진행한다면",
- "home.s4.11": "월 정기 제작<small>PREMIUM · 월 5편 · 월 2,400,000원<\/small> <span class=\"todo\">정기 계약 금액<\/span>",
+ "home.s4.11": "월 정기 제작<small>PREMIUM · 월 5회 기준 · 월 3,500,000원<\/small> <span class=\"todo\">정기 계약 금액<\/span>",
  "home.s4.12": "계약한 제작 범위에 맞춰 인력과 장비 구성",
  "home.s4.13": "프로젝트 단체 대화방에서 의견 공유",
  "home.s4.14": "담당 PD가 채널의 분위기와 이전 제작 내용을 이어서 관리",
@@ -2607,7 +2741,7 @@ const SITE={
  "home.s9.4": "출연자·촬영 장소 섭외 보기",
  "home.s10.1": "함께한 이야기",
  "home.s10.2": "함께 만든 사람들의 이야기",
- "home.s10.3": "실제 고객 후기가 들어갈 자리입니다. <span class=\"todo\">후기 수집 후 교체<\/span>",
+ "home.s10.3": "함께 작업한 분들이 남겨 주신 후기입니다.",
  "home.s11.1": "제작 과정",
  "home.s11.2": "첫 상담부터<br>영상이 완성되기까지",
  "home.s11.3": "전체 제작은 아래 순서로 진행합니다. 일부 과정만 맡기실 때는 해당 단계부터 시작합니다. <span class=\"todo\">단계별 기간·계약 방식 확정<\/span>",
@@ -2867,6 +3001,29 @@ const CH=SITE.ch;
    kind: 가로형|쇼츠|쿠키 · id: 유튜브 영상 ID · ep: 화수 · t: 부제 · len: 길이 · type: youtube|commerce|webdrama|ad|promo|edu|marketing · cat: 세부 분야(포트폴리오 선반 묶음 이름, SITE.cats 참고)
    c: 클라이언트 · ind: 업종 · done: 작업(·로 구분) · aim: 한 줄 설명 · show: Y/N · order: 노출 순서 */
 const VIDEO_ROWS=[
+/* v154: 홈 전용 영상(show:"H") — 첫 화면 액정·홈 필름 릴에만 사용. title이 있으면 시리즈명 대신 그대로 표시 */
+ {"kind": "가로형", "id": "C7fPCDElzsY", "ep": "", "t": "", "title": "아이돌 인력 사무소 EP.1", "len": "", "type": "webdrama", "cat": "", "c": "엔스크린", "ind": "", "done": "", "aim": "", "show": "H", "order": 100},
+ {"kind": "가로형", "id": "bpIRPuXn4LE", "ep": "", "t": "", "title": "생각 많은 사람에게 해주는 현실적인 조언 한마디", "len": "", "type": "webdrama", "cat": "", "c": "엔스크린", "ind": "", "done": "", "aim": "", "show": "H", "order": 101},
+ {"kind": "가로형", "id": "Z-aGKPi8eIs", "ep": "", "t": "", "title": "엄마는 너무 어려워 ?!", "len": "", "type": "webdrama", "cat": "", "c": "엔스크린", "ind": "", "done": "", "aim": "", "show": "H", "order": 102},
+ {"kind": "가로형", "id": "pWE-ZDmTBZs", "ep": "", "t": "", "title": "음악으로 분석하는 오징어 게임 비하인드 스토리", "len": "", "type": "youtube", "cat": "", "c": "혁킴", "ind": "", "done": "", "aim": "", "show": "H", "order": 103},
+ {"kind": "가로형", "id": "hkFFrHpGBn8", "ep": "", "t": "", "title": "#압구정 신현대 수조원대 재건축의 향방은? #압구정수달", "len": "", "type": "youtube", "cat": "", "c": "압구정수달", "ind": "", "done": "", "aim": "", "show": "H", "order": 104},
+ {"kind": "가로형", "id": "QYLfUTKctL0", "ep": "", "t": "", "title": "허리 협착증, 꼭 알아야 할 5가지｜운동·생활습관부터 의심 증상까지", "len": "", "type": "youtube", "cat": "", "c": "해방한의사", "ind": "", "done": "", "aim": "", "show": "H", "order": 105},
+ {"kind": "가로형", "id": "eu7TCr8RJlA", "ep": "", "t": "", "title": "[찾아가는 김영이] 연고대 ·의약대 편입 6개월 합격, 너도? 아 나도! 신촌 연고대의약대 전문관에서 단기간 합격 꿀팁 알려드림⭐", "len": "", "type": "youtube", "cat": "", "c": "김영편입", "ind": "", "done": "", "aim": "", "show": "H", "order": 106},
+ {"kind": "가로형", "id": "arbTAMVjY4A", "ep": "", "t": "", "title": "요즘 대세는 어디? 첨단학과 편입부터 취업까지 A-Z [유망전공·취업 EP.2]", "len": "", "type": "youtube", "cat": "", "c": "김영편입", "ind": "", "done": "", "aim": "", "show": "H", "order": 107},
+ {"kind": "가로형", "id": "QYbGLpCPXIE", "ep": "", "t": "", "title": "약대 편입, 기회가 커졌다! 2026학년도 의약계열 편입전형 대폭 확대", "len": "", "type": "youtube", "cat": "", "c": "김영편입", "ind": "", "done": "", "aim": "", "show": "H", "order": 108},
+ {"kind": "가로형", "id": "8L3w3bETJfQ", "ep": "", "t": "", "title": "[EN/KR] 미국 명문대, 성적순으로 안 뽑습니다 | 스탠퍼드·하버드 출신이 밝히는 미국 대학 입시의 본질 (EP.1)", "len": "", "type": "youtube", "cat": "", "c": "노드스타글로벌", "ind": "", "done": "", "aim": "", "show": "H", "order": 109},
+ {"kind": "가로형", "id": "kmHU16dO-j4", "ep": "", "t": "", "title": "\"호르몬약 먹으면 유방암?\" — 산부인과 전문의가 20년 데이터로 팩트체크", "len": "", "type": "youtube", "cat": "", "c": "안창훈 산부인과", "ind": "", "done": "", "aim": "", "show": "H", "order": 110},
+ {"kind": "가로형", "id": "BdFcRDE1Wbc", "ep": "", "t": "", "title": "큰' 대장용종, 어디서 제거해야 할까? (feat.당일 용종 제거)", "len": "", "type": "youtube", "cat": "", "c": "대항병원", "ind": "", "done": "", "aim": "", "show": "H", "order": 111},
+ {"kind": "가로형", "id": "ve-I9De7CJQ", "ep": "", "t": "", "title": "\"불공정한 건 아는데…\" 명문대 보내고 싶은 부모 65% | 학벌 인식 1,000명 조사", "len": "", "type": "youtube", "cat": "", "c": "엠브레인", "ind": "", "done": "", "aim": "", "show": "H", "order": 112},
+ {"kind": "가로형", "id": "HLD8C4Fhp58", "ep": "", "t": "", "title": "함영원 정영아", "len": "", "type": "youtube", "cat": "", "c": "함영원 정영아", "ind": "", "done": "", "aim": "", "show": "H", "order": 113},
+ {"kind": "가로형", "id": "pjlP2CmnJxg", "ep": "", "t": "", "title": "어반비오나", "len": "", "type": "youtube", "cat": "", "c": "어반비오나", "ind": "", "done": "", "aim": "", "show": "H", "order": 114},
+ {"kind": "가로형", "id": "SxvE2fxICCk", "ep": "", "t": "", "title": "조명테리어", "len": "", "type": "youtube", "cat": "", "c": "조명테리어", "ind": "", "done": "", "aim": "", "show": "H", "order": 115},
+ {"kind": "가로형", "id": "UmoOj3bPm4g", "ep": "", "t": "", "title": "관세타임즈", "len": "", "type": "youtube", "cat": "", "c": "관세타임즈", "ind": "", "done": "", "aim": "", "show": "H", "order": 116},
+ {"kind": "가로형", "id": "KfxgB7RJz4c", "ep": "", "t": "", "title": "에디슨분유제조기 매뉴얼", "len": "", "type": "youtube", "cat": "", "c": "에디슨분유제조기 매뉴얼", "ind": "", "done": "", "aim": "", "show": "H", "order": 117},
+ {"kind": "가로형", "id": "dW4-TYkYDRA", "ep": "", "t": "", "title": "다이아언니", "len": "", "type": "youtube", "cat": "", "c": "다이아언니", "ind": "", "done": "", "aim": "", "show": "H", "order": 118},
+ {"kind": "가로형", "id": "JNRpdjXztZk", "ep": "", "t": "", "title": "로이스치과", "len": "", "type": "youtube", "cat": "", "c": "로이스치과", "ind": "", "done": "", "aim": "", "show": "H", "order": 119},
+ {"kind": "가로형", "id": "S1NoW3Nbtg4", "ep": "", "t": "", "title": "테라핏", "len": "", "type": "youtube", "cat": "", "c": "테라핏", "ind": "", "done": "", "aim": "", "show": "H", "order": 120},
+ {"kind": "가로형", "id": "20DIK1_PENI", "ep": "", "t": "", "title": "정만세", "len": "", "type": "youtube", "cat": "", "c": "정만세", "ind": "", "done": "", "aim": "", "show": "H", "order": 121},
  {"kind":"가로형","id":"b2_3L5PVqKc","ep":"5화","t":"여친 옆에서 다른 여자한테 눈이 간다고?","len":"7:00","type":"webdrama","cat":"스케치코미디","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":1},
  {"kind":"가로형","id":"_s-earm-ZyA","ep":"4화","t":"사랑이라고? 넌 호구 된 거야!","len":"12:26","type":"webdrama","cat":"스케치코미디","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":2},
  {"kind":"가로형","id":"_Nku_qTpSKs","ep":"3화","t":"어…? 작가님? 몸매가??","len":"11:52","type":"webdrama","cat":"스케치코미디","c":"펀 스토리제작소","ind":"웹드라마 · 스케치코미디","done":"촬영·편집·섭외","aim":"전문 배우 캐스팅과 시네마틱 연출이 결합된 오리지널 에피소드","show":"Y","order":3},
@@ -2920,9 +3077,12 @@ const VIDEO_ROWS=[
 ];
 /*@@VIDEOS_END@@*/
 const SERIES=SITE.series;
-const EPS=VIDEO_ROWS.filter(r=>r.kind==='가로형'&&r.show!=='N').sort((a,b)=>a.order-b.order).map(r=>({id:r.id,ep:r.ep,t:r.t,len:r.len}));
+const EPS=(VIDEO_ROWS.some(r=>r.show==='H')?VIDEO_ROWS.filter(r=>r.kind==='가로형'&&r.show==='H'):VIDEO_ROWS.filter(r=>r.kind==='가로형'&&r.show!=='N')).sort((a,b)=>a.order-b.order).map(r=>({id:r.id,ep:r.ep,t:r.t,len:r.len,title:r.title}));
 const SHORTS=VIDEO_ROWS.filter(r=>r.kind!=='가로형'&&r.show!=='N').sort((a,b)=>a.order-b.order).map(r=>({id:r.id,ep:r.kind==='쿠키'&&!/쿠키/.test(r.ep)?r.ep+' 쿠키':r.ep,len:r.len}));
-const VIDEOS=VIDEO_ROWS.filter(r=>r.show!=='N').sort((a,b)=>a.order-b.order).map(r=>{const ep=r.kind==='가로형';return {id:r.id,ep:r.ep,t:r.t,len:r.len,kind:ep?'ep':'short',sub:ep?'ep':(r.kind==='쿠키'?'cookie':'short'),type:r.type||'webdrama',cat:r.cat||'',title:ep?`${SERIES} ${r.ep}${r.t?' — '+r.t:''}`:`${SERIES} ${r.ep}`,c:r.c||CH.name,ind:r.ind||'',done:(r.done||'').split(/[·,\s]+/).filter(Boolean),aim:r.aim||''}});
+const toV=r=>{const ep=r.kind==='가로형';return {id:r.id,ep:r.ep,t:r.t,len:r.len,kind:ep?'ep':'short',sub:ep?'ep':(r.kind==='쿠키'?'cookie':'short'),type:r.type||'webdrama',cat:r.cat||'',title:r.title||(ep?`${SERIES} ${r.ep}${r.t?' — '+r.t:''}`:`${SERIES} ${r.ep}`),c:r.c||CH.name,ind:r.ind||'',done:(r.done||'').split(/[·,\s]+/).filter(Boolean),aim:r.aim||''}};
+const HOME_VIDEOS=VIDEO_ROWS.filter(r=>r.show==='H').sort((a,b)=>a.order-b.order).map(toV);
+const VIDEOS_ALL=VIDEO_ROWS.filter(r=>r.show!=='N').sort((a,b)=>a.order-b.order).map(toV);
+const VIDEOS=VIDEO_ROWS.filter(r=>r.show!=='N'&&r.show!=='H').sort((a,b)=>a.order-b.order).map(r=>{const ep=r.kind==='가로형';return {id:r.id,ep:r.ep,t:r.t,len:r.len,kind:ep?'ep':'short',sub:ep?'ep':(r.kind==='쿠키'?'cookie':'short'),type:r.type||'webdrama',cat:r.cat||'',title:r.title||(ep?`${SERIES} ${r.ep}${r.t?' — '+r.t:''}`:`${SERIES} ${r.ep}`),c:r.c||CH.name,ind:r.ind||'',done:(r.done||'').split(/[·,\s]+/).filter(Boolean),aim:r.aim||''}});
 const ytThumb=(id,vert)=>vert?`https://i.ytimg.com/vi/${id}/oar2.jpg`:`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
 const ytImg=(v)=>`<img src="${ytThumb(v.id,v.kind==='short')}" alt="${(v.title||'').replace(/"/g,'&quot;')}" loading="lazy" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'">`;
 const ytWatch=id=>`https://www.youtube.com/watch?v=${id}`;
@@ -3080,7 +3240,7 @@ function watchYT(f){if(!ytIO||!f)return;f.addEventListener('load',()=>{ytCmd(f,'
 /* ---------- 와이드 인라인 플레이어 ---------- */
 function closePlayer(p){if(!p)return;if(p.classList.contains('rp-home')){p.innerHTML=homePlayerIdle();const r=p.nextElementSibling;if(r)r.classList.remove('hold');return}p.classList.remove('open');const reel=p.nextElementSibling;if(reel&&reel.matches('.reel,.shelf'))reel.classList.remove('hold');setTimeout(()=>{if(!p.classList.contains('open'))p.innerHTML=''},720)}
 function closePlayers(){document.querySelectorAll('.rplayer.open').forEach(closePlayer);document.querySelectorAll('.lb.playing').forEach(h=>{h.querySelector('iframe')?.remove();h.classList.remove('playing')})}
-function play(id,host,vert){const v=VIDEOS.find(x=>x.id===id);if(!v)return;
+function play(id,host,vert){const v=VIDEOS_ALL.find(x=>x.id===id);if(!v)return;
  if(LOCAL){window.open(ytWatch(id),'_blank','noopener');toast('이 환경에서는 영상을 새 창으로 재생합니다.',5000);return}
  const ifr=`<iframe src="${ytEmbed(id,false)}" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; picture-in-picture; fullscreen; encrypted-media" allowfullscreen title="${v.title}"></iframe>`;
  const reel=host.closest('.reel,.shelf'); /* v111: 선반(.shelf)도 릴과 같은 와이드 플레이어 */
@@ -3102,7 +3262,7 @@ document.addEventListener('click',e=>{
  }
  const box=e.target.closest('[data-host]');
  if(!box)return;
- const v=VIDEOS.find(x=>x.id===box.dataset.host);
+ const v=VIDEOS_ALL.find(x=>x.id===box.dataset.host);
  if(!v)return;
  e.preventDefault();e.stopPropagation();
  play(v.id,box,v.kind==='short');
@@ -3118,7 +3278,7 @@ const FF={max:6,v0:.6,v1:2,decay:.82,down:true,t:0,rate:1,v:0,lastY:scrollY,last
 const CAM={stage:document.getElementById('camStage'),slot:document.getElementById('lcdSlot'),lcd:document.getElementById('lcd'),media:document.getElementById('lcdMedia'),open:false,v:EPS[0]};
 (function(){const v=CAM.v,st=CAM.stage;
  CAM.media.innerHTML=`<img src="${ytThumb(v.id)}" alt="${SERIES} ${v.ep} — ${v.t}" onerror="this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'">`;
- document.getElementById('lcdTitle').textContent=`${SERIES} ${v.ep} — ${v.t}`;document.getElementById('lcdYt').href=ytWatch(v.id);
+ document.getElementById('lcdTitle').textContent=v.title||`${SERIES} ${v.ep} — ${v.t}`;document.getElementById('lcdYt').href=ytWatch(v.id);
  const live=()=>{st.classList.add('live');if(!LOCAL&&!CAM.media.querySelector('iframe')){const f=document.createElement('iframe');f.src=ytEmbed(v.id,true);f.referrerPolicy='strict-origin-when-cross-origin';f.allow='autoplay; encrypted-media';f.title='';CAM.media.appendChild(f);watchYT(f)}};
  /* v78: 연출 시계 — 평소 1배속(기존 타이밍 그대로), 스크롤을 빠르게 내리는 동안 최대 FF.max배로 빨리 감기, 멈추면 바로 1배속 복귀.
     단계: 120ms 카메라 등장 → 1000ms 전원 → 1750ms HUD → 2200ms 영상 켜짐(페이지 load 이후) → 3600ms 자동 확대(히어로가 보일 때만) */
@@ -3217,7 +3377,7 @@ function procWatch(x){if(x.pio)x.pio.disconnect();const N=x.lis.length,TIP=x.pin
  const reset=()=>{clearTimeout(x.t0);clearTimeout(x.mt);x.mt=0;x.playing=false;if(x.raf)cancelAnimationFrame(x.raf);x.raf=0;host.classList.remove('done');if(x.line){x.line.style.transition='none';x.line.style.width='0%';x.line.offsetWidth;x.line.style.transition=''}x.lis.forEach(li=>li.classList.remove('on'))};
  /* 레일 목표 = 다음 아이콘의 중심(열 경계가 아니라 실제 아이콘 위치 기준) */
  const target=k=>{const L=x.line.parentElement.getBoundingClientRect(),ic=x.lis[k].querySelector('.ic').getBoundingClientRect();return Math.max(0,Math.min(100,(ic.left+ic.width/2-L.left)/L.width*100))};
- const light=k=>{x.lis[k].classList.add('on');if(k<N-1){if(x.line)x.line.style.width=target(k+1)+'%'}else host.classList.add('done')};
+ const light=k=>{x.lis[k].classList.add('on');if(k<N-1){if(x.line)x.line.style.width=target(k+1)+'%'}else{host.classList.add('done');if(x.line)x.line.style.width='100%'}};
  /* 화살촉(레일 끝 + TIP)이 다음 아이콘의 왼쪽 가장자리에 닿는 순간 그 단계를 점등 — 타이머가 아니라 실제 위치 기준. 레일이 없는 모바일 세로형은 0.52초 간격 */
  const run=()=>{x.raf=0;if(!x.playing)return;const k=x.lis.findIndex(li=>!li.classList.contains('on'));if(k<0)return;
   const lineOn=x.line&&x.line.getBoundingClientRect().height>0;
@@ -3225,7 +3385,8 @@ function procWatch(x){if(x.pio)x.pio.disconnect();const N=x.lis.length,TIP=x.pin
   const edge=x.lis[k].querySelector('.ic').getBoundingClientRect().left;const tip=x.line.getBoundingClientRect().right+TIP;
   if(tip>=edge-2)light(k);x.raf=requestAnimationFrame(run)};
  /* 레일 트랙을 마지막 아이콘 중심까지만 */
- const fit=()=>{if(!x.line)return;const L=x.el.getBoundingClientRect(),ic=x.lis[N-1].querySelector('.ic').getBoundingClientRect();x.line.parentElement.style.right=Math.max(0,L.right-(ic.left+ic.width/2))+'px'};
+ /* v151: 레일 양끝 대칭 — 1번 아이콘 왼쪽에 남는 길이만큼 5번 아이콘 오른쪽에도 */
+ const fit=()=>{if(!x.line)return;const L=x.el.getBoundingClientRect(),ic0=x.lis[0].querySelector('.ic').getBoundingClientRect(),ic=x.lis[N-1].querySelector('.ic').getBoundingClientRect();const over=ic0.left-L.left;x.line.parentElement.style.right=(L.right-(ic.right+over))+'px'};
  fit();if(!x.fitBound){x.fitBound=true;addEventListener('resize',()=>setTimeout(fit,120))}
  const play=()=>{if(x.playing)return;x.playing=true;fit();x.t0=setTimeout(()=>{if(!x.playing)return;light(0);x.raf=requestAnimationFrame(run)},300)};
  x.pio=new IntersectionObserver(es=>es.forEach(en=>{if(en.intersectionRatio>=.35)play();else if(!en.isIntersecting)reset()}),{threshold:[0,.35]});x.pio.observe(x.el)}
@@ -3265,8 +3426,8 @@ document.addEventListener('click',e=>{const r=e.target.closest('.rangebar .r[dat
 const epList=VIDEOS.filter(v=>v.kind==='ep');
 /* v131: 홈 — 필름 효과 없이 지나가는 띠 */
 /* v135: 홈 제작 사례 — 위에 영상 칸(고른 영상이 여기서 재생), 아래 필름 릴 */
-function homePlayerIdle(){const v=VIDEOS.filter(v=>v.kind==='ep')[0]||VIDEOS[0];if(!v)return '';return `<div class="rp-bar"><span class="rp-now">SELECTED</span><b>${v.title}</b><a href="${ytWatch(v.id)}" target="_blank" rel="noopener">유튜브 ↗</a></div><div class="rp-in v16 lb rp-idle" data-host="${v.id}">${ytImg(v)}<div class="play"><span>▶</span></div></div>`}
-(function(){const host=document.getElementById('homeReels');if(!host)return;const list=VIDEOS.filter(v=>v.kind==='ep').concat(VIDEOS.filter(v=>v.kind!=='ep')).slice(0,14);
+function homePlayerIdle(){const src=HOME_VIDEOS.length?HOME_VIDEOS:VIDEOS;const v=src.filter(v=>v.kind==='ep')[0]||src[0];if(!v)return '';return `<div class="rp-bar"><span class="rp-now">SELECTED</span><b>${v.title}</b><a href="${ytWatch(v.id)}" target="_blank" rel="noopener">유튜브 ↗</a></div><div class="rp-in v16 lb rp-idle" data-host="${v.id}">${ytImg(v)}<div class="play"><span>▶</span></div></div>`}
+(function(){const host=document.getElementById('homeReels');if(!host)return;const src=HOME_VIDEOS.length?HOME_VIDEOS:VIDEOS;const list=src.filter(v=>v.kind==='ep').concat(src.filter(v=>v.kind!=='ep')).slice(0,24);
  const eps=list.filter(v=>v.kind==='ep');host.innerHTML=`<div class="rplayer open rp-home" id="homePlayer">${homePlayerIdle()}</div>`+reelStripHTML(eps.length?eps:list,'home',{spd:68})})();
 
 document.getElementById('castCases').innerHTML=
@@ -3324,9 +3485,9 @@ document.getElementById('castBehind').innerHTML=SITE.castBehind.map((id,i)=>`<di
 
 /* 말풍선 3 */
 /* 고객의 말 — 달력을 위로 넘기듯 다음 장으로 */
-(function(){const flat=SITE.voices.flat();const PAGES=[];for(let i=0;i<flat.length;i+=6)PAGES.push(flat.slice(i,i+6));if(PAGES.length&&PAGES[PAGES.length-1].length<6){const last=PAGES[PAGES.length-1];while(last.length<6)last.push(flat[last.length%flat.length])}const host=document.getElementById('bubbles');
- const bubble=w=>`<div class="bubble"><div class="q">“</div><div class="ln" style="width:${w}%"></div><div class="ln" style="width:${w-14}%"></div><div class="ln" style="width:${Math.max(34,w-40)}%"></div><div class="who"><i></i><div><b></b><small></small></div></div></div>`;
- host.className='flipbook reveal';host.innerHTML=`<div class="rings">${Array.from({length:14},()=>'<i></i>').join('')}</div><div class="pages">${PAGES.map((p,i)=>`<div class="pg ${i===0?'cur':''}" data-i="${i}"><div class="pg-head"><span class="slug">Voices · ${pad(i+1)} / ${pad(PAGES.length)}</span><span class="todo">후기 수집 후 교체</span></div><div class="bubbles reveal">${p.map(bubble).join('')}</div></div>`).join('')}</div><div class="flip-ctl"><button type="button" data-flip="-1" aria-label="이전">‹</button><span class="dots">${PAGES.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</span><button type="button" data-flip="1" aria-label="다음">›</button></div>`;
+(function(){const flat=SITE.voices.flat().filter(v=>typeof v==='object');const PAGES=[];for(let i=0;i<flat.length;i+=6)PAGES.push(flat.slice(i,i+6));if(PAGES.length&&PAGES[PAGES.length-1].length<6){const last=PAGES[PAGES.length-1];while(last.length<6)last.push(flat[last.length%flat.length])}const host=document.getElementById('bubbles');
+ const bubble=v=>`<div class="bubble"><div class="q">“</div><p class="tx">${v.q}</p><div class="who"><i>${(v.n||'').slice(0,1)}</i><div><b>${v.n}</b><small>${[v.ind,v.re?'재구매 고객':'',v.d].filter(Boolean).join(' · ')}</small></div><span class="star">★ ${v.star||'5.0'}</span></div></div>`;
+ host.className='flipbook reveal';host.innerHTML=`<div class="rings">${Array.from({length:14},()=>'<i></i>').join('')}</div><div class="pages">${PAGES.map((p,i)=>`<div class="pg ${i===0?'cur':''}" data-i="${i}"><div class="pg-head"><span class="slug">Voices · ${pad(i+1)} / ${pad(PAGES.length)}</span></div><div class="bubbles reveal">${p.map(bubble).join('')}</div></div>`).join('')}</div><div class="flip-ctl"><button type="button" data-flip="-1" aria-label="이전">‹</button><span class="dots">${PAGES.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</span><button type="button" data-flip="1" aria-label="다음">›</button></div>`;
  let cur=0,busy=false,timer;const pgs=[...host.querySelectorAll('.pg')];
  function go(d){if(busy)return;busy=true;const nx=(cur+d+PAGES.length)%PAGES.length;const a=pgs[cur],b=pgs[nx];
   /* v142: 다음 장의 말풍선도 처음부터 하나씩 올라오게 — 넘기기 전에 초기화, 장이 보이면 다시 시작 */
@@ -3442,7 +3603,7 @@ mountShelves(document.getElementById('pbody'));
 
 /* 모달 */
 const modal=document.getElementById('modal');
-function openModal(id){const v=VIDEOS.find(x=>x.id===id);if(!v)return;const f=FIELDS[v.type];const vert=v.kind==='short';
+function openModal(id){const v=VIDEOS_ALL.find(x=>x.id===id);if(!v)return;const f=FIELDS[v.type];const vert=v.kind==='short';
  const sim=VIDEOS.filter(q=>q.id!==id&&q.kind===v.kind).slice(0,8);
  document.getElementById('modalBody').innerHTML=`<div class="top ${vert?'vert':''}">${vbox(v)}${vert?`<div class="side"><span class="slug">${f.en} · SHORTS</span><h2 style="margin-top:10px">${v.title}</h2><p style="margin-top:14px">${v.c} · ${v.len}</p><div style="margin-top:14px">${chips(v.done)}</div><div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><a class="pill" href="#contact" data-pre-type="${v.type}" data-pre-ref="${v.title}">${T('modal.quote')}</a><a class="pill ghost" href="${ytWatch(v.id)}" target="_blank" rel="noopener">${T('modal.yt')}</a></div></div>`:''}</div>
  ${vert?'':`<div class="info"><div><span class="slug">${f.en} · ${v.ind}</span><h2 style="margin-top:10px">${v.title}</h2><p style="color:var(--mute);margin-top:16px;font-size:17px">${v.aim}. ${T('modal.desc')}</p><div style="margin-top:14px">${chips(v.done)}</div><div style="margin-top:26px;display:flex;gap:10px;flex-wrap:wrap"><a class="pill" href="#contact" data-pre-type="${v.type}" data-pre-ref="${v.title}">${T('modal.quote')}</a><a class="pill ghost" href="${ytWatch(v.id)}" target="_blank" rel="noopener">${T('modal.yt')}</a></div></div>
@@ -3463,13 +3624,14 @@ function estimate(){const r=RATES;const lines=[['기본 촬영·편집 (카메�
  const ec=Math.max(0,CALC.cams-r.camIncluded);if(ec)lines.push([`카메라 추가 (+${ec}대)`,ec*r.cam]);if(CALC.cams<r.camIncluded)lines.push([`카메라 ${CALC.cams}대 (기본 2대)`,0]);
  const ed=Math.max(0,CALC.dirs-r.dirIncluded);if(ed)lines.push([`촬영 인원 추가 (+${ed}명)`,ed*r.director]);
  const em=Math.max(0,CALC.min-r.minIncluded);if(em)lines.push([`영상 길이 추가 (+${em}분)`,em*r.perMin]);
- if(r.region[CALC.region])lines.push([`촬영 지역 출장비 (${r.regionName[CALC.region]})`,r.region[CALC.region]]);
+ if(r.region[CALC.region]===null)lines.push([`지역 할증 (${r.regionName[CALC.region]}) — 협의 후 확정`,null]);else if(r.region[CALC.region])lines.push([`지역 할증 (${r.regionName[CALC.region]})`,r.region[CALC.region]]);
  if(CALC.shorts)lines.push([`세로형 숏폼 추가 (${CALC.shorts}편)`,CALC.shorts*r.shorts]);
- const total=lines.reduce((a,l)=>a+l[1],0);return {lines,total}}
+ const total=lines.reduce((a,l)=>a+(l[1]||0),0);return {lines,total}}
 function renderEst(){const {lines,total}=estimate();document.getElementById('o-cams').textContent=CALC.cams;document.getElementById('o-dirs').textContent=CALC.dirs;document.getElementById('o-shorts').textContent=CALC.shorts;document.getElementById('o-min').textContent=CALC.min;
- document.getElementById('est').innerHTML=`<div><div class="lbl">${T('est.lbl')}${RATES.confirmed?'':' <span class="todo" style="margin-left:4px">임시 단가</span>'}</div><div class="amt">${won(total)}</div><div class="note">${T('est.note')}</div></div><dl>${lines.map(l=>`<dt>${l[0]}</dt><dd>${won(l[1])}</dd>`).join('')}</dl>`;summary()}
+ document.getElementById('est').innerHTML=`<div><div class="lbl">${T('est.lbl')}${RATES.confirmed?'':' <span class="todo" style="margin-left:4px">임시 단가</span>'}</div><div class="amt">${won(total)}</div><div class="note">${T('est.note')}</div></div><dl>${lines.map(l=>`<dt>${l[0]}</dt><dd>${l[1]===null?'협의':won(l[1])}</dd>`).join('')}</dl>`;summary()}
 document.getElementById('calc').addEventListener('click',e=>{const b=e.target.closest('button[data-k]');if(!b)return;const k=b.dataset.k,[lo,hi]=LIM[k];CALC[k]=Math.max(lo,Math.min(hi,CALC[k]+(+b.dataset.d)));renderEst()});
 document.getElementById('c-min').addEventListener('input',e=>{CALC.min=+e.target.value;renderEst()});
+document.getElementById('c-region').innerHTML=Object.keys(RATES.regionName).map(k=>`<option value="${k}">${RATES.regionName[k]}${RATES.region[k]===null?' (협의)':''}</option>`).join('');
 document.getElementById('c-region').addEventListener('change',e=>{CALC.region=e.target.value;renderEst()});
 
 /* ---------- 견적 폼 ---------- */
@@ -3533,7 +3695,7 @@ form.addEventListener('submit',e=>{e.preventDefault();
  const t=document.querySelector('input[name="type"]:checked'),r=document.querySelector('input[name="range"]:checked');const cs=[...document.querySelectorAll('input[name="cast"]:checked')].map(c=>c.parentElement.textContent.trim());const {lines,total}=estimate();
  const type=t?FIELDS[t.value].name:'-',range=r?(r.value==='unknown'?'상담 후 결정':RANGE[+r.value-1]):'-';
  const pk=SITE.price.rows[PKG];const adn=SITE.price.rows.find(x=>x.addon);const mk=[...document.querySelectorAll('input[name="mkt"]:checked')].map(c=>c.value);const tag=QKIND==='mkt'?'[마케팅 견적]':QKIND==='both'?'[영상+마케팅 견적]':'[영상 견적]';const subject=QKIND==='mkt'?`${tag} ${mk.join('·')||'옵션 미정'} · ${name}`:QMODE==='simple'?`${tag} 패키지 · ${pk.name}${ADDON&&adn?' + '+adn.name:''} · ${name}`:`${tag} ${type} · ${range} · ${name}`;
- const bodyV=QMODE==='simple'?[`■ 견적 방식: 패키지`,`■ 선택 구성: ${pk.name} — ${pk.price} (부가세 별도)`,...(ADDON&&adn?[`■ 추가 옵션: ${adn.name} — ${adn.price}`]:[]),`  - ${pk.desc.replace(/<[^>]+>/g,'')}`,'',]:[`■ 영상 장르: ${type}`,`■ 제작 범위: ${range}`,`■ 섭외 옵션: ${cs.join(', ')||'-'}`,'',`■ 예상 금액(상담 후 확정): ${won(total)} (부가세 별도)`,...lines.map(l=>`  - ${l[0]}: ${won(l[1])}`),`  - 세부 조건: 카메라 ${CALC.cams}대 · 촬영 인원 ${CALC.dirs}명 · 영상 길이 ${CALC.min}분 · 지역 ${RATES.regionName[CALC.region]} · 숏폼 ${CALC.shorts}편`,'',`■ 결제 조건: 선결제 100%`,`■ 희망 촬영 시기: ${document.getElementById('f-when').value||'-'}`,`■ 가용 예산: ${document.getElementById('f-budget').value}`,`■ 레퍼런스: ${document.getElementById('f-ref').value||'-'}`,`■ 상세 내용:`,document.getElementById('f-msg').value||'-','',`■ 성함·기업명: ${name}`,`■ 연락처: ${phone}`,`■ 이메일: ${document.getElementById('f-email').value||'-'}`,'',`— 시네글로우 홈페이지 견적 시스템에서 발송됨`].join('\n');
+ const bodyV=QMODE==='simple'?[`■ 견적 방식: 패키지`,`■ 선택 구성: ${pk.name} — ${pk.price} (부가세 별도)`,...(ADDON&&adn?[`■ 추가 옵션: ${adn.name} — ${adn.price}`]:[]),`  - ${pk.desc.replace(/<[^>]+>/g,'')}`,'',]:[`■ 영상 장르: ${type}`,`■ 제작 범위: ${range}`,`■ 섭외 옵션: ${cs.join(', ')||'-'}`,'',`■ 예상 금액(상담 후 확정): ${won(total)} (부가세 별도)`,...lines.map(l=>`  - ${l[0]}: ${l[1]===null?'협의':won(l[1])}`),`  - 세부 조건: 카메라 ${CALC.cams}대 · 촬영 인원 ${CALC.dirs}명 · 영상 길이 ${CALC.min}분 · 지역 ${RATES.regionName[CALC.region]} · 숏폼 ${CALC.shorts}편`,'',`■ 결제 조건: 선결제 100%`,`■ 희망 촬영 시기: ${document.getElementById('f-when').value||'-'}`,`■ 가용 예산: ${document.getElementById('f-budget').value}`,`■ 레퍼런스: ${document.getElementById('f-ref').value||'-'}`,`■ 상세 내용:`,document.getElementById('f-msg').value||'-','',`■ 성함·기업명: ${name}`,`■ 연락처: ${phone}`,`■ 이메일: ${document.getElementById('f-email').value||'-'}`,'',`— 시네글로우 홈페이지 견적 시스템에서 발송됨`].join('\n');
  const mkOpt=mk.join(', ')||'-';const tail=[`■ 희망 시기: ${document.getElementById('f-when').value||'-'}`,`■ 가용 예산: ${document.getElementById('f-budget').value}`,`■ 레퍼런스: ${document.getElementById('f-ref').value||'-'}`,`■ 상세 내용:`,document.getElementById('f-msg').value||'-','',`■ 성함·기업명: ${name}`,`■ 연락처: ${phone}`,`■ 이메일: ${document.getElementById('f-email').value||'-'}`,'',`— 시네글로우 홈페이지 견적 시스템에서 발송됨`];
  const bodyM=[`■ 견적 방식: 마케팅`,`■ 마케팅 옵션: ${mkOpt} (단가는 상담 후 확정)`,`■ 결제 조건: 선결제 100%`,'',...tail].join('\n');
  let body=QKIND==='mkt'?bodyM:QKIND==='both'?[`■ 견적 방식: 영상 + 마케팅`,`■ 마케팅 옵션: ${mkOpt} (단가는 상담 후 확정 — 아래 영상 견적에 합산)`,''].join('\n')+'\n'+bodyV:bodyV;
@@ -3589,12 +3751,14 @@ function showPrebar(){const bar=document.getElementById('prebar');const p=pendin
  window.buildToc=function(){const page=document.querySelector('main.page.show');if(!page)return;const isHome=page.id==='page-home';
   if(isHome)TOC=toc.map(t=>[t[0],t[1]]);
   else{TOC=[];[...page.querySelectorAll('section')].forEach((s,i)=>{const hd=s.querySelector('h1,h2,h3');if(!hd)return;let label=hd.innerHTML.split(/<br[^>]*>/)[0].replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim().replace(/[.,]$/,'');if(!label)return;if(label.length>13)label=label.slice(0,13)+'…';if(!s.id)s.id=page.id+'-s'+i;TOC.push([s.id,label])})}
-  document.getElementById('homeToc').innerHTML=TOC.map(t=>`<a href="${location.hash||'#home'}" data-sec="${t[0]}"><i></i><span>${t[1]}</span></a>`).join('');
+  document.getElementById('homeToc').innerHTML=TOC.map(t=>`<a href="${location.hash||'#home'}" data-sec="${t[0]}"><i></i><span>${t[1]}</span></a>`).join('');document.getElementById('homeTocWrap').classList.remove('open');
   document.body.classList.toggle('has-toc',TOC.length>1)};
  const go=id=>{const el=document.getElementById(id);if(!el)return;const top=el.getBoundingClientRect().top+scrollY-64*(window.Z||1);window.scrollTo({top:Math.max(0,top),behavior:'smooth'})};
- document.addEventListener('click',e=>{const a=e.target.closest('a[data-sec]');if(!a)return;e.preventDefault();const id=a.dataset.sec;const inNav=!!a.closest('#navToc');const onHome=(location.hash||'#home')==='#home';closeDrawer();
+ /* v144: 인덱스 단추 — 커서를 올리거나 누르면 목차 상자가 열림, 바깥을 누르거나 항목을 고르면 닫힘 */
+ const tw=document.getElementById('homeTocWrap');document.getElementById('tocBtn').addEventListener('click',e=>{e.stopPropagation();tw.classList.toggle('open')});document.addEventListener('click',e=>{if(!e.target.closest('#homeTocWrap'))tw.classList.remove('open')});
+ document.addEventListener('click',e=>{const a=e.target.closest('a[data-sec]');if(!a)return;e.preventDefault();tw.classList.remove('open');const id=a.dataset.sec;const inNav=!!a.closest('#navToc');const onHome=(location.hash||'#home')==='#home';closeDrawer();
   if(inNav&&!onHome){location.hash='#home';setTimeout(()=>go(id),120)}else go(id)});
- let cur='';const upd=()=>{if(!TOC.length)return;let best='';TOC.forEach(t=>{const el=document.getElementById(t[0]);if(el&&el.getBoundingClientRect().top<=innerHeight*.45)best=t[0]});if(best!==cur){cur=best;document.querySelectorAll('#homeToc a').forEach(a=>a.classList.toggle('on',a.dataset.sec===best))}};
+ let cur='';const upd=()=>{if(!TOC.length)return;let best='';TOC.forEach(t=>{const el=document.getElementById(t[0]);if(el&&el.getBoundingClientRect().top<=innerHeight*.45)best=t[0]});if(best!==cur){cur=best;document.querySelectorAll('#homeToc a').forEach(a=>a.classList.toggle('on',a.dataset.sec===best));}};
  addEventListener('scroll',upd,{passive:true});setInterval(upd,800);
 })();
 function renderQna(){const host=document.getElementById('qnaFields');/* v120: 분야 구분 없이 한 줄 목록 */host.innerHTML=`<div class="faq">${SITE.fieldOrder.concat('marketing').flatMap(k=>SITE.fields[k].faq.map((q,i)=>`<details><summary><span${E(`fields.${k}.faq.${i}.0`)}>${q[0]}</span></summary><p${E(`fields.${k}.faq.${i}.1`)}>${q[1]}</p></details>`)).join('')}</div>`;observe()}
@@ -3672,7 +3836,7 @@ function fitPages(){rootZoom();const pgs=document.querySelectorAll('#page-home.s
    const tgt=ah*.9;/* v137: 첫 화면은 상하 여백 5%까지 허용 — 카메라가 남는 높이를 채움 */z=Math.max(.3,Math.min(1.6,(ch+(tgt-total))/ch));cw.style.zoom=z.toFixed(3);return}
   if(pg.hasAttribute('data-nofit'))return;const h=span(pg);if(!h)return;
   let z=1;if(h>maxC)z=Math.max(.78,maxC/h);else if(h<minC)z=Math.min(1.1,minC/h);pg.style.setProperty('--fit',z.toFixed(3));
-  if(pg.hasAttribute('data-nofill'))return;
+  return; /* v147: 채움 박스 사용 안 함 — 내용만 세로 가운데 정렬 */
   const gap=minC-h*z;if(gap>60){if(!fb){fb=document.createElement('div');fb.className='fillbox';fb.innerHTML='<div class="wrap"><div class="fb-card"><div class="fb-art"><i></i><i></i><i></i></div><div class="fb-tx"><span class="slug">추가 예정</span><b>이 자리에 들어갈 내용을 정해 주세요</b><span class="fb-ln"></span><span class="fb-ln s"></span></div></div></div>';pg.appendChild(fb)}fb.style.display='';fb.style.setProperty('--fbh',Math.round(gap/z/Z)+'px')}})}
 function observe(){koLabels();fillBands();document.querySelectorAll('.tiles:not([data-obs])').forEach(t=>{const kids=t.querySelectorAll(':scope>.tile.reveal');if(kids.length){kids.forEach(k=>k.classList.remove('reveal'));t.classList.add('reveal')}});if(!EDIT.on)document.querySelectorAll('.words:not([data-split])').forEach(h=>{h.dataset.split=1;splitWords(h)});
  if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal,.words,.reveal-row').forEach(el=>el.classList.add('in'));document.querySelectorAll('[data-count]').forEach(countUp);return}
@@ -3685,12 +3849,12 @@ function observe(){koLabels();fillBands();document.querySelectorAll('.tiles:not(
  document.querySelectorAll('.reveal:not([data-obs])').forEach(el=>{el.dataset.obs=1;
   /* 순차 등장 대상 그룹: 자식에 --i 부여 (패키지 표 행, 문장 목록, FAQ, 비하인드 사진, 범위 바, 견적 선택지 등) */
   const kids=el.matches('.price')?el.querySelectorAll('tbody tr'):el.matches('.stmts')?el.querySelectorAll('.stmt'):el.matches('.faq')?el.querySelectorAll('details'):el.matches('.behind')?el.querySelectorAll('.lb'):el.matches('.rangebar')?el.querySelectorAll('.r'):el.matches('.quote')?el.children:el.matches('.stats')?el.querySelectorAll('.stat'):el.matches('.cmp')?el.querySelectorAll('.col'):el.matches('.tiles')?el.querySelectorAll(':scope>.tile'):el.matches('.bubbles')?el.querySelectorAll('.bubble'):el.matches('.tl')?el.querySelectorAll(':scope>*'):null;
-  if(kids&&kids.length){el.classList.add('seq');[...kids].forEach((k,i)=>k.style.setProperty('--i',i))}
+  if(kids&&kids.length){el.classList.add('seq');el.style.setProperty('--n',kids.length);[...kids].forEach((k,i)=>k.style.setProperty('--i',i))}
   if(el.classList.contains('sh'))shIO.observe(el);else io.observe(el)});
  document.querySelectorAll('.words:not([data-obs])').forEach(el=>{el.dataset.obs=1;if(!el.closest('.reveal'))io.observe(el)});
  revealStagger()}
 function revealStagger(){const groups=new Map();
- document.querySelectorAll('.reveal[data-obs]').forEach(el=>{const p=el.parentElement;if(!groups.has(p))groups.set(p,[]);groups.get(p).push(el)});
+ document.querySelectorAll('.reveal[data-obs]:not(.foot)').forEach(el=>{const p=el.parentElement;if(!groups.has(p))groups.set(p,[]);groups.get(p).push(el)});
  groups.forEach(list=>{if(list.length<2){list[0].style.transitionDelay='0ms';return}
   const rows=[];list.forEach(el=>{const t=Math.round(el.offsetTop/8);let r=rows.findIndex(x=>Math.abs(x-t)<=1);if(r<0){rows.push(t);r=rows.length-1}el._row=r});
   const order=[...rows].map((v,i)=>i).sort((a,b)=>rows[a]-rows[b]);
@@ -3787,7 +3951,7 @@ $('admSave').addEventListener('click',save);$('eSave').addEventListener('click',
  /* ---- 단가·수치 ---- */
  function fld(label,path,type,extra){const v=getP(SITE,path);return `<label class="adm-f${extra||''}"><span>${label}</span><input data-p="${path}" type="${type||'text'}" value="${escH(v==null?'':v)}"></label>`}
  function renderRates(){const r='rates.';$('admRates').innerHTML=`<div class="adm-sec">견적 계산기 단가 (원)</div><div class="adm-grid">${fld('기본 프로덕션',r+'base','number')}${fld('카메라 추가 (대당)',r+'cam','number')}${fld('기본 포함 카메라 (대)',r+'camIncluded','number')}${fld('감독·스태프 추가 (명당)',r+'director','number')}${fld('기본 포함 감독 (명)',r+'dirIncluded','number')}${fld('러닝타임 추가 (분당)',r+'perMin','number')}${fld('기본 포함 러닝타임 (분)',r+'minIncluded','number')}${fld('세로형 숏폼 (편당)',r+'shorts','number')}</div>
-  <div class="adm-sec">로케이션 출장비 (원) · 지역 이름</div><div class="adm-grid">${['seoul','metro','local','island'].map(k=>fld('출장비 — '+SITE.rates.regionName[k],r+'region.'+k,'number')+fld('지역 이름',r+'regionName.'+k)).join('')}</div>
+  <div class="adm-sec">로케이션 출장비 (원) · 지역 이름</div><div class="adm-grid">${Object.keys(SITE.rates.regionName).map(k=>fld('할증 — '+SITE.rates.regionName[k],r+'region.'+k,'number')+fld('지역 이름',r+'regionName.'+k)).join('')}</div>
   <label class="adm-chk"><input type="checkbox" id="rateConfirmed" ${SITE.rates.confirmed?'checked':''}> 단가 확정 — 체크하면 '임시 단가' 태그가 사라집니다</label>
   <div class="adm-sec">통계 숫자</div><div class="adm-grid">${SITE.stats.map((st,i)=>fld('숫자 '+(i+1),`stats.${i}.n`,'number')+fld('단위',`stats.${i}.unit`)+fld('소수 자릿수',`stats.${i}.dec`,'number')+fld('설명',`stats.${i}.label`,'text',' wide')).join('')}</div>
   <div class="adm-sec">패키지 표 — 추천 행</div><div class="adm-grid">${SITE.price.rows.map((row,i)=>`<label class="adm-chk"><input type="checkbox" data-hot="${i}" ${row.hot?'checked':''}> ${escH(row.name)} 행 강조</label>`).join('')}</div>`;
