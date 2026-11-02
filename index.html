@@ -484,6 +484,8 @@ body.editing [data-t],body.editing [data-e],body.editing [data-tp]{outline:1px d
 body.editing [data-t]:hover,body.editing [data-e]:hover,body.editing [data-tp]:hover{outline-color:var(--accent);background:rgba(233,162,59,.08)}
 body.editing .e-on{outline:2px solid var(--accent)!important;background:rgba(233,162,59,.1)!important;cursor:text}
 body.editing .e-on *{pointer-events:none}
+body.editing a[href][data-t],body.editing a[href] [data-t],body.editing button[data-t],body.editing button [data-t]{cursor:pointer}
+.ebar .ehint{font-size:12px;color:var(--mute);margin:0 6px}
 body.editing .e-dirty{outline-color:var(--glow)!important;box-shadow:inset 3px 0 0 var(--glow)}
 body.editing img[data-ei],body.editing img[data-img]{cursor:pointer;transition:filter .15s}
 body.editing img[data-ei]:hover,body.editing img[data-img]:hover{filter:brightness(1.15) saturate(1.1);outline:2px solid var(--accent);outline-offset:-2px}
@@ -2740,7 +2742,7 @@ form.kind-consult .qdet{display:none}
 </footer>
 
 <!-- ===== 편집 모드 (#admin) — 화면 클릭 편집 + 패널(영상 · 단가·수치 · 연락처 · 사진 · 글 · 표시 · 저장) ===== -->
-<div class="ebar" id="ebar" hidden><span class="dot"></span><b>편집 모드</b><span class="cnt" id="ecnt">변경 0</span><button type="button" class="ebtn" id="ePanel">패널</button><button type="button" class="ebtn ac" id="eSave">저장</button><button type="button" class="ebtn" id="eExit">종료</button></div>
+<div class="ebar" id="ebar" hidden><span class="dot"></span><b>편집 모드</b><span class="cnt" id="ecnt">변경 0</span><span class="ehint">메뉴·버튼 글자는 두 번 눌러 고치기</span><button type="button" class="ebtn" id="ePanel">패널</button><button type="button" class="ebtn ac" id="eSave">저장</button><button type="button" class="ebtn" id="eExit">종료</button></div>
 <div class="adm" id="adm" hidden>
   <div class="adm-head"><b>편집 패널</b><span class="adm-sub">화면의 글·사진은 직접 클릭해서 고치고, 여기서는 화면에 안 보이는 값을 다룹니다</span><button type="button" class="adm-x" id="admClose" aria-label="닫기">✕</button></div>
   <div class="adm-tabs" id="admTabs"><button data-tab="video" class="on">영상</button><button data-tab="rates">단가·수치</button><button data-tab="contact">연락처</button><button data-tab="images">사진</button><button data-tab="text">글</button><button data-tab="flags">표시</button><button data-tab="save">저장</button></div>
@@ -5788,7 +5790,7 @@ $('admSave').addEventListener('click',save);
  function showTab(t){panel.querySelectorAll('.adm-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));panel.querySelectorAll('.adm-pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===t));if(t==='rates')renderRates();if(t==='contact')renderContact();if(t==='images')renderImages();if(t==='text')renderTexts();if(t==='flags'){$('flagTodo').checked=SITE.flags.todo!==false;$('flagBar').checked=SITE.flags.protoBar!==false}if(t==='save')$('admSaveInfo').innerHTML=saveInfo()}
  $('admTabs').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b)showTab(b.dataset.tab)});
  /* ---- 화면 클릭 편집 ---- */
- let cur=null,orig='';
+ let cur=null,orig='',lnkT=null,lnkEl=null;
  function startEdit(el){if(cur===el)return;if(cur)endEdit();cur=el;const key=el.dataset.t,path=el.dataset.e;
   if(key!=null&&(el.classList.contains('words')||el.classList.contains('split'))){el.innerHTML=SITE.text[key]??el.innerHTML;el.removeAttribute('data-split')}
   orig=el.innerHTML;el.contentEditable='true';el.classList.add('e-on');el.focus();
@@ -5799,10 +5801,17 @@ $('admSave').addEventListener('click',save);
   else if(el.dataset.e){setP(SITE,el.dataset.e,v);bump('e:'+el.dataset.e)}
   el.classList.add('e-dirty')}
  const BLOCK=new Set(['P','TD','DD','LI','DIV','BLOCKQUOTE']);
- document.addEventListener('click',e=>{if(!EDIT.on)return;if(e.target.closest('.adm,.ebar,.modal .close'))return;
-  const tp=e.target.closest('[data-tp]');if(tp&&!e.target.closest('[data-t],[data-e]')){e.preventDefault();e.stopPropagation();openPanel('text');$('admTextQ').value=tp.dataset.tp;renderTexts();return}
+ const dbl=(e,el,act,fn)=>{e.preventDefault();e.stopPropagation(); /* v201: 링크·버튼 — 한 번은 이동, 두 번은 고치기 */
+  if(lnkT&&lnkEl===el){clearTimeout(lnkT);lnkT=null;lnkEl=null;fn();return}
+  if(lnkT)clearTimeout(lnkT);if(cur)endEdit();lnkEl=el;lnkT=setTimeout(()=>{lnkT=null;lnkEl=null;window.__eBypass=true;try{act.click()}finally{window.__eBypass=false}},300)};
+ document.addEventListener('click',e=>{if(!EDIT.on||window.__eBypass)return;if(e.target.closest('.adm,.ebar,.modal .close'))return;
+  const tp=e.target.closest('[data-tp]');if(tp&&!e.target.closest('[data-t],[data-e]')){const ta=tp.closest('a[href],button');if(ta){dbl(e,tp,ta,()=>{openPanel('text');$('admTextQ').value=tp.dataset.tp;renderTexts()});return}e.preventDefault();e.stopPropagation();openPanel('text');$('admTextQ').value=tp.dataset.tp;renderTexts();return}
   const img=e.target.closest('img[data-ei],img[data-img]');if(img){e.preventDefault();e.stopPropagation();pickImage(img.dataset.ei||('images.'+img.dataset.img),img);return}
-  const el=e.target.closest('[data-t],[data-e]');if(!el){if(cur&&!cur.contains(e.target)){endEdit();return}if(!cur&&window.__noteMiss)window.__noteMiss(e.target);return}
+  const el=e.target.closest('[data-t],[data-e]');
+  /* v201: 메뉴·링크·버튼 글자 — 한 번 누르면 원래대로 이동(동작), 두 번 빠르게 누르면 글 고치기 */
+  const act=el&&el!==cur&&(e.target.closest('a[href],button')||el.closest('a[href],button'));
+  if(act){dbl(e,el,act,()=>startEdit(el));return}
+  if(!el){if(cur&&!cur.contains(e.target)){endEdit();return}if(!cur&&window.__noteMiss)window.__noteMiss(e.target);return}
   if(el===cur)return;e.preventDefault();e.stopPropagation();startEdit(el)},true);
  document.addEventListener('keydown',e=>{if(!cur)return;if(e.key==='Escape'){e.preventDefault();endEdit(true)}else if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(BLOCK.has(cur.tagName)||cur.tagName==='SPAN'&&BLOCK.has(cur.parentElement.tagName))document.execCommand('insertHTML',false,'<br>');else endEdit()}},true);
  document.addEventListener('focusout',e=>{if(cur&&e.target===cur)setTimeout(()=>{if(cur===e.target&&document.activeElement!==cur)endEdit()},80)});
