@@ -2401,6 +2401,11 @@ form #step5{border-top:0;padding-top:0}
 .cmp .col.us::before{left:auto;right:22px;top:20px}
 .tile.sit{position:relative}
 .tile.sit .rec-tag{position:absolute;top:16px;right:16px;margin:0;z-index:2}
+/* v206: 오른쪽 위 배지 자리만큼 제목 오른쪽을 비움 — 다른 규칙보다 우선 */
+.cmp .col.us h3{padding-right:136px!important}
+#situations .tile.sit.hot .tx h3{padding-right:80px!important}
+.mk-pc.hot .k,.mk-pc.hot h3{padding-right:58px!important}
+.pkg.hot .nm,.pkg.add .nm{padding-right:46px!important}
 .mcards>*,.mk-ind>*,.mk-gl>*,.mk-hook>*,.mk-pk>*,.trio>*,.stmts>*,.dgrid>*{align-self:stretch}
 
 /* v203: 마케팅 — 채널 연결 · 병·의원 안내 · 가격 */
